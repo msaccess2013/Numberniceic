@@ -1,0 +1,665 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mlns="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.numberniceic.ananya.numberniceic.fragments.TelephoneFragment">
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nsvTelephone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/llContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp">
+
+
+                <EditText
+                    android:id="@+id/phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="true"
+                    android:hint="EX. 0955456424"
+                    android:inputType="numberSigned"
+
+                    android:maxLength="10"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <Button
+                        android:id="@+id/btn_reset"
+                        android:layout_width="wrap_content"
+                        android:layout_height="80dp"
+                        android:text="เริ่มใหม่"
+                        android:theme="@style/MyButton"
+                        />
+
+                    <Button
+                        android:id="@+id/btn_ok"
+                        android:layout_width="wrap_content"
+                        android:layout_height="80dp"
+                        android:layout_toRightOf="@+id/btn_reset"
+                        android:text="คำนวณ"
+                        android:theme="@style/MyButton"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/btn_reset"
+                        android:layout_marginStart="6dp"
+                        android:text="กดที่ตัวเลขเพื่อดูผลทำนาย"
+
+                        />
+                </RelativeLayout>
+
+                <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/card_view_sum_pair"
+                    android:layout_width="match_parent"
+                    android:layout_height="125dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_weight="1"
+                    card_view:cardCornerRadius="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/titlePairSum"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginTop="6dp"
+                            android:text="คู่ผลรวม"
+                            android:textSize="18dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginEnd="6dp"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginTop="9dp"
+                            android:background="@android:color/darker_gray" />
+
+                        <TextView
+                            android:id="@+id/ppnPairSum"
+                            android:background="@drawable/pilot_selector_green"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:textSize="24sp"
+                            android:text="s"
+                            android:layout_marginTop="6dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="3dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="10dp"
+                card_view:cardCornerRadius="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/titlePairMain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginTop="6dp"
+                        android:text="จับคู่หลัก [A]"
+                        android:textSize="18dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginTop="9dp"
+                        android:background="@android:color/darker_gray" />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="6dp"
+                        android:gravity="center_horizontal"
+                        >
+
+
+                        <TextView
+                            android:id="@+id/ppnPair01"
+                            android:background="@drawable/bg_green"
+
+                            android:text="a1"
+                            android:layout_marginStart="9dp"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:textSize="24sp"/>
+
+                        <TextView
+                            android:id="@+id/ppnPair02"
+                            android:background="@drawable/bg_green"
+                            android:layout_toEndOf="@+id/ppnPair01"
+                            android:text="a2"
+                            android:layout_marginStart="6dp"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:textSize="24sp"/>
+
+                        <TextView
+                            android:id="@+id/ppnPair03"
+                            android:background="@drawable/bg_green"
+                            android:layout_toEndOf="@+id/ppnPair02"
+                            android:text="a3"
+                            android:layout_marginStart="6dp"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:textSize="24sp"/>
+
+                        <TextView
+                            android:id="@+id/ppnPair04"
+                            android:background="@drawable/bg_green"
+                            android:layout_toEndOf="@+id/ppnPair03"
+                            android:text="a4"
+                            android:layout_marginStart="6dp"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:textSize="24sp"/>
+
+                        <TextView
+                            android:id="@+id/ppnPair05"
+                            android:background="@drawable/bg_green"
+                            android:layout_toEndOf="@+id/ppnPair04"
+                            android:text="a5"
+                            android:layout_marginStart="6dp"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:textSize="24sp"/>/>
+
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="6dp"
+                        android:text="* จับคู่หลัก 5 คู่ดีร้ายตามสี" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view_b"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="3dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="10dp"
+                card_view:cardCornerRadius="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/titlePairMain_b"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginTop="6dp"
+                        android:text="จับคู่รอง [B]"
+                        android:textSize="18dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginTop="9dp"
+                        android:background="@android:color/darker_gray" />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="6dp"
+                        android:gravity="center_horizontal"
+                        >
+
+
+                        <TextView
+                            android:id="@+id/ppnPair01B"
+                            android:background="@drawable/bg_green"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:textSize="24sp"
+                            android:text="b1"
+                     />
+
+                        <TextView
+                            android:id="@+id/ppnPair02B"
+                            android:background="@drawable/bg_green"
+                            android:layout_toEndOf="@+id/ppnPair01B"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:textSize="24sp"
+                            android:text="b2"
+                            android:layout_marginStart="9dp"
+                     />
+
+                        <TextView
+                            android:id="@+id/ppnPair03B"
+                            android:background="@drawable/bg_green"
+                            android:layout_toEndOf="@+id/ppnPair02B"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:textSize="24sp"
+                            android:text="b3"
+                            android:layout_marginStart="9dp" />
+
+                        <TextView
+                            android:id="@+id/ppnPair04B"
+                            android:background="@drawable/bg_green"
+                            android:layout_toEndOf="@+id/ppnPair03B"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:textSize="24sp"
+                            android:text="b4"
+                            android:layout_marginStart="9dp" />
+
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="6dp"
+                        android:text="* จับคู่สลับ 4 คู่ดีร้ายตามสี" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:layout_marginTop="9dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    card_view:cardCornerRadius="4dp"
+                    android:id="@+id/conD"
+                    card_view:cardBackgroundColor="#dffcc7"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:id="@+id/titleConD"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginTop="6dp"
+                            android:text="xดี"
+                            android:textSize="18dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginEnd="6dp"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginTop="9dp"
+                            android:background="@android:color/darker_gray" />
+
+                        <TextView
+                            android:id="@+id/tvConD"
+                            android:layout_marginStart="6dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="36sp"
+                            android:textStyle="bold"
+                            android:textColor="#35ba05"
+                            android:freezesText="true"
+                            android:layout_gravity="center_horizontal"
+                            android:text="x"
+                            />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    card_view:cardCornerRadius="4dp"
+                    android:id="@+id/conR"
+                    card_view:cardBackgroundColor="#f7d6d6"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        >
+                    <TextView
+                        android:id="@+id/titleConR"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginTop="6dp"
+                        android:text="xร้าย"
+
+                        android:textSize="18dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginTop="9dp"
+                        android:background="@android:color/darker_gray" />
+
+                        <TextView
+                            android:id="@+id/tvConR"
+                            android:freezesText="true"
+                            android:layout_marginStart="6dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="36sp"
+                            android:textStyle="bold"
+                            android:textColor="#f53868"
+                            android:layout_gravity="center_horizontal"
+                            android:text="x"
+
+                            />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="9dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    card_view:cardCornerRadius="4dp"
+                    android:id="@+id/percentD"
+                    card_view:cardBackgroundColor="#dffcc7"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:id="@+id/titlePercentD"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginTop="6dp"
+                            android:text="% ดี"
+                            android:textSize="18dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginEnd="6dp"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginTop="9dp"
+                            android:background="@android:color/darker_gray" />
+
+                        <TextView
+                            android:id="@+id/tvPercentD"
+                            android:layout_marginStart="6dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="36sp"
+                            android:textStyle="bold"
+                            android:textColor="#35ba05"
+                            android:freezesText="true"
+                            android:layout_gravity="center_horizontal"
+                            android:text="x" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    card_view:cardCornerRadius="4dp"
+                    android:id="@+id/percentR"
+                    card_view:cardBackgroundColor="#f7d6d6"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:id="@+id/titlePercentR"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginTop="6dp"
+                            android:text="% ร้าย"
+                            android:textSize="18dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginEnd="6dp"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginTop="9dp"
+                            android:background="@android:color/darker_gray" />
+
+                        <TextView
+                            android:id="@+id/tvPercentR"
+                            android:layout_marginStart="6dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="36sp"
+                            android:textStyle="bold"
+                            android:textColor="#f53868"
+                            android:freezesText="true"
+                            android:layout_gravity="center_horizontal"
+                            android:text="x"/>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="9dp"
+                android:layout_marginBottom="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    card_view:cardCornerRadius="4dp"
+                    android:id="@+id/totalScrollD"
+                    card_view:cardBackgroundColor="#dffcc7"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:id="@+id/titleTotalScrollD"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginTop="6dp"
+                            android:text="คะแนนดี"
+                            android:textSize="18sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginEnd="6dp"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginTop="9dp"
+                            android:background="@android:color/darker_gray" />
+
+                        <TextView
+                            android:id="@+id/tvScrollD"
+                            android:layout_marginStart="6dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="36sp"
+                            android:textStyle="bold"
+                            android:textColor="#35ba05"
+                            android:freezesText="true"
+                            android:layout_gravity="center_horizontal"
+                            android:text="x"
+                            />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    card_view:cardCornerRadius="4dp"
+                    android:id="@+id/totalScrollR"
+                    card_view:cardBackgroundColor="#f7d6d6"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:id="@+id/titleTotalScrollR"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginTop="6dp"
+                            android:text="คะแนนร้าย"
+                            android:textSize="18sp"
+
+                            />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginEnd="6dp"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginTop="9dp"
+                            android:background="@android:color/darker_gray" />
+
+                        <TextView
+                            android:id="@+id/tvScrollR"
+                            android:layout_marginStart="6dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="36sp"
+                            android:textStyle="bold"
+                            android:text="x"
+                            android:freezesText="true"
+                            android:textColor="#f53868"
+                            android:layout_gravity="center_horizontal"
+                            />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

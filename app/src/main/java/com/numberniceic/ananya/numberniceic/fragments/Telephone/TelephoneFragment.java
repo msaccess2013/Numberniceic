@@ -1,12 +1,10 @@
-package com.numberniceic.ananya.numberniceic.fragments;
+package com.numberniceic.ananya.numberniceic.fragments.Telephone;
 
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringDef;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,7 +23,6 @@ import com.numberniceic.ananya.numberniceic.dao.phone.PhoneNumberItemCollectionD
 import com.numberniceic.ananya.numberniceic.dao.phone.PhoneNumberItemDao;
 import com.numberniceic.ananya.numberniceic.dao.phone.ScrollPairNumberDao;
 import com.numberniceic.ananya.numberniceic.managers.telephone.NumberPilotManager;
-import com.numberniceic.ananya.numberniceic.views.PairPhoneNumber;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -42,6 +39,7 @@ public class TelephoneFragment extends Fragment {
     Button btnOk;
     Button btnReset;
     EditText phone_number;
+    String phoneNumber;
 
     TextView pair1, pair2, pair3, pair4, pair5;
     TextView pairB1, pairB2, pairB3, pairB4;
@@ -70,6 +68,13 @@ public class TelephoneFragment extends Fragment {
     InputMethodManager imm;
 
 
+
+
+
+
+    public interface FragmentTelePhoneListener {
+       void onPairPhoneClick(String pairNumber);
+    }
     public static TelephoneFragment newInstance() {
 
         TelephoneFragment telephoneFragment = new TelephoneFragment();
@@ -102,30 +107,23 @@ public class TelephoneFragment extends Fragment {
     private void initInstance(View rootView) {
 
         phone_number = (EditText) rootView.findViewById(R.id.phone_number);
-        btnOk = (Button) rootView.findViewById(R.id.btn_ok);
-        btnOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setOk();
-            }
-        });
 
 
         btnReset = (Button) rootView.findViewById(R.id.btn_reset);
-        btnReset.setOnClickListener(onClickListener);
+        btnReset.setOnClickListener(onClickResetListener);
 
         phone_number.addTextChangedListener(watcher);
 
         initWidget(rootView);
         imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        pairSum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String txtSumpair = String.valueOf(pairSum.getText());
-                Toast.makeText(getContext(), "txtSumpair" + txtSumpair, Toast.LENGTH_SHORT).show();
-            }
-        });
+
+        pairSum.setOnClickListener(pairSumClickListener);
+
+        btnOk = (Button) rootView.findViewById(R.id.btn_ok);
+
+        btnOk.setOnClickListener(onBtnOkClickListener);
+
 
     }
 
@@ -152,9 +150,11 @@ public class TelephoneFragment extends Fragment {
         tvPercentR = (TextView) rootView.findViewById(R.id.tvPercentR);
     }
 
-    private void setOk() {
+    private void setOk(String phoneNumber) {
         clearTv();
         clearNumberCencent();
+
+        this.phoneNumber = phoneNumber;
 
 
         scrollD = 0;
@@ -163,11 +163,64 @@ public class TelephoneFragment extends Fragment {
         percentD = 0;
         percentR = 0;
 
-        if (phone_number.getText().length() == 10) {
+        if (phoneNumber.length() == 10) {
 
 
             Toast.makeText(getContext(), "ระบบทำการคำนวณ!!", Toast.LENGTH_SHORT).show();
-            setSplitPhoneNumber(phone_number.getText().toString());
+            setSplitPhoneNumber(phoneNumber);
+            dataAccessDaoA(phoneNumberItemCollectionDao);
+            dataAccessDaoB(phoneNumberItemCollectionDao);
+            dataAccessDaoSum(phoneNumberItemCollectionDao);
+
+            Integer sumScrollDTotal = scrollPairNumberDao.getPairsAD() + scrollPairNumberDao.getPairsBD() + scrollPairNumberDao.getPairSumD();
+            Integer sumScrollRTotal = scrollPairNumberDao.getPairsAR() + scrollPairNumberDao.getPairsBR() + scrollPairNumberDao.getPairSumR();
+
+
+            DecimalFormat decimalFormat = new DecimalFormat("#,###");
+            String scrollD = decimalFormat.format(sumScrollDTotal);
+            String scrollR = decimalFormat.format(sumScrollRTotal);
+
+            txtTotalScrollD.setText(scrollD);
+            txtTotalScrollR.setText(scrollR);
+
+            setScrollContinueD(phoneNumberItemCollectionDao);
+            setScrollContinueR(phoneNumberItemCollectionDao);
+
+            tvConD.setText(continueCodeIDD);
+            tvConR.setText(continueCodeIDR);
+
+            setPercentD(phoneNumberItemCollectionDao);
+            tvPercentD.setText(String.valueOf(getPercentsD()));
+            setPercentR(phoneNumberItemCollectionDao);
+            tvPercentR.setText(String.valueOf(getPercentsR()));
+
+
+
+
+            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+
+
+
+
+        }
+    }
+    private void setOkBack(String phoneNumber) {
+
+        clearTv();
+        clearNumberCencent();
+
+        this.phoneNumber = phoneNumber;
+
+
+        scrollD = 0;
+        scrollR = 0;
+
+        percentD = 0;
+        percentR = 0;
+
+        if (phoneNumber.length() == 10) {
+
+            setSplitPhoneNumber(phoneNumber);
             dataAccessDaoA(phoneNumberItemCollectionDao);
             dataAccessDaoB(phoneNumberItemCollectionDao);
             dataAccessDaoSum(phoneNumberItemCollectionDao);
@@ -215,7 +268,6 @@ public class TelephoneFragment extends Fragment {
         imm.showSoftInput(phone_number, 0);
 
     }
-
     private void clearTv() {
 
         pair1.setText("");
@@ -243,7 +295,6 @@ public class TelephoneFragment extends Fragment {
         tvPercentD.setText("");
         tvPercentR.setText("");
     }
-
     private void clearNumberCencent() {
         percentPo1D = 0;
         percentPo2D = 0;
@@ -259,9 +310,10 @@ public class TelephoneFragment extends Fragment {
         percentPo5R = 0;
         percentSumR = 0;
     }
+
     private Integer getPercentsD(){
      Integer pDs;
-        pDs = percentPo1D +   percentPo2D+ percentPo3D +percentPo4D+percentPo5D;
+        pDs = percentPo1D + percentPo2D + percentPo3D + percentPo4D + percentPo5D;
         return pDs;
     }
     private Integer getPercentsR(){
@@ -281,6 +333,11 @@ public class TelephoneFragment extends Fragment {
             dataAccessDaoSum(phoneNumberItemCollectionDao);
 
         }
+
+    if (savedInstanceState != null) {
+        String phoneNumber = savedInstanceState.getString("phoneNumber");
+        setOkBack(phoneNumber);
+    }
     }
 
     private void dataAccessDaoSum(PhoneNumberItemCollectionDao dao) {
@@ -291,22 +348,22 @@ public class TelephoneFragment extends Fragment {
         switch (TYPEOfDao) {
 
             case "D10":
-                setMyViewPairD10("#2EFE2E", dao, 0, "S");
+                setMyViewPairD10(R.drawable.pilot_selector_green, dao, 0, "S");
 
             case "D8":
-                setMyViewPairD8("#BCF5A9", dao, 0, "S");
+                setMyViewPairD8(R.drawable.pilot_selector_green, dao, 0, "S");
 
             case "D5":
-                setMyViewPairD5("#E6F8E0", dao, 0, "S");
+                setMyViewPairD5(R.drawable.pilot_selector_green, dao, 0, "S");
 
             case "R10":
-                setMyViewPairR10("#FA5858", dao, 0, "S");
+                setMyViewPairR10(R.drawable.pilot_selector_green, dao, 0, "S");
 
             case "R7":
-                setMyViewPairR7("#FA5882", dao, 0, "S");
+                setMyViewPairR7(R.drawable.pilot_selector_green, dao, 0, "S");
 
             case "R5":
-                setMyViewPairR5("#F6CECE", dao, 0, "S");
+                setMyViewPairR5(R.drawable.pilot_selector_green, dao, 0, "S");
         }
 
         scrollPairNumberDao.setPairSumD(scrollD);
@@ -323,25 +380,25 @@ public class TelephoneFragment extends Fragment {
             switch (TYPEOfADao) {
 
                 case "D10":
-                    setMyViewPairD10("#2EFE2E", dao, i, "A");
+                    setMyViewPairD10(R.drawable.pilot_selector_green, dao, i, "A");
                     continue;
                 case "D8":
-                    setMyViewPairD8("#BCF5A9", dao, i, "A");
+                    setMyViewPairD8(R.drawable.pilot_selector_green, dao, i, "A");
                     continue;
                 case "D5":
-                    setMyViewPairD5("#E6F8E0", dao, i, "A");
+                    setMyViewPairD5(R.drawable.pilot_selector_green, dao, i, "A");
                     continue;
                 case "R10":
-                    setMyViewPairR10("#FA5858", dao, i, "A");
+                    setMyViewPairR10(R.drawable.pilot_selector_red, dao, i, "A");
                     continue;
                 case "R7":
-                    setMyViewPairR7("#FA5882", dao, i, "A");
+                    setMyViewPairR7(R.drawable.pilot_selector_red, dao, i, "A");
                     continue;
                 case "R5":
-                    setMyViewPairR5("#F6CECE", dao, i, "A");
+                    setMyViewPairR5(R.drawable.pilot_selector_red, dao, i, "A");
             }
         }
-        Toast.makeText(getContext(), "dataAccessDaoA Total ScrollD = " + scrollD + " Total ScrollR = " + scrollR, Toast.LENGTH_SHORT).show();
+
         scrollPairNumberDao.setPairsAD(scrollD);
         scrollPairNumberDao.setPairsAR(scrollR);
 
@@ -356,25 +413,25 @@ public class TelephoneFragment extends Fragment {
             switch (TYPEOfBDao) {
 
                 case "D10":
-                    setMyViewPairD10("#2EFE2E", dao, i, "B");
+                    setMyViewPairD10(R.drawable.pilot_selector_green, dao, i, "B");
                     continue;
                 case "D8":
-                    setMyViewPairD8("#BCF5A9", dao, i, "B");
+                    setMyViewPairD8(R.drawable.pilot_selector_green, dao, i, "B");
                     continue;
                 case "D5":
-                    setMyViewPairD5("#E6F8E0", dao, i, "B");
+                    setMyViewPairD5(R.drawable.pilot_selector_green, dao, i, "B");
                     continue;
                 case "R10":
-                    setMyViewPairR10("#FA5858", dao, i, "B");
+                    setMyViewPairR10(R.drawable.pilot_selector_red, dao, i, "B");
                     continue;
                 case "R7":
-                    setMyViewPairR7("#FA5882", dao, i, "B");
+                    setMyViewPairR7(R.drawable.pilot_selector_red, dao, i, "B");
                     continue;
                 case "R5":
-                    setMyViewPairR5("#F6CECE", dao, i, "B");
+                    setMyViewPairR5(R.drawable.pilot_selector_red, dao, i, "B");
             }
         }
-        Toast.makeText(getContext(), "dataAccessDaoB Total ScrollD = " + scrollD + " Total ScrollR = " + scrollR, Toast.LENGTH_SHORT).show();
+
         scrollPairNumberDao.setPairsBD(scrollD);
         scrollPairNumberDao.setPairsBR(scrollR);
 
@@ -537,7 +594,7 @@ public class TelephoneFragment extends Fragment {
     }
 
 
-    private void setMyViewPairD10(String color, PhoneNumberItemCollectionDao dao, int position, String typeOfCollection) {
+    private void setMyViewPairD10(int color, PhoneNumberItemCollectionDao dao, int position, String typeOfCollection) {
 
         if (typeOfCollection.equals("A")) {
 
@@ -545,27 +602,27 @@ public class TelephoneFragment extends Fragment {
             Integer pointPairA = dao.getPhoneNumberItemDaosA().get(position).getPoint();
 
             if (position == 0) {
-                pair1.setBackgroundResource(R.drawable.pilot_selector_green);
+                pair1.setBackgroundResource(color);
                 pair1.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
             }
             if (position == 1) {
-                pair2.setBackgroundResource(R.drawable.pilot_selector_green);
+                pair2.setBackgroundResource(color);
                 pair2.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
             }
             if (position == 2) {
-                pair3.setBackgroundResource(R.drawable.pilot_selector_green);
+                pair3.setBackgroundResource(color);
                 pair3.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
             }
             if (position == 3) {
-                pair4.setBackgroundResource(R.drawable.pilot_selector_green);
+                pair4.setBackgroundResource(color);
                 pair4.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
             }
             if (position == 4) {
-                pair5.setBackgroundResource(R.drawable.pilot_selector_green);
+                pair5.setBackgroundResource(color);
                 pair5.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
             }
@@ -575,22 +632,22 @@ public class TelephoneFragment extends Fragment {
             Integer pointPairB = dao.getPhoneNumberItemDaosB().get(position).getPoint();
 
             if (position == 0) {
-                pairB1.setBackgroundResource(R.drawable.pilot_selector_green);
+                pairB1.setBackgroundResource(color);
                 pairB1.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
             }
             if (position == 1) {
-                pairB2.setBackgroundResource(R.drawable.pilot_selector_green);
+                pairB2.setBackgroundResource(color);
                 pairB2.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
             }
             if (position == 2) {
-                pairB3.setBackgroundResource(R.drawable.pilot_selector_green);
+                pairB3.setBackgroundResource(color);
                 pairB3.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
             }
             if (position == 3) {
-                pairB4.setBackgroundResource(R.drawable.pilot_selector_green);
+                pairB4.setBackgroundResource(color);
                 pairB4.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
             }
@@ -600,7 +657,7 @@ public class TelephoneFragment extends Fragment {
             Integer pointNumberSum = dao.getPhoneNumberItemDaoSum().getPoint();
 
             if (position == 0) {
-                pairSum.setBackgroundResource(R.drawable.pilot_selector_green);
+                pairSum.setBackgroundResource(color);
                 pairSum.setText(String.valueOf(pointNumberSum));
                 scrollD = scrollD + pointNumberSum;
             }
@@ -610,7 +667,7 @@ public class TelephoneFragment extends Fragment {
 
     }
 
-    private void setMyViewPairD8(String color, PhoneNumberItemCollectionDao dao, int position, String typeOfCollection) {
+    private void setMyViewPairD8(int color, PhoneNumberItemCollectionDao dao, int position, String typeOfCollection) {
 
         if (typeOfCollection.equals("A")) {
 
@@ -618,27 +675,27 @@ public class TelephoneFragment extends Fragment {
             Integer pointPairA = dao.getPhoneNumberItemDaosA().get(position).getPoint();
 
             if (position == 0) {
-                pair1.setBackgroundResource(R.drawable.pilot_selector_green);
+                pair1.setBackgroundResource(color);
                 pair1.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
             }
             if (position == 1) {
-                pair2.setBackgroundResource(R.drawable.pilot_selector_green);
+                pair2.setBackgroundResource(color);
                 pair2.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
             }
             if (position == 2) {
-                pair3.setBackgroundResource(R.drawable.pilot_selector_green);
+                pair3.setBackgroundResource(color);
                 pair3.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
             }
             if (position == 3) {
-                pair4.setBackgroundResource(R.drawable.pilot_selector_green);
+                pair4.setBackgroundResource(color);
                 pair4.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
             }
             if (position == 4) {
-                pair5.setBackgroundResource(R.drawable.pilot_selector_green);
+                pair5.setBackgroundResource(color);
                 pair5.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
             }
@@ -648,22 +705,22 @@ public class TelephoneFragment extends Fragment {
             Integer pointPairB = dao.getPhoneNumberItemDaosB().get(position).getPoint();
 
             if (position == 0) {
-                pairB1.setBackgroundResource(R.drawable.pilot_selector_green);
+                pairB1.setBackgroundResource(color);
                 pairB1.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
             }
             if (position == 1) {
-                pairB2.setBackgroundResource(R.drawable.pilot_selector_green);
+                pairB2.setBackgroundResource(color);
                 pairB2.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
             }
             if (position == 2) {
-                pairB3.setBackgroundResource(R.drawable.pilot_selector_green);
+                pairB3.setBackgroundResource(color);
                 pairB3.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
             }
             if (position == 3) {
-                pairB4.setBackgroundResource(R.drawable.pilot_selector_green);
+                pairB4.setBackgroundResource(color);
                 pairB4.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
             }
@@ -673,7 +730,7 @@ public class TelephoneFragment extends Fragment {
             Integer pointNumberSum = dao.getPhoneNumberItemDaoSum().getPoint();
 
             if (position == 0) {
-                pairSum.setBackgroundResource(R.drawable.pilot_selector_green);
+                pairSum.setBackgroundResource(color);
                 pairSum.setText(String.valueOf(pointNumberSum));
                 scrollD = scrollD + pointNumberSum;
             }
@@ -682,7 +739,7 @@ public class TelephoneFragment extends Fragment {
         }
     }
 
-    private void setMyViewPairD5(String color, PhoneNumberItemCollectionDao dao, int position, String typeOfCollection) {
+    private void setMyViewPairD5(int color, PhoneNumberItemCollectionDao dao, int position, String typeOfCollection) {
 
         if (typeOfCollection.equals("A")) {
 
@@ -690,27 +747,27 @@ public class TelephoneFragment extends Fragment {
             Integer pointPairA = dao.getPhoneNumberItemDaosA().get(position).getPoint();
 
             if (position == 0) {
-                pair1.setBackgroundResource(R.drawable.pilot_selector_green);
+                pair1.setBackgroundResource(color);
                 pair1.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
             }
             if (position == 1) {
-                pair2.setBackgroundResource(R.drawable.pilot_selector_green);
+                pair2.setBackgroundResource(color);
                 pair2.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
             }
             if (position == 2) {
-                pair3.setBackgroundResource(R.drawable.pilot_selector_green);
+                pair3.setBackgroundResource(color);
                 pair3.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
             }
             if (position == 3) {
-                pair4.setBackgroundResource(R.drawable.pilot_selector_green);
+                pair4.setBackgroundResource(color);
                 pair4.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
             }
             if (position == 4) {
-                pair5.setBackgroundResource(R.drawable.pilot_selector_green);
+                pair5.setBackgroundResource(color);
                 pair5.setText(String.valueOf(pairNumberA));
                 scrollD = scrollD + pointPairA;
             }
@@ -720,22 +777,22 @@ public class TelephoneFragment extends Fragment {
             Integer pointPairB = dao.getPhoneNumberItemDaosB().get(position).getPoint();
 
             if (position == 0) {
-                pairB1.setBackgroundResource(R.drawable.pilot_selector_green);
+                pairB1.setBackgroundResource(color);
                 pairB1.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
             }
             if (position == 1) {
-                pairB2.setBackgroundResource(R.drawable.pilot_selector_green);
+                pairB2.setBackgroundResource(color);
                 pairB2.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
             }
             if (position == 2) {
-                pairB3.setBackgroundResource(R.drawable.pilot_selector_green);
+                pairB3.setBackgroundResource(color);
                 pairB3.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
             }
             if (position == 3) {
-                pairB4.setBackgroundResource(R.drawable.pilot_selector_green);
+                pairB4.setBackgroundResource(color);
                 pairB4.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
             }
@@ -745,7 +802,7 @@ public class TelephoneFragment extends Fragment {
             Integer pointNumberSum = dao.getPhoneNumberItemDaoSum().getPoint();
 
             if (position == 0) {
-                pairSum.setBackgroundResource(R.drawable.pilot_selector_green);
+                pairSum.setBackgroundResource(color);
                 pairSum.setText(String.valueOf(pointNumberSum));
                 scrollD = scrollD + pointNumberSum;
             }
@@ -754,7 +811,7 @@ public class TelephoneFragment extends Fragment {
         }
     }
 
-    private void setMyViewPairR10(String color, PhoneNumberItemCollectionDao dao, int position, String typeOfCollection) {
+    private void setMyViewPairR10(int color, PhoneNumberItemCollectionDao dao, int position, String typeOfCollection) {
 
         if (typeOfCollection.equals("A")) {
 
@@ -762,27 +819,27 @@ public class TelephoneFragment extends Fragment {
             Integer pointPairA = dao.getPhoneNumberItemDaosA().get(position).getPoint();
 
             if (position == 0) {
-                pair1.setBackgroundResource(R.drawable.pilot_selector_red);
+                pair1.setBackgroundResource(color);
                 pair1.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
             }
             if (position == 1) {
-                pair2.setBackgroundResource(R.drawable.pilot_selector_red);
+                pair2.setBackgroundResource(color);
                 pair2.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
             }
             if (position == 2) {
-                pair3.setBackgroundResource(R.drawable.pilot_selector_red);
+                pair3.setBackgroundResource(color);
                 pair3.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
             }
             if (position == 3) {
-                pair4.setBackgroundResource(R.drawable.pilot_selector_red);
+                pair4.setBackgroundResource(color);
                 pair4.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
             }
             if (position == 4) {
-                pair5.setBackgroundResource(R.drawable.pilot_selector_red);
+                pair5.setBackgroundResource(color);
                 pair5.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
             }
@@ -792,22 +849,22 @@ public class TelephoneFragment extends Fragment {
             Integer pointPairB = dao.getPhoneNumberItemDaosB().get(position).getPoint();
 
             if (position == 0) {
-                pairB1.setBackgroundResource(R.drawable.pilot_selector_red);
+                pairB1.setBackgroundResource(color);
                 pairB1.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
             }
             if (position == 1) {
-                pairB2.setBackgroundResource(R.drawable.pilot_selector_red);
+                pairB2.setBackgroundResource(color);
                 pairB2.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
             }
             if (position == 2) {
-                pairB3.setBackgroundResource(R.drawable.pilot_selector_red);
+                pairB3.setBackgroundResource(color);
                 pairB3.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
             }
             if (position == 3) {
-                pairB4.setBackgroundResource(R.drawable.pilot_selector_red);
+                pairB4.setBackgroundResource(color);
                 pairB4.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
             }
@@ -817,7 +874,7 @@ public class TelephoneFragment extends Fragment {
             Integer pointNumberSum = dao.getPhoneNumberItemDaoSum().getPoint();
 
             if (position == 0) {
-                pairSum.setBackgroundResource(R.drawable.pilot_selector_red);
+                pairSum.setBackgroundResource(color);
                 pairSum.setText(String.valueOf(pairNumberSum));
                 scrollR = scrollR + pointNumberSum;
             }
@@ -825,7 +882,7 @@ public class TelephoneFragment extends Fragment {
         }
     }
 
-    private void setMyViewPairR7(String color, PhoneNumberItemCollectionDao dao, int position, String typeOfCollection) {
+    private void setMyViewPairR7(int color, PhoneNumberItemCollectionDao dao, int position, String typeOfCollection) {
 
         if (typeOfCollection.equals("A")) {
 
@@ -833,27 +890,27 @@ public class TelephoneFragment extends Fragment {
             Integer pointPairA = dao.getPhoneNumberItemDaosA().get(position).getPoint();
 
             if (position == 0) {
-                pair1.setBackgroundResource(R.drawable.pilot_selector_red);
+                pair1.setBackgroundResource(color);
                 pair1.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
             }
             if (position == 1) {
-                pair2.setBackgroundResource(R.drawable.pilot_selector_red);
+                pair2.setBackgroundResource(color);
                 pair2.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
             }
             if (position == 2) {
-                pair3.setBackgroundResource(R.drawable.pilot_selector_red);
+                pair3.setBackgroundResource(color);
                 pair3.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
             }
             if (position == 3) {
-                pair4.setBackgroundResource(R.drawable.pilot_selector_red);
+                pair4.setBackgroundResource(color);
                 pair4.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
             }
             if (position == 4) {
-                pair5.setBackgroundResource(R.drawable.pilot_selector_red);
+                pair5.setBackgroundResource(color);
                 pair5.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
             }
@@ -863,22 +920,22 @@ public class TelephoneFragment extends Fragment {
             Integer pointPairB = dao.getPhoneNumberItemDaosB().get(position).getPoint();
 
             if (position == 0) {
-                pairB1.setBackgroundResource(R.drawable.pilot_selector_red);
+                pairB1.setBackgroundResource(color);
                 pairB1.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
             }
             if (position == 1) {
-                pairB2.setBackgroundResource(R.drawable.pilot_selector_red);
+                pairB2.setBackgroundResource(color);
                 pairB2.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
             }
             if (position == 2) {
-                pairB3.setBackgroundResource(R.drawable.pilot_selector_red);
+                pairB3.setBackgroundResource(color);
                 pairB3.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
             }
             if (position == 3) {
-                pairB4.setBackgroundResource(R.drawable.pilot_selector_red);
+                pairB4.setBackgroundResource(color);
                 pairB4.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
             }
@@ -888,7 +945,7 @@ public class TelephoneFragment extends Fragment {
             Integer pointNumberSum = dao.getPhoneNumberItemDaoSum().getPoint();
 
             if (position == 0) {
-                pairSum.setBackgroundResource(R.drawable.pilot_selector_green);
+                pairSum.setBackgroundResource(color);
                 pairSum.setText(String.valueOf(pairNumberSum));
                 scrollR = scrollR + pointNumberSum;
             }
@@ -896,7 +953,7 @@ public class TelephoneFragment extends Fragment {
         }
     }
 
-    private void setMyViewPairR5(String color, PhoneNumberItemCollectionDao dao, int position, String typeOfCollection) {
+    private void setMyViewPairR5(int color, PhoneNumberItemCollectionDao dao, int position, String typeOfCollection) {
 
         if (typeOfCollection.equals("A")) {
 
@@ -904,27 +961,27 @@ public class TelephoneFragment extends Fragment {
             Integer pointPairA = dao.getPhoneNumberItemDaosA().get(position).getPoint();
 
             if (position == 0) {
-                pair1.setBackgroundResource(R.drawable.pilot_selector_red);
+                pair1.setBackgroundResource(color);
                 pair1.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
             }
             if (position == 1) {
-                pair2.setBackgroundResource(R.drawable.pilot_selector_red);
+                pair2.setBackgroundResource(color);
                 pair2.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
             }
             if (position == 2) {
-                pair3.setBackgroundResource(R.drawable.pilot_selector_red);
+                pair3.setBackgroundResource(color);
                 pair3.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
             }
             if (position == 3) {
-                pair4.setBackgroundResource(R.drawable.pilot_selector_red);
+                pair4.setBackgroundResource(color);
                 pair4.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
             }
             if (position == 4) {
-                pair5.setBackgroundResource(R.drawable.pilot_selector_red);
+                pair5.setBackgroundResource(color);
                 pair5.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
             }
@@ -934,22 +991,22 @@ public class TelephoneFragment extends Fragment {
             Integer pointPairB = dao.getPhoneNumberItemDaosB().get(position).getPoint();
 
             if (position == 0) {
-                pairB1.setBackgroundResource(R.drawable.pilot_selector_red);
+                pairB1.setBackgroundResource(color);
                 pairB1.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
             }
             if (position == 1) {
-                pairB2.setBackgroundResource(R.drawable.pilot_selector_red);
+                pairB2.setBackgroundResource(color);
                 pairB2.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
             }
             if (position == 2) {
-                pairB3.setBackgroundResource(R.drawable.pilot_selector_red);
+                pairB3.setBackgroundResource(color);
                 pairB3.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
             }
             if (position == 3) {
-                pairB4.setBackgroundResource(R.drawable.pilot_selector_red);
+                pairB4.setBackgroundResource(color);
                 pairB4.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
             }
@@ -959,7 +1016,7 @@ public class TelephoneFragment extends Fragment {
             Integer pointNumberSum = dao.getPhoneNumberItemDaoSum().getPoint();
 
             if (position == 0) {
-                pairSum.setBackgroundResource(R.drawable.pilot_selector_red);
+                pairSum.setBackgroundResource(color);
                 pairSum.setText(String.valueOf(pairNumberSum));
                 scrollR = scrollR + pointNumberSum;
             }
@@ -1050,14 +1107,6 @@ public class TelephoneFragment extends Fragment {
      * Listeners
      *****************/
 
-    View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            clearPairEdt();
-
-        }
-    };
-
     TextWatcher watcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -1082,41 +1131,76 @@ public class TelephoneFragment extends Fragment {
         }
     };
 
+    View.OnClickListener onClickResetListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            clearPairEdt();
+
+        }
+    };
+
+    View.OnClickListener onBtnOkClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            setOk(String.valueOf(phone_number.getText()));
+        }
+    };
+
+    View.OnClickListener pairSumClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            String txtSumpair = String.valueOf(pairSum.getText());
+            FragmentTelePhoneListener telephoneFragment = (FragmentTelePhoneListener) getActivity();
+            telephoneFragment.onPairPhoneClick(txtSumpair);
+        }
+    };
+
+
+
+
+
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("LifeCycle", "onStart");
-    }
+        if (phoneNumber != null && phoneNumber.length() == 10) {
+            setOkBack(phoneNumber);
 
+        }
+
+
+    }
     @Override
     public void onStop() {
         super.onStop();
         Log.d("LifeCycle", "onStop");
     }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("LifeCycle", "onCreate");
-    }
 
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
         Log.d("LifeCycle", "onDestroy");
     }
-
     @Override
     public void onPause() {
         super.onPause();
         Log.d("LifeCycle", "onPause");
     }
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable("phoneNumberItemCollectionDao", phoneNumberItemCollectionDao);
+        outState.putString("phoneNumber", phoneNumber);
 
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d("LifeCycle", "onDestroyView");
     }
 }

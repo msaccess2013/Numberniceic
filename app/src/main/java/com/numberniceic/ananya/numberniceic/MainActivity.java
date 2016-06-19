@@ -2,13 +2,11 @@ package com.numberniceic.ananya.numberniceic;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
 
-import com.numberniceic.ananya.numberniceic.fragments.TelephoneFragment;
-import com.numberniceic.ananya.numberniceic.managers.telephone.NumberMiracleManager;
-import com.numberniceic.ananya.numberniceic.managers.telephone.NumberPilotManager;
+import com.numberniceic.ananya.numberniceic.fragments.Telephone.MiracleFragment;
+import com.numberniceic.ananya.numberniceic.fragments.Telephone.TelephoneFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TelephoneFragment.FragmentTelePhoneListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,8 +17,18 @@ public class MainActivity extends AppCompatActivity {
 
             getSupportFragmentManager().beginTransaction().replace(R.id.main_container,
                     MainFragment.newInstance(), "MainFragment" ).commit();
+
+
         }
 
+
+    }
+
+    @Override
+    public void onPairPhoneClick(String pairNumber) {
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_container,
+                MiracleFragment.newInstance(pairNumber),"MiracleFragment").addToBackStack(null).commit();
 
     }
 }

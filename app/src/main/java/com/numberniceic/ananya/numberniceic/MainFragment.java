@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.numberniceic.ananya.numberniceic.fragments.CarFragment;
 import com.numberniceic.ananya.numberniceic.fragments.HomeFragment;
 import com.numberniceic.ananya.numberniceic.fragments.NameFragment;
-import com.numberniceic.ananya.numberniceic.fragments.TelephoneFragment;
+import com.numberniceic.ananya.numberniceic.fragments.Telephone.TelephoneFragment;
 
 
 /**

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.numberniceic.ananya.numberniceic.fragments.TelephoneFragment">
+    tools:context="com.numberniceic.ananya.numberniceic.fragments.Telephone.TelephoneFragment">
 
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/nsvTelephone"
@@ -123,6 +123,7 @@
                             android:layout_height="60dp"
                             android:textSize="24sp"
                             android:text="s"
+                            android:freezesText="true"
                             android:layout_marginTop="6dp" />
 
                         <TextView
@@ -179,7 +180,7 @@
                         <TextView
                             android:id="@+id/ppnPair01"
                             android:background="@drawable/bg_green"
-
+                            android:freezesText="true"
                             android:text="a1"
                             android:layout_marginStart="9dp"
                             android:layout_gravity="center_horizontal"
@@ -193,6 +194,7 @@
                             android:background="@drawable/bg_green"
                             android:layout_toEndOf="@+id/ppnPair01"
                             android:text="a2"
+                            android:freezesText="true"
                             android:layout_marginStart="6dp"
                             android:layout_gravity="center_horizontal"
                             android:gravity="center"
@@ -205,6 +207,7 @@
                             android:background="@drawable/bg_green"
                             android:layout_toEndOf="@+id/ppnPair02"
                             android:text="a3"
+                            android:freezesText="true"
                             android:layout_marginStart="6dp"
                             android:layout_gravity="center_horizontal"
                             android:gravity="center"
@@ -217,6 +220,7 @@
                             android:background="@drawable/bg_green"
                             android:layout_toEndOf="@+id/ppnPair03"
                             android:text="a4"
+                            android:freezesText="true"
                             android:layout_marginStart="6dp"
                             android:layout_gravity="center_horizontal"
                             android:gravity="center"
@@ -229,6 +233,7 @@
                             android:background="@drawable/bg_green"
                             android:layout_toEndOf="@+id/ppnPair04"
                             android:text="a5"
+                            android:freezesText="true"
                             android:layout_marginStart="6dp"
                             android:layout_gravity="center_horizontal"
                             android:gravity="center"
@@ -298,6 +303,7 @@
                             android:layout_height="60dp"
                             android:textSize="24sp"
                             android:text="b1"
+                            android:freezesText="true"
                      />
 
                         <TextView
@@ -310,6 +316,7 @@
                             android:layout_height="60dp"
                             android:textSize="24sp"
                             android:text="b2"
+                            android:freezesText="true"
                             android:layout_marginStart="9dp"
                      />
 
@@ -323,6 +330,7 @@
                             android:layout_height="60dp"
                             android:textSize="24sp"
                             android:text="b3"
+                            android:freezesText="true"
                             android:layout_marginStart="9dp" />
 
                         <TextView
@@ -335,6 +343,7 @@
                             android:layout_height="60dp"
                             android:textSize="24sp"
                             android:text="b4"
+                            android:freezesText="true"
                             android:layout_marginStart="9dp" />
 
 

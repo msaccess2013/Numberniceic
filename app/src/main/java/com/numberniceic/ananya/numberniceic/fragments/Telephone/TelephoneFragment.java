@@ -1,8 +1,8 @@
 package com.numberniceic.ananya.numberniceic.fragments.Telephone;
 
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,14 +23,18 @@ import com.numberniceic.ananya.numberniceic.dao.phone.PhoneNumberItemCollectionD
 import com.numberniceic.ananya.numberniceic.dao.phone.PhoneNumberItemDao;
 import com.numberniceic.ananya.numberniceic.dao.phone.ScrollPairNumberDao;
 import com.numberniceic.ananya.numberniceic.managers.telephone.NumberPilotManager;
+import com.numberniceic.ananya.numberniceic.pojo.PairNumberDang;
+import com.numberniceic.ananya.numberniceic.pojo.PairNumberDangCount;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class TelephoneFragment extends Fragment {
     /****************
      * Member variable
@@ -50,31 +54,31 @@ public class TelephoneFragment extends Fragment {
     TextView tvConD, tvConR;
     TextView tvPercentD, tvPercentR;
 
-
     PhoneNumberItemCollectionDao phoneNumberItemCollectionDao;
     ScrollPairNumberDao scrollPairNumberDao = new ScrollPairNumberDao();
     Integer scrollD = 0;
     Integer scrollR = 0;
 
 
-    String continueCodeIDD = null;
-    String continueCodeIDR = null;
-
     Integer percentD = 0;
     Integer percentR = 0;
-    Integer percentPo1D, percentPo2D, percentPo3D, percentPo4D, percentPo5D, percentSumD;
-    Integer percentPo1R, percentPo2R, percentPo3R, percentPo4R, percentPo5R, percentSumR;
+
+    Integer percentPo1D = 0, percentPo2D = 0, percentPo3D = 0, percentPo4D = 0, percentPo5D = 0, percentSumD = 0;
+    Integer percentPo1R = 0, percentPo2R = 0, percentPo3R = 0, percentPo4R = 0, percentPo5R = 0, percentSumR = 0;
+
+    Integer percentPoB1D = 0, percentPoB2D = 0, percentPoB3D = 0, percentPoB4D = 0;
+    Integer percentPoB1R = 0, percentPoB2R = 0, percentPoB3R = 0, percentPoB4R = 0;
 
     InputMethodManager imm;
 
-
-
-
+    boolean stateBorn = true;
+    boolean stateStop = true;
 
 
     public interface FragmentTelePhoneListener {
-       void onPairPhoneClick(String pairNumber);
+        void onPairPhoneClick(String pairNumber);
     }
+
     public static TelephoneFragment newInstance() {
 
         TelephoneFragment telephoneFragment = new TelephoneFragment();
@@ -85,6 +89,7 @@ public class TelephoneFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d("LifeCycle", "onCreateView");
 
         View rootView = inflater.inflate(R.layout.fragment_telephone, container, false);
         initInstance(rootView);
@@ -92,7 +97,6 @@ public class TelephoneFragment extends Fragment {
 
 
         checkState(savedInstanceState);
-        imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
 
 
         return rootView;
@@ -120,9 +124,8 @@ public class TelephoneFragment extends Fragment {
 
         pairSum.setOnClickListener(pairSumClickListener);
 
-        btnOk = (Button) rootView.findViewById(R.id.btn_ok);
-
-        btnOk.setOnClickListener(onBtnOkClickListener);
+/*        btnOk = (Button) rootView.findViewById(R.id.btn_ok);
+        btnOk.setOnClickListener(onBtnOkClickListener);*/
 
 
     }
@@ -150,11 +153,12 @@ public class TelephoneFragment extends Fragment {
         tvPercentR = (TextView) rootView.findViewById(R.id.tvPercentR);
     }
 
-    private void setOk(String phoneNumber) {
+
+    private void setOk(String phoneNumberX) {
         clearTv();
         clearNumberCencent();
 
-        this.phoneNumber = phoneNumber;
+        this.phoneNumber = phoneNumberX;
 
 
         scrollD = 0;
@@ -168,95 +172,47 @@ public class TelephoneFragment extends Fragment {
 
             Toast.makeText(getContext(), "ระบบทำการคำนวณ!!", Toast.LENGTH_SHORT).show();
             setSplitPhoneNumber(phoneNumber);
+
             dataAccessDaoA(phoneNumberItemCollectionDao);
             dataAccessDaoB(phoneNumberItemCollectionDao);
             dataAccessDaoSum(phoneNumberItemCollectionDao);
 
-            Integer sumScrollDTotal = scrollPairNumberDao.getPairsAD() + scrollPairNumberDao.getPairsBD() + scrollPairNumberDao.getPairSumD();
-            Integer sumScrollRTotal = scrollPairNumberDao.getPairsAR() + scrollPairNumberDao.getPairsBR() + scrollPairNumberDao.getPairSumR();
+            //set continue for A B S
+            // 0955456424 : 1045
 
-
-            DecimalFormat decimalFormat = new DecimalFormat("#,###");
-            String scrollD = decimalFormat.format(sumScrollDTotal);
-            String scrollR = decimalFormat.format(sumScrollRTotal);
-
-            txtTotalScrollD.setText(scrollD);
-            txtTotalScrollR.setText(scrollR);
-
-            setScrollContinueD(phoneNumberItemCollectionDao);
-            setScrollContinueR(phoneNumberItemCollectionDao);
-
-            tvConD.setText(continueCodeIDD);
-            tvConR.setText(continueCodeIDR);
+            setScrollContinueAD(phoneNumberItemCollectionDao);
+            setScrollContinueAR(phoneNumberItemCollectionDao);
+            setScrollContinueBD(phoneNumberItemCollectionDao);
+            setScrollContinueBR(phoneNumberItemCollectionDao);
 
             setPercentD(phoneNumberItemCollectionDao);
             tvPercentD.setText(String.valueOf(getPercentsD()));
             setPercentR(phoneNumberItemCollectionDao);
             tvPercentR.setText(String.valueOf(getPercentsR()));
 
+            // 0955456424 : 920
 
+            if (phoneNumberItemCollectionDao != null) {
+                setScrollPairBonus(phoneNumberItemCollectionDao);
+            }
+            setScrollDuplicatePair(phoneNumberItemCollectionDao);
+            setScrollCountPair(phoneNumberItemCollectionDao);
 
-
-            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-
-
-
-
-        }
-    }
-    private void setOkBack(String phoneNumber) {
-
-        clearTv();
-        clearNumberCencent();
-
-        this.phoneNumber = phoneNumber;
-
-
-        scrollD = 0;
-        scrollR = 0;
-
-        percentD = 0;
-        percentR = 0;
-
-        if (phoneNumber.length() == 10) {
-
-            setSplitPhoneNumber(phoneNumber);
-            dataAccessDaoA(phoneNumberItemCollectionDao);
-            dataAccessDaoB(phoneNumberItemCollectionDao);
-            dataAccessDaoSum(phoneNumberItemCollectionDao);
-
-            Integer sumScrollDTotal = scrollPairNumberDao.getPairsAD() + scrollPairNumberDao.getPairsBD() + scrollPairNumberDao.getPairSumD();
-            Integer sumScrollRTotal = scrollPairNumberDao.getPairsAR() + scrollPairNumberDao.getPairsBR() + scrollPairNumberDao.getPairSumR();
+            setScrollDangPair(phoneNumberItemCollectionDao);
 
 
             DecimalFormat decimalFormat = new DecimalFormat("#,###");
-            String scrollD = decimalFormat.format(sumScrollDTotal);
-            String scrollR = decimalFormat.format(sumScrollRTotal);
+            String scrollTotalD = decimalFormat.format(scrollD);
+            String scrollTotalR = decimalFormat.format(scrollR);
 
-            txtTotalScrollD.setText(scrollD);
-            txtTotalScrollR.setText(scrollR);
-
-            setScrollContinueD(phoneNumberItemCollectionDao);
-            setScrollContinueR(phoneNumberItemCollectionDao);
-
-            tvConD.setText(continueCodeIDD);
-            tvConR.setText(continueCodeIDR);
-
-            setPercentD(phoneNumberItemCollectionDao);
-            tvPercentD.setText(String.valueOf(getPercentsD()));
-            setPercentR(phoneNumberItemCollectionDao);
-            tvPercentR.setText(String.valueOf(getPercentsR()));
-
-
-
-
-            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-
-
+            txtTotalScrollD.setText(scrollTotalD);
+            txtTotalScrollR.setText(scrollTotalR);
+            phone_number.setText("");
 
 
         }
     }
+
 
     private void clearPairEdt() {
         phone_number.setText("");
@@ -268,6 +224,7 @@ public class TelephoneFragment extends Fragment {
         imm.showSoftInput(phone_number, 0);
 
     }
+
     private void clearTv() {
 
         pair1.setText("");
@@ -286,15 +243,13 @@ public class TelephoneFragment extends Fragment {
 
         pairSum.setText("");
 
-
-        continueCodeIDD = null;
-        continueCodeIDR = null;
         tvConD.setText("");
         tvConR.setText("");
 
         tvPercentD.setText("");
         tvPercentR.setText("");
     }
+
     private void clearNumberCencent() {
         percentPo1D = 0;
         percentPo2D = 0;
@@ -309,68 +264,20 @@ public class TelephoneFragment extends Fragment {
         percentPo4R = 0;
         percentPo5R = 0;
         percentSumR = 0;
-    }
 
-    private Integer getPercentsD(){
-     Integer pDs;
-        pDs = percentPo1D + percentPo2D + percentPo3D + percentPo4D + percentPo5D;
-        return pDs;
-    }
-    private Integer getPercentsR(){
-        Integer pRs;
-        pRs = percentPo1R +   percentPo2R+ percentPo3R +percentPo4D+percentPo5R;
-        return pRs;
-    }
+        percentPoB1D = 0;
+        percentPoB2D = 0;
+        percentPoB3D = 0;
+        percentPoB4D = 0;
 
-
-    private void checkState(Bundle savedInstanceState) {
-        if (savedInstanceState != null && savedInstanceState.getParcelable("phoneNumberItemCollectionDao") != null) {
-
-            phoneNumberItemCollectionDao = savedInstanceState.getParcelable("phoneNumberItemCollectionDao");
-
-            dataAccessDaoA(phoneNumberItemCollectionDao);
-            dataAccessDaoB(phoneNumberItemCollectionDao);
-            dataAccessDaoSum(phoneNumberItemCollectionDao);
-
-        }
-
-    if (savedInstanceState != null) {
-        String phoneNumber = savedInstanceState.getString("phoneNumber");
-        setOkBack(phoneNumber);
-    }
-    }
-
-    private void dataAccessDaoSum(PhoneNumberItemCollectionDao dao) {
-
-        String TYPEOfDao = dao.getPhoneNumberItemDaoSum().getType();
-
-
-        switch (TYPEOfDao) {
-
-            case "D10":
-                setMyViewPairD10(R.drawable.pilot_selector_green, dao, 0, "S");
-
-            case "D8":
-                setMyViewPairD8(R.drawable.pilot_selector_green, dao, 0, "S");
-
-            case "D5":
-                setMyViewPairD5(R.drawable.pilot_selector_green, dao, 0, "S");
-
-            case "R10":
-                setMyViewPairR10(R.drawable.pilot_selector_green, dao, 0, "S");
-
-            case "R7":
-                setMyViewPairR7(R.drawable.pilot_selector_green, dao, 0, "S");
-
-            case "R5":
-                setMyViewPairR5(R.drawable.pilot_selector_green, dao, 0, "S");
-        }
-
-        scrollPairNumberDao.setPairSumD(scrollD);
-        scrollPairNumberDao.setPairSumR(scrollR);
+        percentPoB1R = 0;
+        percentPoB2R = 0;
+        percentPoB3R = 0;
+        percentPoB4R = 0;
 
 
     }
+
 
     private void dataAccessDaoA(PhoneNumberItemCollectionDao dao) {
 
@@ -381,21 +288,22 @@ public class TelephoneFragment extends Fragment {
 
                 case "D10":
                     setMyViewPairD10(R.drawable.pilot_selector_green, dao, i, "A");
-                    continue;
+                    break;
                 case "D8":
                     setMyViewPairD8(R.drawable.pilot_selector_green, dao, i, "A");
-                    continue;
+                    break;
                 case "D5":
                     setMyViewPairD5(R.drawable.pilot_selector_green, dao, i, "A");
-                    continue;
+                    break;
                 case "R10":
                     setMyViewPairR10(R.drawable.pilot_selector_red, dao, i, "A");
-                    continue;
+                    break;
                 case "R7":
                     setMyViewPairR7(R.drawable.pilot_selector_red, dao, i, "A");
-                    continue;
+                    break;
                 case "R5":
                     setMyViewPairR5(R.drawable.pilot_selector_red, dao, i, "A");
+                    break;
             }
         }
 
@@ -414,21 +322,22 @@ public class TelephoneFragment extends Fragment {
 
                 case "D10":
                     setMyViewPairD10(R.drawable.pilot_selector_green, dao, i, "B");
-                    continue;
+                    break;
                 case "D8":
                     setMyViewPairD8(R.drawable.pilot_selector_green, dao, i, "B");
-                    continue;
+                    break;
                 case "D5":
                     setMyViewPairD5(R.drawable.pilot_selector_green, dao, i, "B");
-                    continue;
+                    break;
                 case "R10":
                     setMyViewPairR10(R.drawable.pilot_selector_red, dao, i, "B");
-                    continue;
+                    break;
                 case "R7":
                     setMyViewPairR7(R.drawable.pilot_selector_red, dao, i, "B");
-                    continue;
+                    break;
                 case "R5":
                     setMyViewPairR5(R.drawable.pilot_selector_red, dao, i, "B");
+                    break;
             }
         }
 
@@ -437,7 +346,40 @@ public class TelephoneFragment extends Fragment {
 
     }
 
-    private void setScrollContinueD(PhoneNumberItemCollectionDao dao) {
+    private void dataAccessDaoSum(PhoneNumberItemCollectionDao dao) {
+
+        String TYPEOfDao = dao.getPhoneNumberItemDaoSum().getType();
+
+
+        switch (TYPEOfDao) {
+
+            case "D10":
+                setMyViewPairD10(R.drawable.pilot_selector_green, dao, 0, "S");
+                break;
+            case "D8":
+                setMyViewPairD8(R.drawable.pilot_selector_green, dao, 0, "S");
+                break;
+            case "D5":
+                setMyViewPairD5(R.drawable.pilot_selector_green, dao, 0, "S");
+                break;
+            case "R10":
+                setMyViewPairR10(R.drawable.pilot_selector_red, dao, 0, "S");
+                break;
+            case "R7":
+                setMyViewPairR7(R.drawable.pilot_selector_red, dao, 0, "S");
+                break;
+            case "R5":
+                setMyViewPairR5(R.drawable.pilot_selector_red, dao, 0, "S");
+                break;
+        }
+
+        scrollPairNumberDao.setPairSumD(scrollD);
+        scrollPairNumberDao.setPairSumR(scrollR);
+
+
+    }
+
+    private void setScrollContinueAD(PhoneNumberItemCollectionDao dao) {
 
         boolean x1 = false;
         boolean x2 = false;
@@ -450,24 +392,33 @@ public class TelephoneFragment extends Fragment {
             String typeChar = String.valueOf(dao.getPhoneNumberItemDaosA().get(position).getType().charAt(0));
 
             if (typeChar.equals("D")) {
+
                 if (position == 4) {
                     x1 = true;
-                    continueCodeIDD = "x1";
+
+                    setConSortScrollD(25);
                 }
                 if (position == 3 && x1) {
-                    continueCodeIDD = "x2";
+
                     x2 = true;
+                    setConSortScrollD(50);
                 }
                 if (position == 2 && x2) {
-                    continueCodeIDD = "x3";
+
                     x3 = true;
+                    setConSortScrollD(75);
+
                 }
                 if (position == 1 && x3) {
-                    continueCodeIDD = "x4";
+
                     x4 = true;
+                    setConSortScrollD(100);
+
                 }
                 if (position == 0 && x4) {
-                    continueCodeIDD = "x5";
+
+                    setConSortScrollD(125);
+
                 }
             }
 
@@ -476,7 +427,7 @@ public class TelephoneFragment extends Fragment {
 
     }
 
-    private void setScrollContinueR(PhoneNumberItemCollectionDao dao) {
+    private void setScrollContinueAR(PhoneNumberItemCollectionDao dao) {
         boolean x1 = false;
         boolean x2 = false;
         boolean x3 = false;
@@ -490,34 +441,456 @@ public class TelephoneFragment extends Fragment {
             if (typeChar.equals("R")) {
                 if (position == 4) {
                     x1 = true;
-                    continueCodeIDR = "x1";
+
+                    setConSortScrollR(25);
                 }
                 if (position == 3 && x1) {
-                    continueCodeIDR = "x2";
+
                     x2 = true;
+                    setConSortScrollR(50);
                 }
                 if (position == 2 && x2) {
-                    continueCodeIDR = "x3";
+
                     x3 = true;
+                    setConSortScrollR(75);
                 }
                 if (position == 1 && x3) {
-                    continueCodeIDR = "x4";
+
                     x4 = true;
+                    setConSortScrollR(100);
                 }
                 if (position == 0 && x4) {
-                    continueCodeIDR = "x5";
+
+                    setConSortScrollR(125);
                 }
             }
         }
     }
 
-    private void setPercentD(PhoneNumberItemCollectionDao dao) {
+    private void setScrollContinueBD(PhoneNumberItemCollectionDao dao) {
 
-        String type = dao.getPhoneNumberItemDaoSum().getType();
-        String t = String.valueOf(type.charAt(0));
+        boolean x1 = false;
+        boolean x2 = false;
+        boolean x3 = false;
+
+        for (int position = 3; position > -1; position--) {
+
+            String typeChar = String.valueOf(dao.getPhoneNumberItemDaosB().get(position).getType().charAt(0));
+
+            if (typeChar.equals("D")) {
+                if (position == 3) {
+
+                    x1 = true;
+                    setConSortScrollD(25);
+                }
+                if (position == 2 && x1) {
+
+                    x2 = true;
+                    setConSortScrollD(50);
+
+                }
+                if (position == 1 && x2) {
+
+                    x3 = true;
+                    setConSortScrollD(75);
+
+                }
+                if (position == 0 && x3) {
+                    setConSortScrollD(100);
+
+                }
+            }
+
+        }
+
+
+    }
+
+    private void setScrollContinueBR(PhoneNumberItemCollectionDao dao) {
+
+        boolean x1 = false;
+        boolean x2 = false;
+        boolean x3 = false;
+
+        for (int position = 3; position > -1; position--) {
+
+            String typeChar = String.valueOf(dao.getPhoneNumberItemDaosB().get(position).getType().charAt(0));
+
+            if (typeChar.equals("R")) {
+                if (position == 3) {
+
+                    x1 = true;
+                    setConSortScrollR(25);
+                }
+                if (position == 2 && x1) {
+
+                    x2 = true;
+                    setConSortScrollR(50);
+
+                }
+                if (position == 1 && x2) {
+
+                    x3 = true;
+                    setConSortScrollR(75);
+
+                }
+                if (position == 0 && x3) {
+                    setConSortScrollR(100);
+
+                }
+            }
+
+        }
+
+
+    }
+
+    private void setConSortScrollR(Integer scroll) {
+
+        scrollR = scrollR + scroll;
+
+    }
+
+    private void setConSortScrollD(Integer scroll) {
+
+        scrollD = scrollD + scroll;
+
+    }
+
+    private void setScrollPairBonus(PhoneNumberItemCollectionDao dao) {
+
+        String firstLastPairType = dao.getPhoneNumberItemDaosA().get(4).getType();
+        String secondLastPairType = dao.getPhoneNumberItemDaosA().get(3).getType();
+        String sumType = dao.getPhoneNumberItemDaoSum().getType();
+
+        Integer scrollDFirstPair = 0;
+        Integer scrollRFirstPair = 0;
+
+        Integer scrollDSecondPair = 0;
+        Integer scrollRSecondPair = 0;
+
+        Integer scrollDSum = 0;
+        Integer scrollRSum = 0;
+
+
+        //start last pair scroll
+
+
+        if (firstLastPairType.equals("D10")) {
+
+            scrollDFirstPair = 100;
+
+        } else if (firstLastPairType.equals("D8")) {
+
+            scrollDFirstPair = 75;
+
+        } else if (firstLastPairType.equals("D5")) {
+
+            scrollDFirstPair = 35;
+        }
+
+
+        if (firstLastPairType.equals("R10")) {
+
+            scrollRFirstPair = 100;
+
+        } else if (firstLastPairType.equals("R7")) {
+
+            scrollRFirstPair = 75;
+
+        } else if (firstLastPairType.equals("R5")) {
+
+            scrollRFirstPair = 35;
+        }
+
+
+        // Start second last pair
+
+
+        if (secondLastPairType.equals("D10")) {
+
+            scrollDSecondPair = 75;
+
+        } else if (secondLastPairType.equals("D8")) {
+
+            scrollDSecondPair = 50;
+
+        } else if (secondLastPairType.equals("D5")) {
+
+            scrollDSecondPair = 25;
+        }
+
+
+        if (secondLastPairType.equals("R10")) {
+
+            scrollRSecondPair = 75;
+
+        } else if (secondLastPairType.equals("R7")) {
+
+            scrollRSecondPair = 50;
+
+        } else if (secondLastPairType.equals("R5")) {
+
+            scrollRSecondPair = 25;
+        }
+
+
+        // Start sum pair
+
+
+        if (sumType.equals("D10")) {
+
+            scrollDSum = 150;
+
+        } else if (sumType.equals("D8")) {
+
+            scrollDSum = 100;
+
+        } else if (sumType.equals("D5")) {
+
+            scrollDSum = 50;
+        }
+
+
+        if (sumType.equals("R10")) {
+
+            scrollRSum = 150;
+
+        } else if (sumType.equals("R7")) {
+
+            scrollRSum = 100;
+
+        } else if (sumType.equals("R5")) {
+
+            scrollRSum = 50;
+        }
+
+        scrollD = scrollD + scrollDFirstPair + scrollDSecondPair + scrollDSum;
+        scrollR = scrollR + scrollRFirstPair + scrollRSecondPair + scrollRSum;
+
+
+    }
+
+    private void setScrollDuplicatePair(PhoneNumberItemCollectionDao dao) {
+
+        List<String> myNumber = new ArrayList<>();
+        NumberPilotManager manager = new NumberPilotManager();
+
+        Integer scrollDupD = 0;
+        Integer scrollDupR = 0;
+
+
+        for (int n = 0; n < dao.getPhoneNumberItemDaosA().size(); n++) {
+            myNumber.add(dao.getPhoneNumberItemDaosA().get(n).getPhoneNumber());
+        }
+        for (int m = 0; m < dao.getPhoneNumberItemDaosB().size(); m++) {
+            myNumber.add(dao.getPhoneNumberItemDaosB().get(m).getPhoneNumber());
+        }
+
+        myNumber.add(dao.getPhoneNumberItemDaoSum().getPhoneNumber());
+
+        Map<String, Integer> myMap = new HashMap<>();
+        for (int i = 0; i < dao.getPhoneNumberItemDaosA().size(); i++) {
+            String key = dao.getPhoneNumberItemDaosA().get(i).getPhoneNumber();
+            Integer value = Collections.frequency(myNumber, dao.getPhoneNumberItemDaosA().get(i).getPhoneNumber());
+
+            myMap.put(key, value);
+
+        }
+        for (int i = 0; i < dao.getPhoneNumberItemDaosB().size(); i++) {
+            String key = dao.getPhoneNumberItemDaosB().get(i).getPhoneNumber();
+            Integer value = Collections.frequency(myNumber, dao.getPhoneNumberItemDaosB().get(i).getPhoneNumber());
+
+            myMap.put(key, value);
+
+        }
+        String mySumNumber = dao.getPhoneNumberItemDaoSum().getPhoneNumber();
+        Integer value = Collections.frequency(myNumber, mySumNumber);
+        myMap.put(mySumNumber, value);
+
+
+        for (Map.Entry<String, Integer> entry : myMap.entrySet()) {
+
+            String myKey = entry.getKey();
+            Integer myValue = entry.getValue();
+            if (String.valueOf(manager.getType(myKey).charAt(0)).equals("D")) {
+
+                switch (myValue) {
+                    case 2:
+                        scrollDupD = scrollDupD + 50;
+                        break;
+                    case 3:
+                        scrollDupD = scrollDupD + 100;
+                        break;
+                    case 4:
+                        scrollDupD = scrollDupD + 150;
+                        break;
+                    case 5:
+                        scrollDupD = scrollDupD + 250;
+                        break;
+                    case 6:
+                        scrollDupD = scrollDupD + 300;
+                        break;
+                    case 7:
+                        scrollDupD = scrollDupD + 350;
+                        break;
+                    case 8:
+                        scrollDupD = scrollDupD + 400;
+                        break;
+
+
+                }
+            }
+
+            if (String.valueOf(manager.getType(myKey).charAt(0)).equals("R")) {
+
+                switch (myValue) {
+                    case 2:
+                        scrollDupR = scrollDupR + 50;
+                        break;
+                    case 3:
+                        scrollDupR = scrollDupR + 100;
+                        break;
+                    case 4:
+                        scrollDupR = scrollDupR + 150;
+                        break;
+                    case 5:
+                        scrollDupR = scrollDupR + 250;
+                        break;
+                    case 6:
+                        scrollDupR = scrollDupR + 300;
+                        break;
+                    case 7:
+                        scrollDupR = scrollDupR + 350;
+                        break;
+                    case 8:
+                        scrollDupR = scrollDupR + 400;
+                        break;
+
+
+                }
+            }
+
+
+        }
+
+
+        scrollD = scrollD + scrollDupD;
+        scrollR = scrollR + scrollDupR;
+
+
+    }
+
+    private void setScrollCountPair(PhoneNumberItemCollectionDao dao) {
+        Integer countD = 0;
+        Integer countR = 0;
+        Integer scrollCountD = 0;
+        Integer scrollCountR = 0;
+
+        for (int i = 0; i < dao.getPhoneNumberItemDaosA().size(); i++) {
+            if (String.valueOf(dao.getPhoneNumberItemDaosA().get(i).getType().charAt(0)).equals("D")) {
+                countD++;
+            }
+            if (String.valueOf(dao.getPhoneNumberItemDaosA().get(i).getType().charAt(0)).equals("R")) {
+                countR++;
+            }
+        }
+
+        switch (countD) {
+            case 1:
+                scrollCountD = scrollCountD + 5;
+                break;
+            case 2:
+                scrollCountD = scrollCountD + 10;
+                break;
+            case 3:
+                scrollCountD = scrollCountD + 15;
+                break;
+            case 4:
+                scrollCountD = scrollCountD + 20;
+                break;
+            case 5:
+                scrollCountD = scrollCountD + 25;
+                break;
+        }
+        switch (countR) {
+            case 1:
+                scrollCountR = scrollCountR + 5;
+                break;
+            case 2:
+                scrollCountR = scrollCountR + 10;
+                break;
+            case 3:
+                scrollCountR = scrollCountR + 15;
+                break;
+            case 4:
+                scrollCountR = scrollCountR + 20;
+                break;
+            case 5:
+                scrollCountR = scrollCountR + 25;
+                break;
+        }
+
+        scrollD = scrollD + scrollCountD;
+        scrollR = scrollR + scrollCountR;
+
+    }
+
+
+    private void setScrollDangPair(PhoneNumberItemCollectionDao dao) {
+
+        List<PairNumberDang> numberDangs = new ArrayList<>();
 
 
         for (int i = 0; i < dao.getPhoneNumberItemDaosA().size(); i++) {
+
+            String mNumber = dao.getPhoneNumberItemDaosA().get(i).getPhoneNumber();
+            char firstC = mNumber.charAt(0);
+            char secondC = mNumber.charAt(1);
+            String pairDang = String.valueOf(secondC) + String.valueOf(firstC);
+
+            for (int j = 0; j < dao.getPhoneNumberItemDaosB().size(); j++) {
+                String dNumber = dao.getPhoneNumberItemDaosB().get(j).getPhoneNumber();
+                if (pairDang.equals(dNumber)) {
+
+                    numberDangs.add(new PairNumberDang(mNumber, dNumber));
+                    Log.d("pairOfdang", mNumber + " : " + dNumber);
+
+
+                }
+            }
+        }
+
+
+
+
+
+
+
+    }
+
+
+    private Integer getPercentsD() {
+        Integer pDs;
+        pDs = percentPo1D + percentPo2D + percentPo3D + percentPo4D + percentPo5D + percentSumD
+                + percentPoB1D + percentPoB2D + percentPoB3D + percentPoB4D;
+        return pDs;
+    }
+
+    private Integer getPercentsR() {
+        Integer pRs;
+        pRs = percentPo1R + percentPo2R + percentPo3R + percentPo4R + percentPo5R + percentSumR
+                + percentPoB1R + percentPoB2R + percentPoB3R + percentPoB4R;
+        return pRs;
+    }
+
+
+    private void setPercentD(PhoneNumberItemCollectionDao dao) {
+
+
+        for (int i = 0; i < dao.getPhoneNumberItemDaosA().size(); i++) {
+            String type;
+            String t;
             type = dao.getPhoneNumberItemDaosA().get(i).getType();
             t = String.valueOf(type.charAt(0));
 
@@ -525,19 +898,21 @@ public class TelephoneFragment extends Fragment {
 
                 switch (i) {
                     case 4:  // pair : 24
-                        percentPo1D = 30;
-                        continue;
+                        percentPo1D = 17;
+                        break;
                     case 3:
                         percentPo2D = 15;
-                        continue;
+                        break;
                     case 2:
-                        percentPo3D = 15;
-                        continue;
+                        percentPo3D = 10;
+                        break;
                     case 1:
-                        percentPo4D = 15;
-                        continue;
+                        percentPo4D = 7;
+                        break;
                     case 0:
-                        percentPo5D = 10;
+                        percentPo5D = 5;
+                        break;
+
 
                 }
 
@@ -545,8 +920,41 @@ public class TelephoneFragment extends Fragment {
 
         }
 
+        for (int i = 0; i < dao.getPhoneNumberItemDaosB().size(); i++) {
+            String type;
+            String t;
+            type = dao.getPhoneNumberItemDaosB().get(i).getType();
+            t = String.valueOf(type.charAt(0));
+
+            if (t.equals("D")) {
+
+                switch (i) {
+
+                    case 3: //92
+                        percentPoB1D = 10;
+                        break;
+                    case 2:
+                        percentPoB2D = 10;
+                        break;
+                    case 1:
+                        percentPoB3D = 5;
+                        break;
+                    case 0:
+                        percentPoB4D = 3;
+                        break;
+
+                }
+
+            }
+
+        }
+
+        String type;
+        String t;
+        type = dao.getPhoneNumberItemDaoSum().getType();
+        t = String.valueOf(type.charAt(0));
         if (t.equals("D")) {
-            percentD = percentD + 30;
+            percentSumD = 18;
         }
 
 
@@ -554,11 +962,10 @@ public class TelephoneFragment extends Fragment {
 
     private void setPercentR(PhoneNumberItemCollectionDao dao) {
 
-        String type = dao.getPhoneNumberItemDaoSum().getType();
-        String t = String.valueOf(type.charAt(0));
-
 
         for (int i = 0; i < dao.getPhoneNumberItemDaosA().size(); i++) {
+            String type;
+            String t;
             type = dao.getPhoneNumberItemDaosA().get(i).getType();
             t = String.valueOf(type.charAt(0));
 
@@ -566,27 +973,62 @@ public class TelephoneFragment extends Fragment {
 
                 switch (i) {
                     case 4:  // pair : 24
-                        percentPo1R = 30;
-                        continue;
+                        percentPo1R = 17;
+                        break;
                     case 3:
                         percentPo2R = 15;
-                        continue;
+                        break;
                     case 2:
-                        percentPo3R = 15;
-                        continue;
+                        percentPo3R = 10;
+                        break;
                     case 1:
-                        percentPo4R = 15;
-                        continue;
+                        percentPo4R = 7;
+                        break;
                     case 0:
-                        percentPo5R = 10;
+                        percentPo5R = 5;
+                        break;
+
 
                 }
             }
 
         }
 
+
+        for (int i = 0; i < dao.getPhoneNumberItemDaosB().size(); i++) {
+            String type;
+            String t;
+            type = dao.getPhoneNumberItemDaosB().get(i).getType();
+            t = String.valueOf(type.charAt(0));
+
+            if (t.equals("R")) {
+
+                switch (i) {
+
+                    case 3:
+                        percentPoB4R = 10;
+                        break;
+                    case 2:
+                        percentPoB3R = 10;
+                        break;
+                    case 1:
+                        percentPoB2R = 5;
+                        break;
+                    case 0:
+                        percentPoB1R = 3;
+                        break;
+
+                }
+            }
+
+        }
+
+        String type;
+        String t;
+        type = dao.getPhoneNumberItemDaoSum().getType();
+        t = String.valueOf(type.charAt(0));
         if (t.equals("R")) {
-            percentSumR = 30;
+            percentSumR = 18;
 
         }
 
@@ -605,62 +1047,66 @@ public class TelephoneFragment extends Fragment {
                 pair1.setBackgroundResource(color);
                 pair1.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
-            }
-            if (position == 1) {
+
+            } else if (position == 1) {
                 pair2.setBackgroundResource(color);
                 pair2.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
-            }
-            if (position == 2) {
+
+            } else if (position == 2) {
                 pair3.setBackgroundResource(color);
                 pair3.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
-            }
-            if (position == 3) {
+
+            } else if (position == 3) {
                 pair4.setBackgroundResource(color);
                 pair4.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
-            }
-            if (position == 4) {
+
+            } else if (position == 4) {
                 pair5.setBackgroundResource(color);
                 pair5.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
+
             }
 
-        } else if (typeOfCollection.equals("B")) {
+        }
+        if (typeOfCollection.equals("B")) {
             String pairNumberB = dao.getPhoneNumberItemDaosB().get(position).getPhoneNumber();
             Integer pointPairB = dao.getPhoneNumberItemDaosB().get(position).getPoint();
+
 
             if (position == 0) {
                 pairB1.setBackgroundResource(color);
                 pairB1.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
-            }
-            if (position == 1) {
+
+            } else if (position == 1) {
                 pairB2.setBackgroundResource(color);
                 pairB2.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
-            }
-            if (position == 2) {
+
+            } else if (position == 2) {
                 pairB3.setBackgroundResource(color);
                 pairB3.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
-            }
-            if (position == 3) {
+
+            } else if (position == 3) {
                 pairB4.setBackgroundResource(color);
                 pairB4.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
+
             }
 
-        } else if (typeOfCollection.equals("S")) {
+        }
+        if (typeOfCollection.equals("S")) {
 
+            String pairNumberSum = dao.getPhoneNumberItemDaoSum().getPhoneNumber();
             Integer pointNumberSum = dao.getPhoneNumberItemDaoSum().getPoint();
 
-            if (position == 0) {
-                pairSum.setBackgroundResource(color);
-                pairSum.setText(String.valueOf(pointNumberSum));
-                scrollD = scrollD + pointNumberSum;
-            }
+            pairSum.setBackgroundResource(color);
+            pairSum.setText(String.valueOf(pairNumberSum));
+            scrollD = scrollD + pointNumberSum;
 
 
         }
@@ -678,62 +1124,67 @@ public class TelephoneFragment extends Fragment {
                 pair1.setBackgroundResource(color);
                 pair1.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
-            }
-            if (position == 1) {
+
+            } else if (position == 1) {
                 pair2.setBackgroundResource(color);
                 pair2.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
-            }
-            if (position == 2) {
+
+            } else if (position == 2) {
                 pair3.setBackgroundResource(color);
                 pair3.setText(pairNumberA);
-                scrollD = scrollD + pointPairA;
-            }
-            if (position == 3) {
+
+            } else if (position == 3) {
                 pair4.setBackgroundResource(color);
                 pair4.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
-            }
-            if (position == 4) {
+
+            } else if (position == 4) {
                 pair5.setBackgroundResource(color);
                 pair5.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
+
             }
 
-        } else if (typeOfCollection.equals("B")) {
+        }
+        if (typeOfCollection.equals("B")) {
             String pairNumberB = dao.getPhoneNumberItemDaosB().get(position).getPhoneNumber();
             Integer pointPairB = dao.getPhoneNumberItemDaosB().get(position).getPoint();
+
 
             if (position == 0) {
                 pairB1.setBackgroundResource(color);
                 pairB1.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
-            }
-            if (position == 1) {
+
+
+            } else if (position == 1) {
                 pairB2.setBackgroundResource(color);
                 pairB2.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
-            }
-            if (position == 2) {
+
+            } else if (position == 2) {
                 pairB3.setBackgroundResource(color);
                 pairB3.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
-            }
-            if (position == 3) {
+
+            } else if (position == 3) {
                 pairB4.setBackgroundResource(color);
                 pairB4.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
+
             }
 
-        } else if (typeOfCollection.equals("S")) {
+        }
+        if (typeOfCollection.equals("S")) {
 
+            String pairNumberSum = dao.getPhoneNumberItemDaoSum().getPhoneNumber();
             Integer pointNumberSum = dao.getPhoneNumberItemDaoSum().getPoint();
 
-            if (position == 0) {
-                pairSum.setBackgroundResource(color);
-                pairSum.setText(String.valueOf(pointNumberSum));
-                scrollD = scrollD + pointNumberSum;
-            }
+
+            pairSum.setBackgroundResource(color);
+            pairSum.setText(String.valueOf(pairNumberSum));
+            scrollD = scrollD + pointNumberSum;
 
 
         }
@@ -746,33 +1197,36 @@ public class TelephoneFragment extends Fragment {
             String pairNumberA = dao.getPhoneNumberItemDaosA().get(position).getPhoneNumber();
             Integer pointPairA = dao.getPhoneNumberItemDaosA().get(position).getPoint();
 
+
             if (position == 0) {
                 pair1.setBackgroundResource(color);
                 pair1.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
-            }
-            if (position == 1) {
+
+            } else if (position == 1) {
                 pair2.setBackgroundResource(color);
                 pair2.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
-            }
-            if (position == 2) {
+
+            } else if (position == 2) {
                 pair3.setBackgroundResource(color);
                 pair3.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
-            }
-            if (position == 3) {
+
+            } else if (position == 3) {
                 pair4.setBackgroundResource(color);
                 pair4.setText(pairNumberA);
                 scrollD = scrollD + pointPairA;
-            }
-            if (position == 4) {
+
+            } else if (position == 4) {
                 pair5.setBackgroundResource(color);
                 pair5.setText(String.valueOf(pairNumberA));
                 scrollD = scrollD + pointPairA;
+
             }
 
-        } else if (typeOfCollection.equals("B")) {
+        }
+        if (typeOfCollection.equals("B")) {
             String pairNumberB = dao.getPhoneNumberItemDaosB().get(position).getPhoneNumber();
             Integer pointPairB = dao.getPhoneNumberItemDaosB().get(position).getPoint();
 
@@ -780,33 +1234,32 @@ public class TelephoneFragment extends Fragment {
                 pairB1.setBackgroundResource(color);
                 pairB1.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
-            }
-            if (position == 1) {
+
+            } else if (position == 1) {
                 pairB2.setBackgroundResource(color);
                 pairB2.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
-            }
-            if (position == 2) {
+
+            } else if (position == 2) {
                 pairB3.setBackgroundResource(color);
                 pairB3.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
-            }
-            if (position == 3) {
+
+            } else if (position == 3) {
                 pairB4.setBackgroundResource(color);
                 pairB4.setText(pairNumberB);
                 scrollD = scrollD + pointPairB;
+
             }
 
-        } else if (typeOfCollection.equals("S")) {
-
+        }
+        if (typeOfCollection.equals("S")) {
+            String pairNumberSum = dao.getPhoneNumberItemDaoSum().getPhoneNumber();
             Integer pointNumberSum = dao.getPhoneNumberItemDaoSum().getPoint();
 
-            if (position == 0) {
-                pairSum.setBackgroundResource(color);
-                pairSum.setText(String.valueOf(pointNumberSum));
-                scrollD = scrollD + pointNumberSum;
-            }
-
+            pairSum.setBackgroundResource(color);
+            pairSum.setText(String.valueOf(pairNumberSum));
+            scrollD = scrollD + pointNumberSum;
 
         }
     }
@@ -818,33 +1271,32 @@ public class TelephoneFragment extends Fragment {
             String pairNumberA = dao.getPhoneNumberItemDaosA().get(position).getPhoneNumber();
             Integer pointPairA = dao.getPhoneNumberItemDaosA().get(position).getPoint();
 
+            Log.d("pairNumberAR10", pairNumberA);
+
             if (position == 0) {
                 pair1.setBackgroundResource(color);
                 pair1.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
-            }
-            if (position == 1) {
+            } else if (position == 1) {
                 pair2.setBackgroundResource(color);
                 pair2.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
-            }
-            if (position == 2) {
+            } else if (position == 2) {
                 pair3.setBackgroundResource(color);
                 pair3.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
-            }
-            if (position == 3) {
+            } else if (position == 3) {
                 pair4.setBackgroundResource(color);
                 pair4.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
-            }
-            if (position == 4) {
+            } else if (position == 4) {
                 pair5.setBackgroundResource(color);
                 pair5.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
             }
 
-        } else if (typeOfCollection.equals("B")) {
+        }
+        if (typeOfCollection.equals("B")) {
             String pairNumberB = dao.getPhoneNumberItemDaosB().get(position).getPhoneNumber();
             Integer pointPairB = dao.getPhoneNumberItemDaosB().get(position).getPoint();
 
@@ -852,24 +1304,22 @@ public class TelephoneFragment extends Fragment {
                 pairB1.setBackgroundResource(color);
                 pairB1.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
-            }
-            if (position == 1) {
+            } else if (position == 1) {
                 pairB2.setBackgroundResource(color);
                 pairB2.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
-            }
-            if (position == 2) {
+            } else if (position == 2) {
                 pairB3.setBackgroundResource(color);
                 pairB3.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
-            }
-            if (position == 3) {
+            } else if (position == 3) {
                 pairB4.setBackgroundResource(color);
                 pairB4.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
             }
 
-        } else if (typeOfCollection.equals("S")) {
+        }
+        if (typeOfCollection.equals("S")) {
             String pairNumberSum = dao.getPhoneNumberItemDaoSum().getPhoneNumber();
             Integer pointNumberSum = dao.getPhoneNumberItemDaoSum().getPoint();
 
@@ -884,38 +1334,39 @@ public class TelephoneFragment extends Fragment {
 
     private void setMyViewPairR7(int color, PhoneNumberItemCollectionDao dao, int position, String typeOfCollection) {
 
+
         if (typeOfCollection.equals("A")) {
+
 
             String pairNumberA = dao.getPhoneNumberItemDaosA().get(position).getPhoneNumber();
             Integer pointPairA = dao.getPhoneNumberItemDaosA().get(position).getPoint();
+
 
             if (position == 0) {
                 pair1.setBackgroundResource(color);
                 pair1.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
-            }
-            if (position == 1) {
+            } else if (position == 1) {
                 pair2.setBackgroundResource(color);
                 pair2.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
-            }
-            if (position == 2) {
+            } else if (position == 2) {
                 pair3.setBackgroundResource(color);
                 pair3.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
-            }
-            if (position == 3) {
+            } else if (position == 3) {
                 pair4.setBackgroundResource(color);
                 pair4.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
-            }
-            if (position == 4) {
+            } else if (position == 4) {
                 pair5.setBackgroundResource(color);
                 pair5.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
             }
 
-        } else if (typeOfCollection.equals("B")) {
+        }
+
+        if (typeOfCollection.equals("B")) {
             String pairNumberB = dao.getPhoneNumberItemDaosB().get(position).getPhoneNumber();
             Integer pointPairB = dao.getPhoneNumberItemDaosB().get(position).getPoint();
 
@@ -923,24 +1374,22 @@ public class TelephoneFragment extends Fragment {
                 pairB1.setBackgroundResource(color);
                 pairB1.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
-            }
-            if (position == 1) {
+            } else if (position == 1) {
                 pairB2.setBackgroundResource(color);
                 pairB2.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
-            }
-            if (position == 2) {
+            } else if (position == 2) {
                 pairB3.setBackgroundResource(color);
                 pairB3.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
-            }
-            if (position == 3) {
+            } else if (position == 3) {
                 pairB4.setBackgroundResource(color);
                 pairB4.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
             }
 
-        } else if (typeOfCollection.equals("S")) {
+        }
+        if (typeOfCollection.equals("S")) {
             String pairNumberSum = dao.getPhoneNumberItemDaoSum().getPhoneNumber();
             Integer pointNumberSum = dao.getPhoneNumberItemDaoSum().getPoint();
 
@@ -960,33 +1409,32 @@ public class TelephoneFragment extends Fragment {
             String pairNumberA = dao.getPhoneNumberItemDaosA().get(position).getPhoneNumber();
             Integer pointPairA = dao.getPhoneNumberItemDaosA().get(position).getPoint();
 
+
             if (position == 0) {
                 pair1.setBackgroundResource(color);
                 pair1.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
-            }
-            if (position == 1) {
+            } else if (position == 1) {
                 pair2.setBackgroundResource(color);
                 pair2.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
-            }
-            if (position == 2) {
+            } else if (position == 2) {
                 pair3.setBackgroundResource(color);
                 pair3.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
-            }
-            if (position == 3) {
+            } else if (position == 3) {
                 pair4.setBackgroundResource(color);
                 pair4.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
-            }
-            if (position == 4) {
+            } else if (position == 4) {
                 pair5.setBackgroundResource(color);
                 pair5.setText(pairNumberA);
                 scrollR = scrollR + pointPairA;
             }
 
-        } else if (typeOfCollection.equals("B")) {
+        }
+
+        if (typeOfCollection.equals("B")) {
             String pairNumberB = dao.getPhoneNumberItemDaosB().get(position).getPhoneNumber();
             Integer pointPairB = dao.getPhoneNumberItemDaosB().get(position).getPoint();
 
@@ -994,24 +1442,22 @@ public class TelephoneFragment extends Fragment {
                 pairB1.setBackgroundResource(color);
                 pairB1.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
-            }
-            if (position == 1) {
+            } else if (position == 1) {
                 pairB2.setBackgroundResource(color);
                 pairB2.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
-            }
-            if (position == 2) {
+            } else if (position == 2) {
                 pairB3.setBackgroundResource(color);
                 pairB3.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
-            }
-            if (position == 3) {
+            } else if (position == 3) {
                 pairB4.setBackgroundResource(color);
                 pairB4.setText(pairNumberB);
                 scrollR = scrollR + pointPairB;
             }
 
-        } else if (typeOfCollection.equals("S")) {
+        }
+        if (typeOfCollection.equals("S")) {
             String pairNumberSum = dao.getPhoneNumberItemDaoSum().getPhoneNumber();
             Integer pointNumberSum = dao.getPhoneNumberItemDaoSum().getPoint();
 
@@ -1024,6 +1470,31 @@ public class TelephoneFragment extends Fragment {
         }
     }
 
+
+    private void checkState(Bundle savedInstanceState) {
+
+        if (savedInstanceState != null && savedInstanceState.getParcelable("phoneNumberItemCollectionDao") != null) {
+
+            phoneNumberItemCollectionDao = savedInstanceState.getParcelable("phoneNumberItemCollectionDao");
+
+            dataAccessDaoA(phoneNumberItemCollectionDao);
+            dataAccessDaoB(phoneNumberItemCollectionDao);
+            dataAccessDaoSum(phoneNumberItemCollectionDao);
+
+        }
+
+        if (savedInstanceState != null && savedInstanceState.get("phoneNumber") != null) {
+            this.phoneNumber = savedInstanceState.getString("phoneNumber");
+            //setOk(phoneNumber);
+
+        }
+
+        if (savedInstanceState != null) {
+
+            stateBorn = false;
+
+        }
+    }
 
     //set Dao
     private void setSplitPhoneNumber(String my_number) {
@@ -1115,12 +1586,16 @@ public class TelephoneFragment extends Fragment {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            if (phone_number.getText().length() <= 10) {
-                Log.d("my_number", phone_number.getText().toString());
-                Log.d("countx", String.valueOf(phone_number.getText().length()));
-
+            if (phone_number.getText().length() == 10 && stateBorn) {
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                setOk(phone_number.getText().toString());
 
             }
+
+            if (!stateBorn) {
+                stateBorn = true;
+            }
+
 
         }
 
@@ -1152,52 +1627,61 @@ public class TelephoneFragment extends Fragment {
             String txtSumpair = String.valueOf(pairSum.getText());
             FragmentTelePhoneListener telephoneFragment = (FragmentTelePhoneListener) getActivity();
             telephoneFragment.onPairPhoneClick(txtSumpair);
+
         }
     };
-
-
-
-
 
 
     @Override
     public void onStart() {
         super.onStart();
-        if (phoneNumber != null && phoneNumber.length() == 10) {
-            setOkBack(phoneNumber);
+        Log.d("LifeCycle", "onStart");
+        if (!stateStop && phoneNumberItemCollectionDao != null) {
+            dataAccessDaoA(phoneNumberItemCollectionDao);
+            dataAccessDaoB(phoneNumberItemCollectionDao);
+            dataAccessDaoSum(phoneNumberItemCollectionDao);
 
         }
 
-
     }
+
     @Override
     public void onStop() {
         super.onStop();
         Log.d("LifeCycle", "onStop");
+
+        stateStop = false;
+
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("LifeCycle", "onCreate");
 
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         Log.d("LifeCycle", "onDestroy");
     }
+
     @Override
     public void onPause() {
         super.onPause();
         Log.d("LifeCycle", "onPause");
     }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        Log.d("LifeCycle", "onSaveInstanceState");
+
         outState.putParcelable("phoneNumberItemCollectionDao", phoneNumberItemCollectionDao);
         outState.putString("phoneNumber", phoneNumber);
-
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

@@ -17,129 +17,115 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_phone_number"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp">
-
-
+                android:padding="5dp"
+                android:text="กรุณากรอกหมายเลขโทรศัพท์"
+                android:background="#cac9c7"
+                android:textSize="16sp" />
+            <LinearLayout
+                android:id="@+id/rlPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="start">
                 <EditText
                     android:id="@+id/phone_number"
+                    android:layout_weight="1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="39dp"
+                    android:background="@color/black"
                     android:enabled="true"
-                    android:hint="EX. 0955456424"
                     android:inputType="numberSigned"
-
                     android:maxLength="10"
-                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:hint="090000000"
                     android:textAlignment="center"
-                    android:textSize="24sp"
+                    android:textColor="@color/oracece"
+                    android:textSize="20sp" />
+                <Button
+                    android:id="@+id/btn_ok"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toRightOf="@+id/phone_number"
+                    android:text="คลิ๊กดูผลการทำนาย"
+                    android:background="#d4d4d3"
+                    android:textSize="19dp"
                     android:textStyle="bold" />
-
-
-            </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+                <!--
+                สรุปผลดี่ร้าย อิทธีพลของตัวเลข
+                -->
+                <include layout="@layout/layout_summary_report" />
+            </LinearLayout>
 
 
-                <RelativeLayout
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view_sum_pair"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_weight="1"
+                card_view:cardCornerRadius="4dp"
+                card_view:cardBackgroundColor="#fbfcfb">
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                    <Button
-                        android:id="@+id/btn_reset"
-                        android:layout_width="wrap_content"
-                        android:layout_height="80dp"
-                        android:text="เริ่มใหม่"
-                        android:theme="@style/MyButton"
-                        />
-
-                    <Button
-                        android:id="@+id/btn_ok"
-                        android:layout_width="wrap_content"
-                        android:layout_height="80dp"
-                        android:layout_toRightOf="@+id/btn_reset"
-                        android:text="คำนวณ"
-                        android:theme="@style/MyButton"
-                        />
-
+                    <RelativeLayout
+                        android:background="#361818"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp">
                     <TextView
+                        android:id="@+id/titlePairSum"
+                        android:layout_gravity="center_vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/btn_reset"
                         android:layout_marginStart="6dp"
-                        android:text="กดที่ตัวเลขเพื่อดูผลทำนาย"
+                        android:textColor="#eef2ed"
+                        android:text="คู่ผลรวม"
+                        android:textStyle="bold"
+                        android:textSize="16sp" />
 
-                        />
-                </RelativeLayout>
+                    </RelativeLayout>
 
-                <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/card_view_sum_pair"
-                    android:layout_width="match_parent"
-                    android:layout_height="125dp"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="3dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_weight="1"
-                    card_view:cardCornerRadius="4dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/ppnPairSum"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/pilot_selector_green"
+                        android:freezesText="true"
+                        android:gravity="center"
+                        android:text="s"
+                        android:layout_marginBottom="9dp"
+                        android:textColor="#000000"
+                        android:textSize="24sp" />
 
-                        <TextView
-                            android:id="@+id/titlePairSum"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginTop="6dp"
-                            android:text="คู่ผลรวม"
-                            android:textSize="18dp" />
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginEnd="6dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginTop="9dp"
-                            android:background="@android:color/darker_gray" />
 
-                        <TextView
-                            android:id="@+id/ppnPairSum"
-                            android:background="@drawable/pilot_selector_green"
-                            android:layout_gravity="center_horizontal"
-                            android:gravity="center"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:textSize="24sp"
-                            android:text="s"
-                            android:freezesText="true"
-                            android:layout_marginTop="6dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="end" />
-
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-            </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
 
             <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/card_view"
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="3dp"
                 android:layout_marginStart="3dp"
@@ -158,7 +144,10 @@
                         android:layout_marginStart="6dp"
                         android:layout_marginTop="6dp"
                         android:text="จับคู่หลัก [A]"
-                        android:textSize="18dp" />
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        android:textColor="#082101"
+                        />
 
                     <View
                         android:layout_width="match_parent"
@@ -173,73 +162,84 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="6dp"
-                        android:gravity="center_horizontal"
-                        >
+                        android:gravity="center_horizontal">
 
-
-                        <TextView
-                            android:id="@+id/ppnPair01"
-                            android:background="@drawable/bg_green"
-                            android:freezesText="true"
-                            android:text="a1"
-                            android:layout_marginStart="9dp"
-                            android:layout_gravity="center_horizontal"
-                            android:gravity="center"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:textSize="24sp"/>
 
                         <TextView
                             android:id="@+id/ppnPair02"
-                            android:background="@drawable/bg_green"
-                            android:layout_toEndOf="@+id/ppnPair01"
-                            android:text="a2"
-                            android:freezesText="true"
-                            android:layout_marginStart="6dp"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
                             android:layout_gravity="center_horizontal"
+                            android:layout_marginStart="6dp"
+                            android:layout_toEndOf="@+id/ppnPair01"
+                            android:background="@drawable/bg_green"
+                            android:freezesText="true"
                             android:gravity="center"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:textSize="24sp"/>
+                            android:text="a2"
+                            android:textSize="16sp"
+                            android:textColor="#000000"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/ppnPair03"
-                            android:background="@drawable/bg_green"
-                            android:layout_toEndOf="@+id/ppnPair02"
-                            android:text="a3"
-                            android:freezesText="true"
-                            android:layout_marginStart="6dp"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
                             android:layout_gravity="center_horizontal"
+                            android:layout_marginStart="6dp"
+                            android:layout_toEndOf="@+id/ppnPair02"
+                            android:background="@drawable/bg_green"
+                            android:freezesText="true"
                             android:gravity="center"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:textSize="24sp"/>
+                            android:text="a3"
+                            android:textColor="#000000"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/ppnPair04"
-                            android:background="@drawable/bg_green"
-                            android:layout_toEndOf="@+id/ppnPair03"
-                            android:text="a4"
-                            android:freezesText="true"
-                            android:layout_marginStart="6dp"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
                             android:layout_gravity="center_horizontal"
+                            android:layout_marginStart="6dp"
+                            android:layout_toEndOf="@+id/ppnPair03"
+                            android:background="@drawable/bg_green"
+                            android:freezesText="true"
                             android:gravity="center"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:textSize="24sp"/>
+                            android:text="a4"
+                            android:textSize="16sp"
+                            android:textColor="#000000"
+                            android:textStyle="bold"/>
 
                         <TextView
                             android:id="@+id/ppnPair05"
-                            android:background="@drawable/bg_green"
-                            android:layout_toEndOf="@+id/ppnPair04"
-                            android:text="a5"
-                            android:freezesText="true"
-                            android:layout_marginStart="6dp"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
                             android:layout_gravity="center_horizontal"
+                            android:layout_marginStart="6dp"
+                            android:layout_toEndOf="@+id/ppnPair04"
+                            android:background="@drawable/bg_green"
+                            android:freezesText="true"
                             android:gravity="center"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:textSize="24sp"/>/>
+                            android:text="a5"
+                            android:textColor="#000000"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/ppnPair01"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginStart="25dp"
+                            android:background="@drawable/bg_green"
+                            android:freezesText="true"
+                            android:gravity="center"
+                            android:text="a1"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="#000000"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentStart="true" />
 
 
                     </RelativeLayout>
@@ -256,7 +256,7 @@
             <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/card_view_b"
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="3dp"
                 android:layout_marginStart="3dp"
@@ -275,7 +275,11 @@
                         android:layout_marginStart="6dp"
                         android:layout_marginTop="6dp"
                         android:text="จับคู่รอง [B]"
-                        android:textSize="18dp" />
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        android:textColor="#0e3904"
+
+                        />
 
                     <View
                         android:layout_width="match_parent"
@@ -290,61 +294,67 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="6dp"
-                        android:gravity="center_horizontal"
-                        >
+                        android:gravity="center_horizontal">
 
 
                         <TextView
                             android:id="@+id/ppnPair01B"
-                            android:background="@drawable/bg_green"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
                             android:layout_gravity="center_horizontal"
-                            android:gravity="center"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:textSize="24sp"
-                            android:text="b1"
+                            android:background="@drawable/bg_green"
                             android:freezesText="true"
-                     />
+                            android:gravity="center"
+                            android:text="b1"
+                            android:textColor="#000000"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            />
 
                         <TextView
                             android:id="@+id/ppnPair02B"
-                            android:background="@drawable/bg_green"
-                            android:layout_toEndOf="@+id/ppnPair01B"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
                             android:layout_gravity="center_horizontal"
-                            android:gravity="center"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:textSize="24sp"
-                            android:text="b2"
-                            android:freezesText="true"
                             android:layout_marginStart="9dp"
-                     />
+                            android:layout_toEndOf="@+id/ppnPair01B"
+                            android:background="@drawable/bg_green"
+                            android:freezesText="true"
+                            android:gravity="center"
+                            android:text="b2"
+                            android:textColor="#000000"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/ppnPair03B"
-                            android:background="@drawable/bg_green"
-                            android:layout_toEndOf="@+id/ppnPair02B"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
                             android:layout_gravity="center_horizontal"
-                            android:gravity="center"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:textSize="24sp"
-                            android:text="b3"
+                            android:layout_marginStart="9dp"
+                            android:layout_toEndOf="@+id/ppnPair02B"
+                            android:background="@drawable/bg_green"
                             android:freezesText="true"
-                            android:layout_marginStart="9dp" />
+                            android:gravity="center"
+                            android:text="b3"
+                            android:textSize="16sp"
+                            android:textColor="#000000"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/ppnPair04B"
-                            android:background="@drawable/bg_green"
-                            android:layout_toEndOf="@+id/ppnPair03B"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
                             android:layout_gravity="center_horizontal"
-                            android:gravity="center"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:textSize="24sp"
-                            android:text="b4"
+                            android:layout_marginStart="9dp"
+                            android:layout_toEndOf="@+id/ppnPair03B"
+                            android:background="@drawable/bg_green"
                             android:freezesText="true"
-                            android:layout_marginStart="9dp" />
+                            android:gravity="center"
+                            android:text="b4"
+                            android:textSize="16sp"
+                            android:textColor="#000000"
+                            android:textStyle="bold" />
 
 
                     </RelativeLayout>
@@ -359,27 +369,25 @@
             </android.support.v7.widget.CardView>
 
             <LinearLayout
-                android:layout_marginTop="9dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
                 android:orientation="horizontal">
 
-                <android.support.v7.widget.CardView
-                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    card_view:cardCornerRadius="4dp"
+                <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/conD"
-                    card_view:cardBackgroundColor="#dffcc7"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:layout_marginEnd="3dp"
                     android:layout_marginStart="3dp"
-                    android:layout_weight="1">
-
+                    android:layout_weight="1"
+                    card_view:cardBackgroundColor="#dffcc7"
+                    card_view:cardCornerRadius="4dp">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        >
+                        android:orientation="vertical">
+
                         <TextView
                             android:id="@+id/titleConD"
                             android:layout_width="wrap_content"
@@ -399,276 +407,73 @@
 
                         <TextView
                             android:id="@+id/tvConD"
-                            android:layout_marginStart="6dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="36sp"
-                            android:textStyle="bold"
-                            android:textColor="#35ba05"
-                            android:freezesText="true"
                             android:layout_gravity="center_horizontal"
+                            android:layout_marginStart="6dp"
+                            android:freezesText="true"
                             android:text="x"
-                            />
+                            android:textColor="#35ba05"
+                            android:textSize="36sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 
-                <android.support.v7.widget.CardView
-                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    card_view:cardCornerRadius="4dp"
+                <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/conR"
-                    card_view:cardBackgroundColor="#f7d6d6"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:layout_marginEnd="3dp"
                     android:layout_marginStart="3dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    card_view:cardBackgroundColor="#f7d6d6"
+                    card_view:cardCornerRadius="4dp">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        >
-                    <TextView
-                        android:id="@+id/titleConR"
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginTop="6dp"
-                        android:text="xร้าย"
-
-                        android:textSize="18dp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginEnd="6dp"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginTop="9dp"
-                        android:background="@android:color/darker_gray" />
-
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/titleConR"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginTop="6dp"
+                            android:text="xร้าย"
+                            android:textSize="18dp" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginEnd="6dp"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginTop="9dp"
+                            android:background="@android:color/darker_gray" />
                         <TextView
                             android:id="@+id/tvConR"
-                            android:freezesText="true"
-                            android:layout_marginStart="6dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginStart="6dp"
+                            android:freezesText="true"
+                            android:text="x"
+                            android:textColor="#f53868"
                             android:textSize="36sp"
                             android:textStyle="bold"
-                            android:textColor="#f53868"
-                            android:layout_gravity="center_horizontal"
-                            android:text="x"
-
                             />
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="9dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <android.support.v7.widget.CardView
-                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    card_view:cardCornerRadius="4dp"
-                    android:id="@+id/percentD"
-                    card_view:cardBackgroundColor="#dffcc7"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_marginStart="3dp"
-                    android:layout_weight="1">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        >
-                        <TextView
-                            android:id="@+id/titlePercentD"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginTop="6dp"
-                            android:text="% ดี"
-                            android:textSize="18dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginEnd="6dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginTop="9dp"
-                            android:background="@android:color/darker_gray" />
-
-                        <TextView
-                            android:id="@+id/tvPercentD"
-                            android:layout_marginStart="6dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="36sp"
-                            android:textStyle="bold"
-                            android:textColor="#35ba05"
-                            android:freezesText="true"
-                            android:layout_gravity="center_horizontal"
-                            android:text="x" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    card_view:cardCornerRadius="4dp"
-                    android:id="@+id/percentR"
-                    card_view:cardBackgroundColor="#f7d6d6"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_marginStart="3dp"
-                    android:layout_weight="1">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        >
-                        <TextView
-                            android:id="@+id/titlePercentR"
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginTop="6dp"
-                            android:text="% ร้าย"
-                            android:textSize="18dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginEnd="6dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginTop="9dp"
-                            android:background="@android:color/darker_gray" />
-
-                        <TextView
-                            android:id="@+id/tvPercentR"
-                            android:layout_marginStart="6dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="36sp"
-                            android:textStyle="bold"
-                            android:textColor="#f53868"
-                            android:freezesText="true"
-                            android:layout_gravity="center_horizontal"
-                            android:text="x"/>
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-            </LinearLayout>
-
-            <LinearLayout
                 android:layout_marginTop="9dp"
-                android:layout_marginBottom="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
-                <android.support.v7.widget.CardView
-                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    card_view:cardCornerRadius="4dp"
-                    android:id="@+id/totalScrollD"
-                    card_view:cardBackgroundColor="#dffcc7"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_marginStart="3dp"
-                    android:layout_weight="1">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        >
-                        <TextView
-                            android:id="@+id/titleTotalScrollD"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginTop="6dp"
-                            android:text="คะแนนดี"
-                            android:textSize="18sp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginEnd="6dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginTop="9dp"
-                            android:background="@android:color/darker_gray" />
-
-                        <TextView
-                            android:id="@+id/tvScrollD"
-                            android:layout_marginStart="6dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="36sp"
-                            android:textStyle="bold"
-                            android:textColor="#35ba05"
-                            android:freezesText="true"
-                            android:layout_gravity="center_horizontal"
-                            android:text="x"
-                            />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    card_view:cardCornerRadius="4dp"
-                    android:id="@+id/totalScrollR"
-                    card_view:cardBackgroundColor="#f7d6d6"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_marginStart="3dp"
-                    android:layout_weight="1">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        >
-                        <TextView
-                            android:id="@+id/titleTotalScrollR"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginTop="6dp"
-                            android:text="คะแนนร้าย"
-                            android:textSize="18sp"
-
-                            />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginEnd="6dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginTop="9dp"
-                            android:background="@android:color/darker_gray" />
-
-                        <TextView
-                            android:id="@+id/tvScrollR"
-                            android:layout_marginStart="6dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="36sp"
-                            android:textStyle="bold"
-                            android:text="x"
-                            android:freezesText="true"
-                            android:textColor="#f53868"
-                            android:layout_gravity="center_horizontal"
-                            />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
+                <Button
+                    android:id="@+id/btn_reset"
+                    android:visibility="invisible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
-
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

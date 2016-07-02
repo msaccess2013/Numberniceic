@@ -1,19 +1,18 @@
-package com.numberniceic.ananya.numberniceic.views;
+package com.numberniceic.ananya.numberniceic.views.telephone;
 
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.numberniceic.ananya.numberniceic.R;
 
-public class PairPhoneNumber extends FrameLayout {
 
+public class PairPhoneNumber extends FrameLayout{
     RelativeLayout rlPairNumber;
     TextView txtPairNumber;
 
@@ -52,7 +51,7 @@ public class PairPhoneNumber extends FrameLayout {
     }
 
     private void initInfate() {
-            inflate(getContext(), R.layout.layout_pair_phone_number,this);
+        inflate(getContext(), R.layout.layout_pair_phone_number,this);
     }
 
     public void setBgColor(String color){
@@ -61,5 +60,4 @@ public class PairPhoneNumber extends FrameLayout {
     public void setTxtPairNumber(String txt){
         txtPairNumber.setText(txt);
     }
-
 }

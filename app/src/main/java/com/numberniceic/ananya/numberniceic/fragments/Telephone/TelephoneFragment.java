@@ -2,7 +2,6 @@ package com.numberniceic.ananya.numberniceic.fragments.Telephone;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,20 +14,21 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.numberniceic.ananya.numberniceic.R;
+import com.numberniceic.ananya.numberniceic.adapters.PhonePairDangAdapter;
 import com.numberniceic.ananya.numberniceic.dao.phone.PhoneNumberItemCollectionDao;
 import com.numberniceic.ananya.numberniceic.dao.phone.PhoneNumberItemDao;
 import com.numberniceic.ananya.numberniceic.dao.phone.ScrollPairNumberDao;
 import com.numberniceic.ananya.numberniceic.managers.telephone.NumberPilotManager;
 import com.numberniceic.ananya.numberniceic.pojo.PairNumberDang;
-import com.numberniceic.ananya.numberniceic.pojo.PairNumberDangCount;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +39,9 @@ public class TelephoneFragment extends Fragment {
     /****************
      * Member variable
      *****************/
+
+    GridView aGridView;
+    PhonePairDangAdapter mPhonePairDangAdapter;
 
     Button btnOk;
     Button btnReset;
@@ -51,7 +54,6 @@ public class TelephoneFragment extends Fragment {
 
     TextView txtTotalScrollD, txtTotalScrollR;
 
-    TextView tvConD, tvConR;
     TextView tvPercentD, tvPercentR;
 
     PhoneNumberItemCollectionDao phoneNumberItemCollectionDao;
@@ -98,6 +100,11 @@ public class TelephoneFragment extends Fragment {
 
         checkState(savedInstanceState);
 
+        if (phoneNumberItemCollectionDao != null){
+            setScrollDang(phoneNumberItemCollectionDao);
+        }
+
+
 
         return rootView;
     }
@@ -128,6 +135,8 @@ public class TelephoneFragment extends Fragment {
         btnOk.setOnClickListener(onBtnOkClickListener);*/
 
 
+
+
     }
 
     private void initWidget(View rootView) {
@@ -146,11 +155,14 @@ public class TelephoneFragment extends Fragment {
         txtTotalScrollD = (TextView) rootView.findViewById(R.id.tvScrollD);
         txtTotalScrollR = (TextView) rootView.findViewById(R.id.tvScrollR);
 
-        tvConD = (TextView) rootView.findViewById(R.id.tvConD);
-        tvConR = (TextView) rootView.findViewById(R.id.tvConR);
+
 
         tvPercentD = (TextView) rootView.findViewById(R.id.tvPercentD);
         tvPercentR = (TextView) rootView.findViewById(R.id.tvPercentR);
+
+        aGridView = (GridView) rootView.findViewById(R.id.gvPairDangD);
+        mPhonePairDangAdapter = new PhonePairDangAdapter();
+        aGridView.setAdapter(mPhonePairDangAdapter);
     }
 
 
@@ -198,7 +210,17 @@ public class TelephoneFragment extends Fragment {
             setScrollDuplicatePair(phoneNumberItemCollectionDao);
             setScrollCountPair(phoneNumberItemCollectionDao);
 
-            setScrollDangPair(phoneNumberItemCollectionDao);
+
+
+
+
+            if (phoneNumberItemCollectionDao != null){
+                setScrollDang(phoneNumberItemCollectionDao);
+            }
+
+
+
+
 
 
             DecimalFormat decimalFormat = new DecimalFormat("#,###");
@@ -242,9 +264,6 @@ public class TelephoneFragment extends Fragment {
         txtTotalScrollR.setText("");
 
         pairSum.setText("");
-
-        tvConD.setText("");
-        tvConR.setText("");
 
         tvPercentD.setText("");
         tvPercentR.setText("");
@@ -837,7 +856,7 @@ public class TelephoneFragment extends Fragment {
     }
 
 
-    private void setScrollDangPair(PhoneNumberItemCollectionDao dao) {
+    private List<PairNumberDang> getScrollDangPairAB(PhoneNumberItemCollectionDao dao) {
 
         List<PairNumberDang> numberDangs = new ArrayList<>();
 
@@ -848,25 +867,96 @@ public class TelephoneFragment extends Fragment {
             char firstC = mNumber.charAt(0);
             char secondC = mNumber.charAt(1);
             String pairDang = String.valueOf(secondC) + String.valueOf(firstC);
+            String pairDangLike = String.valueOf(firstC) + String.valueOf(secondC);
 
             for (int j = 0; j < dao.getPhoneNumberItemDaosB().size(); j++) {
                 String dNumber = dao.getPhoneNumberItemDaosB().get(j).getPhoneNumber();
-                if (pairDang.equals(dNumber)) {
+                if (pairDang.equals(dNumber) && !pairDang.equals(pairDangLike)) {
 
                     numberDangs.add(new PairNumberDang(mNumber, dNumber));
-                    Log.d("pairOfdang", mNumber + " : " + dNumber);
+                    Log.d("pairOfdangAB", mNumber + " : " + dNumber);
 
 
                 }
             }
         }
+        return numberDangs;
+    }
+    private List<PairNumberDang> getScrollDangPairAA(PhoneNumberItemCollectionDao dao) {
+
+        List<PairNumberDang> numberDangsAA = new ArrayList<>();
 
 
+        for (int i = 0; i < dao.getPhoneNumberItemDaosA().size(); i++) {
+
+            String mNumber = dao.getPhoneNumberItemDaosA().get(i).getPhoneNumber();
+            char firstC = mNumber.charAt(0);
+            char secondC = mNumber.charAt(1);
+            String pairDang = String.valueOf(secondC) + String.valueOf(firstC);
+            String pairDangLike = String.valueOf(firstC) + String.valueOf(secondC);
 
 
+            for (int j = 0; j < dao.getPhoneNumberItemDaosA().size(); j++) {
+                String dNumber = dao.getPhoneNumberItemDaosA().get(j).getPhoneNumber();
+                if (pairDang.equals(dNumber) && !pairDang.equals(pairDangLike)) {
+
+                    numberDangsAA.add(new PairNumberDang(mNumber, dNumber));
+                    Log.d("pairOfdangAA", mNumber + " : " + dNumber);
 
 
+                }
+            }
+        }
+        return numberDangsAA;
 
+    }
+    private List<PairNumberDang> getScrollDangPairBB(PhoneNumberItemCollectionDao dao) {
+
+        List<PairNumberDang> numberDangsBB = new ArrayList<>();
+
+
+        for (int i = 0; i < dao.getPhoneNumberItemDaosB().size(); i++) {
+
+            String mNumber = dao.getPhoneNumberItemDaosB().get(i).getPhoneNumber();
+            char firstC = mNumber.charAt(0);
+            char secondC = mNumber.charAt(1);
+            String pairDang = String.valueOf(secondC) + String.valueOf(firstC);
+            String pairDangLike = String.valueOf(firstC) + String.valueOf(secondC);
+
+
+            for (int j = 0; j < dao.getPhoneNumberItemDaosB().size(); j++) {
+                String dNumber = dao.getPhoneNumberItemDaosB().get(j).getPhoneNumber();
+                if (pairDang.equals(dNumber) && !pairDang.equals(pairDangLike)) {
+
+                    numberDangsBB.add(new PairNumberDang(mNumber, dNumber));
+                    Log.d("pairOfdangBB", mNumber + " : " + dNumber);
+
+
+                }
+            }
+        }
+        return numberDangsBB;
+    }
+
+    private void setScrollDang(PhoneNumberItemCollectionDao dao){
+        // find pair dang for scroll
+        //todo : pairDang
+
+        List<PairNumberDang> allPairNumberDangs = new ArrayList<>();
+
+        allPairNumberDangs.addAll(getScrollDangPairAB(dao));
+        allPairNumberDangs.addAll(getScrollDangPairAA(dao));
+        allPairNumberDangs.addAll(getScrollDangPairBB(dao));
+
+
+        for (int i = 0; i < allPairNumberDangs.size(); i++) {
+            String a = allPairNumberDangs.get(i).pairNumberA;
+            String b = allPairNumberDangs.get(i).pairNumberB;
+
+            Log.d("abDang", a + " : " + b);
+        }
+
+        mPhonePairDangAdapter.setPairDang(allPairNumberDangs);
     }
 
 

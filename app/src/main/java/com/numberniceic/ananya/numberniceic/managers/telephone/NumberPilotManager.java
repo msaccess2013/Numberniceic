@@ -1,16 +1,11 @@
 package com.numberniceic.ananya.numberniceic.managers.telephone;
 
-import android.util.Log;
-
 import com.numberniceic.ananya.numberniceic.managers.dao.NumberPilotCollectionDao;
 import com.numberniceic.ananya.numberniceic.managers.dao.NumberPilotDao;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by o_ye on 6/19/2016.
- */
 
 public class NumberPilotManager {
 
@@ -21,14 +16,6 @@ public class NumberPilotManager {
         addNumberPilotDao();
     }
 
-    public void getNumber(){
-
-
-        for (int i = 0; i < numberPilotCollectionDao.getNumberPilot().size(); i++) {
-            numberPilotCollectionDao.getNumberPilot().get(i).getNumber();
-        }
-
-    }
 
     public String getType(String pair){
 

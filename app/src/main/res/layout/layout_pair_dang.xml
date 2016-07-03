@@ -4,7 +4,16 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/pairTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="มีคู่เด้ง "
+        android:freezesText="true"
+
+        />
+    <TextView
         android:id="@+id/pairDangA"
+        android:layout_toEndOf="@+id/pairTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="24"
@@ -13,7 +22,7 @@
         />
     <TextView
         android:id="@+id/txtColon"
-        android:layout_toRightOf="@id/pairDangA"
+        android:layout_toEndOf="@id/pairDangA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" : "
@@ -21,11 +30,29 @@
         />
     <TextView
         android:id="@+id/pairDangB"
-        android:layout_toRightOf="@id/txtColon"
+        android:layout_toEndOf="@id/txtColon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:freezesText="true"
         android:text="42"
+
+        />
+    <TextView
+        android:id="@+id/pairDangEq"
+        android:layout_toEndOf="@id/pairDangB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:freezesText="true"
+        android:text=" = "
+
+        />
+    <TextView
+        android:id="@+id/pairDangPoint"
+        android:layout_toEndOf="@id/pairDangEq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:freezesText="true"
+        android:text="point"
 
         />
 

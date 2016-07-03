@@ -307,6 +307,26 @@
             </LinearLayout>
 
 
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:layout_marginBottom="9dp"
+
+                >
+
+                <TextView
+                    android:id="@+id/tvNumphoneCr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="T"
+                    android:freezesText="true"
+                    android:layout_centerHorizontal="true"
+                    />
+            </RelativeLayout>
+
+
             <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/card_view_sum_pair"
                 android:layout_width="match_parent"
@@ -603,35 +623,21 @@
                 <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/conD"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="300dp"
                     android:layout_marginEnd="3dp"
                     android:layout_marginStart="3dp"
-                    android:layout_weight="1"
+
                     card_view:cardBackgroundColor="#dffcc7"
                     card_view:cardCornerRadius="4dp">
-                    <GridView
+                    <ListView
                         android:id="@+id/gvPairDangD"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:columnWidth="45dp"
-                        android:numColumns="auto_fit"
-                        android:verticalSpacing="0dp"
-                        android:horizontalSpacing="0dp"
-                        android:stretchMode="columnWidth"
-                        android:gravity="center"
+                        android:layout_height="wrap_content"
 
                         />
                 </android.support.v7.widget.CardView>
 
-                <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/conR"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_marginStart="3dp"
-                    android:layout_weight="1"
-                    card_view:cardBackgroundColor="#f7d6d6"
-                    card_view:cardCornerRadius="4dp"></android.support.v7.widget.CardView>
+
             </LinearLayout>
 
 
@@ -641,11 +647,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="9dp"
                 android:orientation="horizontal">
-                <Button
-                    android:id="@+id/btn_reset"
-                    android:visibility="invisible"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:text="BANNER"
+
+                    />
+
             </LinearLayout>
 
 

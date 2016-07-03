@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="3dp"
+    android:orientation="vertical">
+
+
+    <android.support.v7.widget.CardView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#e8e9e7">
+
+        <LinearLayout
+            android:layout_margin="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/llTitle"
+                android:orientation="horizontal"
+                android:background="#f9dc94"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvTitleR"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="หมายเลข : "
+                    android:textStyle="italic"
+                    android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/tvPairR"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="66"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+
+                    />
+                <ImageView
+                    android:layout_gravity="center"
+                    android:layout_marginStart="6dp"
+
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/des_r"
+
+                    />
+                <TextView
+                    android:id="@+id/tvTitlePercentR"
+                    android:layout_marginStart="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="[เลขนี้มีความมีอิทธิพล "
+                    android:textSize="14sp"
+
+                    />
+                <TextView
+                    android:id="@+id/tvPercentR"
+                    android:layout_marginStart="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="40%"
+                    android:textSize="14sp"
+
+                    />
+                <TextView
+
+                    android:layout_marginStart="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="]"
+                    android:textSize="14sp"
+
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="xxxxxxx"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>

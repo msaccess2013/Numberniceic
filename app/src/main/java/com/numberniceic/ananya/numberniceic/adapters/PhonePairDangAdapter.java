@@ -51,9 +51,11 @@ public class PhonePairDangAdapter extends BaseAdapter{
         PairDang pairDangItem = new PairDang(viewGroup.getContext());
 
         PairNumberDang dang = (PairNumberDang) getItem(i);
+        pairDangItem.setDangTitle(dang.dangTitle);
+        pairDangItem.setPairA(dang.pairNumberFirst);
+        pairDangItem.setPairB(dang.pairNumberSecond);
+        pairDangItem.setPoint(String.valueOf(dang.point));
 
-        pairDangItem.setPairA(dang.pairNumberA);
-        pairDangItem.setPairB(dang.pairNumberB);
 
 
         return pairDangItem;

@@ -16,6 +16,8 @@ import com.numberniceic.ananya.numberniceic.R;
 public class PairDang extends FrameLayout {
     private TextView tvPairA;
     private TextView tvPairB;
+    private TextView tvPairTitle;
+    private TextView tvPoint;
 
     public PairDang(Context context) {
         super(context);
@@ -49,6 +51,8 @@ public class PairDang extends FrameLayout {
     private void innitInstance() {
         tvPairA = (TextView) findViewById(R.id.pairDangA);
         tvPairB = (TextView) findViewById(R.id.pairDangB);
+        tvPairTitle = (TextView) findViewById(R.id.pairTitle);
+        tvPoint = (TextView) findViewById(R.id.pairDangPoint);
     }
 
     private void innitInflate() {
@@ -63,4 +67,10 @@ public class PairDang extends FrameLayout {
         tvPairB.setText(txt);
     }
 
+    public void setDangTitle(String txt) {
+        tvPairTitle.setText(txt);
+    }
+    public void setPoint(String txt) {
+        tvPoint.setText(txt);
+    }
 }

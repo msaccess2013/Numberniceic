@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.numberniceic.ananya.numberniceic.dao.phone.PhoneNumberItemCollectionDao;
 import com.numberniceic.ananya.numberniceic.fragments.Telephone.MiracleFragment;
 import com.numberniceic.ananya.numberniceic.fragments.Telephone.TelephoneFragment;
 
@@ -33,13 +34,9 @@ public class MainActivity extends AppCompatActivity implements TelephoneFragment
     }
 
 
-
-
     @Override
-    public void onPairPhoneClick(String pairNumber) {
-
+    public void onPairPhoneClick(PhoneNumberItemCollectionDao phoneNumberItemCollectionDao) {
         getSupportFragmentManager().beginTransaction().replace(R.id.main_container,
-                MiracleFragment.newInstance(pairNumber), "MiracleFragment").addToBackStack(null).commit();
-
+                MiracleFragment.newInstance(phoneNumberItemCollectionDao), "MiracleFragment").addToBackStack(null).commit();
     }
 }

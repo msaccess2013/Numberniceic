@@ -6,13 +6,16 @@ package com.numberniceic.ananya.numberniceic.pojo;
 
 public class PairNumberDang {
 
-    public String pairNumberA;
-    public String pairNumberB;
+    public String dangTitle;
+    public String pairNumberFirst;
+    public String pairNumberSecond;
+    public Integer point;
 
 
-    public PairNumberDang(String pairNumberA, String pairNumberB) {
-        this.pairNumberA = pairNumberA;
-        this.pairNumberB = pairNumberB;
-
+    public PairNumberDang(String dangTitle, String pairNumberFirst, String pairNumberSecond, Integer point) {
+        this.dangTitle = dangTitle;
+        this.pairNumberFirst = pairNumberFirst;
+        this.pairNumberSecond = pairNumberSecond;
+        this.point = point;
     }
 }

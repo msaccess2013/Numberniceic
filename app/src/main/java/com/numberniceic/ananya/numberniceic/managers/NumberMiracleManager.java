@@ -1,4 +1,4 @@
-package com.numberniceic.ananya.numberniceic.managers.telephone;
+package com.numberniceic.ananya.numberniceic.managers;
 
 import android.util.Log;
 
@@ -23,6 +23,27 @@ public class NumberMiracleManager {
 
 
 
+    public String getTitle(String pair){
+
+        String title = null;
+        for (int i = 0; i < miracleCollectionDao.getMiracleDaos().size(); i++) {
+            if (miracleCollectionDao.getMiracleDaos().get(i).getNumber().equals(pair)){
+                title = miracleCollectionDao.getMiracleDaos().get(i).getTitle();
+            }
+        }
+        return title;
+    }
+
+    public String getDescription(String pair){
+
+        String description = null;
+        for (int i = 0; i < miracleCollectionDao.getMiracleDaos().size(); i++) {
+            if (miracleCollectionDao.getMiracleDaos().get(i).getNumber().equals(pair)){
+                description = miracleCollectionDao.getMiracleDaos().get(i).getDetail();
+            }
+        }
+        return description;
+    }
 
 
     private void setNumberMiracleDao(List<NumberMiracleDao> numberMiracleDaos){

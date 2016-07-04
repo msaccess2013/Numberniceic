@@ -10,6 +10,7 @@ public class NumberMiracleDao {
     private String title;
     private String detail;
 
+
     public String getNumber() {
         return number;
     }
@@ -26,10 +27,13 @@ public class NumberMiracleDao {
         return detail;
     }
 
+
+
     public NumberMiracleDao(String number, String type, String title, String detail) {
 
         this.number = number;
         this.type = type;
+
         this.title = title;
         this.detail = detail;
     }

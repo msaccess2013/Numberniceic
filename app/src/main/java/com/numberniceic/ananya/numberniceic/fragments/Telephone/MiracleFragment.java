@@ -8,32 +8,38 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.numberniceic.ananya.numberniceic.R;
 import com.numberniceic.ananya.numberniceic.adapters.MiracleAdapter;
-import com.numberniceic.ananya.numberniceic.adapters.PhonePairDangAdapter;
+import com.numberniceic.ananya.numberniceic.dao.phone.PhoneMiracleCollectionDao;
+import com.numberniceic.ananya.numberniceic.dao.phone.PhoneMiracleItemDao;
 import com.numberniceic.ananya.numberniceic.dao.phone.PhoneNumberItemCollectionDao;
-import com.numberniceic.ananya.numberniceic.managers.telephone.SummaryScrollManager;
-import com.numberniceic.ananya.numberniceic.pojo.PairNumberCount;
+import com.numberniceic.ananya.numberniceic.managers.NumberMiracleManager;
+import com.numberniceic.ananya.numberniceic.managers.NumberPilotManager;
+import com.numberniceic.ananya.numberniceic.managers.dao.NumberMiracleCollectionDao;
+import com.numberniceic.ananya.numberniceic.managers.telephone.PairNumberPercentManager;
+import com.numberniceic.ananya.numberniceic.pojo.PairNumberPercent;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class MiracleFragment extends Fragment {
-
-
+    PhoneMiracleCollectionDao phoneMiracleCollectionDao = new PhoneMiracleCollectionDao();
+    PhoneNumberItemCollectionDao dao;
     ListView phoneListView;
     MiracleAdapter miracleAdapter;
 
+    List<PhoneMiracleItemDao> numberMiracleItemDaoList = new ArrayList<>();
 
+    NumberPilotManager manager = new NumberPilotManager();
+    NumberMiracleManager miracleManager = new NumberMiracleManager();
 
 
     public static MiracleFragment newInstance(PhoneNumberItemCollectionDao phoneNumberItemCollectionDao) {
@@ -56,28 +62,114 @@ public class MiracleFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
 
-            PhoneNumberItemCollectionDao dao = getArguments().getParcelable("pairNumber");
 
+            dao = getArguments().getParcelable("pairNumber");
+
+            // loop pair from singleton to list
             List<String> pair = new ArrayList<>();
 
-
             if (dao != null) {
-                Toast.makeText(getContext(), "pairNumber : " + dao.getPhoneNumberItemDaosA().get(0).getPhoneNumber(), Toast.LENGTH_SHORT).show();
 
                 for (int i = 0; i < dao.getPhoneNumberItemDaosA().size(); i++) {
                     String pairNumber = dao.getPhoneNumberItemDaosA().get(i).getPhoneNumber();
+
                     pair.add(pairNumber);
 
-                    Log.d("pairNumber", pairNumber);
                 }
+                for (int i = 0; i < dao.getPhoneNumberItemDaosB().size(); i++) {
+                    String pairNumber = dao.getPhoneNumberItemDaosB().get(i).getPhoneNumber();
+
+                    pair.add(pairNumber);
+
+                }
+                pair.add(dao.getPhoneNumberItemDaoSum().getPhoneNumber());
             }
 
-            HashSet<String> hPair = new HashSet<>();
-            hPair.addAll(pair);
 
-            for (String vPair : hPair) {
-                Log.d("vPair", vPair);
+            //Add pair unique and count to hashMap
+            Map<String, Integer> pairUnig = new HashMap<>();
+
+            for (int i = 0; i < pair.size(); i++) {
+
+                int count = Collections.frequency(pair, pair.get(i));
+
+                pairUnig.put(pair.get(i), count);
+
             }
+
+
+            //List all pair and percent : 100%
+            List<PairNumberPercent> pairNumberPercents;
+            pairNumberPercents = PairNumberPercentManager.getInstance().getPairNumberPercents();
+            for (int i = 0; i < pairNumberPercents.size(); i++) {
+                String goPair = pairNumberPercents.get(i).pairNumber;
+                Integer goPercent = pairNumberPercents.get(i).percent;
+                Log.d("pairPercent100", goPair + " : " + goPercent);
+            }
+
+
+            List<PairNumberPercent> percentList = new ArrayList<>();
+
+
+
+            for (int i = 0; i < pairNumberPercents.size(); i++) {
+                String myPairPercent = pairNumberPercents.get(i).pairNumber;
+                Integer myPercentValue = pairNumberPercents.get(i).percent;
+
+
+                if (pairUnig.containsKey(myPairPercent)) {
+
+                            percentList.add(new PairNumberPercent(myPairPercent, myPercentValue));
+
+                }
+
+            }
+
+            // add to Map this position only!!
+
+
+
+            for (Map.Entry<String, Integer> pp : pairUnig.entrySet()) {
+
+                String pairUnix = pp.getKey();
+
+
+                Integer sumP = 0;
+
+                for (int i = 0; i < percentList.size(); i++) {
+
+                    if (pairUnix.equals(percentList.get(i).pairNumber)){
+
+                        sumP = sumP + percentList.get(i).percent;
+                    }
+
+                }
+
+                //findType findPercent findTitle findDetail
+
+
+                String mType = manager.getType(pairUnix);
+                String mTitle = miracleManager.getTitle(pairUnix);
+                String mDescription = miracleManager.getDescription(pairUnix);
+
+
+                numberMiracleItemDaoList.add(new PhoneMiracleItemDao(pairUnix, mType, String.valueOf(sumP), mTitle, mDescription));
+
+                pairNumberPercents.clear();
+            }
+
+
+            phoneMiracleCollectionDao.setNumberMiracleItemDaos(numberMiracleItemDaoList);
+
+
+/*            for (int i = 0; i < numberMiracleItemDaoList.size(); i++) {
+                String pairNumber = numberMiracleItemDaoList.get(i).getPairNumber();
+                String percent = numberMiracleItemDaoList.get(i).getPairPercent();
+                String title = numberMiracleItemDaoList.get(i).getMiracleTitle();
+                Log.d("ItemDaoList", pairNumber + " : " + percent + " : " + title);
+            }*/
+
+
         }
     }
 
@@ -87,6 +179,8 @@ public class MiracleFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_miracle, container, false);
         initInstance(rootView);
 
+
+
         return rootView;
     }
 
@@ -94,9 +188,16 @@ public class MiracleFragment extends Fragment {
         phoneListView = (ListView) rootView.findViewById(R.id.lvMiraclePhone);
         miracleAdapter = new MiracleAdapter();
 
+        miracleAdapter.setDao(phoneMiracleCollectionDao);
+
         phoneListView.setAdapter(miracleAdapter);
 
 
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+    }
 }

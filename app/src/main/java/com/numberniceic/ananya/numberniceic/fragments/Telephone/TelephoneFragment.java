@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,9 +23,11 @@ import com.numberniceic.ananya.numberniceic.adapters.PhonePairDangAdapter;
 import com.numberniceic.ananya.numberniceic.dao.phone.PhoneNumberItemCollectionDao;
 import com.numberniceic.ananya.numberniceic.dao.phone.PhoneNumberItemDao;
 import com.numberniceic.ananya.numberniceic.dao.phone.ScrollPairNumberDao;
-import com.numberniceic.ananya.numberniceic.managers.telephone.NumberPilotManager;
+import com.numberniceic.ananya.numberniceic.managers.NumberPilotManager;
+import com.numberniceic.ananya.numberniceic.managers.telephone.PairNumberPercentManager;
 import com.numberniceic.ananya.numberniceic.managers.telephone.SummaryScrollManager;
 import com.numberniceic.ananya.numberniceic.pojo.PairNumberDang;
+import com.numberniceic.ananya.numberniceic.pojo.PairNumberPercent;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -42,6 +43,8 @@ public class TelephoneFragment extends Fragment {
      *****************/
 
     PhoneNumberItemCollectionDao phoneNumberItemCollectionDao;
+
+    List<PairNumberPercent> pairNumberPercents = new ArrayList<>();
 
 
     ListView aGridView;
@@ -289,6 +292,9 @@ public class TelephoneFragment extends Fragment {
 
         setPercentD(phoneNumberItemCollectionDao);
         tvPercentD.setText(String.valueOf(getPercentsD()));
+        PairNumberPercentManager.getInstance().setPairNumberPercents(pairNumberPercents);
+
+
         setPercentR(phoneNumberItemCollectionDao);
         tvPercentR.setText(String.valueOf(getPercentsR()));
 
@@ -1401,20 +1407,25 @@ public class TelephoneFragment extends Fragment {
             if (t.equals("D")) {
 
                 switch (i) {
-                    case 4:  // pair : 24
+                    case 4:  // pair : 24 position 4
                         percentPo1D = 17;
+                        pairNumberPercents.add(new PairNumberPercent(dao.getPhoneNumberItemDaosA().get(i).getPhoneNumber(), 17));
                         break;
                     case 3:
                         percentPo2D = 15;
+                        pairNumberPercents.add(new PairNumberPercent(dao.getPhoneNumberItemDaosA().get(i).getPhoneNumber(), 15));
                         break;
                     case 2:
                         percentPo3D = 10;
+                        pairNumberPercents.add(new PairNumberPercent(dao.getPhoneNumberItemDaosA().get(i).getPhoneNumber(), 10));
                         break;
                     case 1:
                         percentPo4D = 7;
+                        pairNumberPercents.add(new PairNumberPercent(dao.getPhoneNumberItemDaosA().get(i).getPhoneNumber(), 7));
                         break;
                     case 0:
                         percentPo5D = 5;
+                        pairNumberPercents.add(new PairNumberPercent(dao.getPhoneNumberItemDaosA().get(i).getPhoneNumber(), 5));
                         break;
 
 
@@ -1436,15 +1447,19 @@ public class TelephoneFragment extends Fragment {
 
                     case 3: //92
                         percentPoB1D = 10;
+                        pairNumberPercents.add(new PairNumberPercent(dao.getPhoneNumberItemDaosB().get(i).getPhoneNumber(), 10));
                         break;
                     case 2:
                         percentPoB2D = 10;
+                        pairNumberPercents.add(new PairNumberPercent(dao.getPhoneNumberItemDaosB().get(i).getPhoneNumber(), 10));
                         break;
                     case 1:
                         percentPoB3D = 5;
+                        pairNumberPercents.add(new PairNumberPercent(dao.getPhoneNumberItemDaosB().get(i).getPhoneNumber(), 5));
                         break;
                     case 0:
                         percentPoB4D = 3;
+                        pairNumberPercents.add(new PairNumberPercent(dao.getPhoneNumberItemDaosB().get(i).getPhoneNumber(), 3));
                         break;
 
                 }
@@ -1459,6 +1474,7 @@ public class TelephoneFragment extends Fragment {
         t = String.valueOf(type.charAt(0));
         if (t.equals("D")) {
             percentSumD = 18;
+            pairNumberPercents.add(new PairNumberPercent(dao.getPhoneNumberItemDaoSum().getPhoneNumber(), 18));
         }
 
 
@@ -1478,18 +1494,23 @@ public class TelephoneFragment extends Fragment {
                 switch (i) {
                     case 4:  // pair : 24
                         percentPo1R = 17;
+                        pairNumberPercents.add(new PairNumberPercent(dao.getPhoneNumberItemDaosA().get(i).getPhoneNumber(), 17));
                         break;
                     case 3:
                         percentPo2R = 15;
+                        pairNumberPercents.add(new PairNumberPercent(dao.getPhoneNumberItemDaosA().get(i).getPhoneNumber(), 15));
                         break;
                     case 2:
                         percentPo3R = 10;
+                        pairNumberPercents.add(new PairNumberPercent(dao.getPhoneNumberItemDaosA().get(i).getPhoneNumber(), 10));
                         break;
                     case 1:
                         percentPo4R = 7;
+                        pairNumberPercents.add(new PairNumberPercent(dao.getPhoneNumberItemDaosA().get(i).getPhoneNumber(), 7));
                         break;
                     case 0:
                         percentPo5R = 5;
+                        pairNumberPercents.add(new PairNumberPercent(dao.getPhoneNumberItemDaosA().get(i).getPhoneNumber(), 5));
                         break;
 
 
@@ -1511,15 +1532,19 @@ public class TelephoneFragment extends Fragment {
 
                     case 3:
                         percentPoB4R = 10;
+                        pairNumberPercents.add(new PairNumberPercent(dao.getPhoneNumberItemDaosB().get(i).getPhoneNumber(), 10));
                         break;
                     case 2:
                         percentPoB3R = 10;
+                        pairNumberPercents.add(new PairNumberPercent(dao.getPhoneNumberItemDaosB().get(i).getPhoneNumber(), 10));
                         break;
                     case 1:
                         percentPoB2R = 5;
+                        pairNumberPercents.add(new PairNumberPercent(dao.getPhoneNumberItemDaosB().get(i).getPhoneNumber(), 5));
                         break;
                     case 0:
                         percentPoB1R = 3;
+                        pairNumberPercents.add(new PairNumberPercent(dao.getPhoneNumberItemDaosB().get(i).getPhoneNumber(), 3));
                         break;
 
                 }
@@ -1533,6 +1558,8 @@ public class TelephoneFragment extends Fragment {
         t = String.valueOf(type.charAt(0));
         if (t.equals("R")) {
             percentSumR = 18;
+            pairNumberPercents.add(new PairNumberPercent(dao.getPhoneNumberItemDaoSum().getPhoneNumber(), 18));
+
 
         }
 

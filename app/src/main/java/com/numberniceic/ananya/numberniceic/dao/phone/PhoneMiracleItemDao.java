@@ -11,12 +11,14 @@ public class PhoneMiracleItemDao {
     private String miracleTitle;
     private String miracleDescription;
 
+
     public PhoneMiracleItemDao(String pairNumber, String pairType, String pairPercent, String miracleTitle, String miracleDescription) {
         this.pairNumber = pairNumber;
         this.pairType = pairType;
         this.pairPercent = pairPercent;
         this.miracleTitle = miracleTitle;
         this.miracleDescription = miracleDescription;
+
     }
 
     public String getPairNumber() {
@@ -38,4 +40,6 @@ public class PhoneMiracleItemDao {
     public String getMiracleDescription() {
         return miracleDescription;
     }
+
+
 }

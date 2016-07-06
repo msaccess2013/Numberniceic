@@ -6,9 +6,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by o_ye on 6/16/2016.
- */
+
 public class PhoneNumberItemCollectionDao implements Parcelable {
     private PhoneNumberItemDao phoneNumberItemDaoSum;
     private List<PhoneNumberItemDao> phoneNumberItemDaosA = new ArrayList<>();

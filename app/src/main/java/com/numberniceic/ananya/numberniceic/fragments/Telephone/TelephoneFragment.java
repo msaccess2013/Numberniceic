@@ -323,16 +323,7 @@ public class TelephoneFragment extends Fragment {
 
     }
 
-    private void clearPairEdt() {
-        phone_number.setText("");
 
-        clearTv();
-
-        phone_number.requestFocus();
-
-        imm.showSoftInput(phone_number, 0);
-
-    }
 
     private void clearTv() {
 
@@ -1700,13 +1691,6 @@ public class TelephoneFragment extends Fragment {
         }
     };
 
-    View.OnClickListener onClickResetListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            clearPairEdt();
-
-        }
-    };
 
 
     @Override
@@ -1726,6 +1710,7 @@ public class TelephoneFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("LifeCycle", "onCreate");
+        checkState(savedInstanceState);
 
     }
 

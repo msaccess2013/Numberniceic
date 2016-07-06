@@ -60,117 +60,141 @@ public class MiracleFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState == null) {
 
+        if (savedInstanceState != null && savedInstanceState.getParcelable("phoneNumberItemCollectionDao") != null) {
+
+            dao = savedInstanceState.getParcelable("phoneNumberItemCollectionDao");
+
+        }
+
+
+        if (savedInstanceState == null) {
 
             dao = getArguments().getParcelable("pairNumber");
 
-            // loop pair from singleton to list
-            List<String> pair = new ArrayList<>();
+        }
 
-            if (dao != null) {
 
-                for (int i = 0; i < dao.getPhoneNumberItemDaosA().size(); i++) {
-                    String pairNumber = dao.getPhoneNumberItemDaosA().get(i).getPhoneNumber();
 
-                    pair.add(pairNumber);
+        // loop pair from singleton to list
+        List<String> pair = new ArrayList<>();
 
+        if (dao != null) {
+
+            for (int i = 0; i < dao.getPhoneNumberItemDaosA().size(); i++) {
+                String pairNumber = dao.getPhoneNumberItemDaosA().get(i).getPhoneNumber();
+
+                pair.add(pairNumber);
+
+            }
+            for (int i = 0; i < dao.getPhoneNumberItemDaosB().size(); i++) {
+                String pairNumber = dao.getPhoneNumberItemDaosB().get(i).getPhoneNumber();
+
+                pair.add(pairNumber);
+
+            }
+            pair.add(dao.getPhoneNumberItemDaoSum().getPhoneNumber());
+        }
+
+
+        //Add pair unique and count to hashMap
+        Map<String, Integer> pairUnig = new HashMap<>();
+
+        for (int i = 0; i < pair.size(); i++) {
+
+            int count = Collections.frequency(pair, pair.get(i));
+
+            pairUnig.put(pair.get(i), count);
+
+        }
+
+
+        //List all pair and percent : 100%
+        List<PairNumberPercent> pairNumberPercents;
+        pairNumberPercents = PairNumberPercentManager.getInstance().getPairNumberPercents();
+        for (int i = 0; i < pairNumberPercents.size(); i++) {
+            String goPair = pairNumberPercents.get(i).pairNumber;
+            Integer goPercent = pairNumberPercents.get(i).percent;
+            Log.d("pairPercent100", goPair + " : " + goPercent);
+        }
+
+
+        List<PairNumberPercent> percentList = new ArrayList<>();
+
+
+
+        for (int i = 0; i < pairNumberPercents.size(); i++) {
+            String myPairPercent = pairNumberPercents.get(i).pairNumber;
+            Integer myPercentValue = pairNumberPercents.get(i).percent;
+
+
+            if (pairUnig.containsKey(myPairPercent)) {
+
+                percentList.add(new PairNumberPercent(myPairPercent, myPercentValue));
+
+            }
+
+        }
+
+
+
+
+        List<PhoneMiracleItemDao> dPhoneMiracleItemDaos = new ArrayList<>();
+        List<PhoneMiracleItemDao> rPhoneMiracleItemDaos = new ArrayList<>();
+
+        Integer positionIndexR = 0;
+        Integer positionIndexD = 0;
+
+        for (Map.Entry<String, Integer> pp : pairUnig.entrySet()) {
+
+            String pairUnix = pp.getKey();
+
+
+            Integer sumP = 0;
+
+            for (int i = 0; i < percentList.size(); i++) {
+
+                if (pairUnix.equals(percentList.get(i).pairNumber)){
+
+                    sumP = sumP + percentList.get(i).percent;
                 }
-                for (int i = 0; i < dao.getPhoneNumberItemDaosB().size(); i++) {
-                    String pairNumber = dao.getPhoneNumberItemDaosB().get(i).getPhoneNumber();
-
-                    pair.add(pairNumber);
-
-                }
-                pair.add(dao.getPhoneNumberItemDaoSum().getPhoneNumber());
-            }
-
-
-            //Add pair unique and count to hashMap
-            Map<String, Integer> pairUnig = new HashMap<>();
-
-            for (int i = 0; i < pair.size(); i++) {
-
-                int count = Collections.frequency(pair, pair.get(i));
-
-                pairUnig.put(pair.get(i), count);
 
             }
 
 
-            //List all pair and percent : 100%
-            List<PairNumberPercent> pairNumberPercents;
-            pairNumberPercents = PairNumberPercentManager.getInstance().getPairNumberPercents();
-            for (int i = 0; i < pairNumberPercents.size(); i++) {
-                String goPair = pairNumberPercents.get(i).pairNumber;
-                Integer goPercent = pairNumberPercents.get(i).percent;
-                Log.d("pairPercent100", goPair + " : " + goPercent);
+
+            String mType = manager.getType(pairUnix);
+            String mTitle = miracleManager.getTitle(pairUnix);
+            String mDescription = miracleManager.getDescription(pairUnix);
+
+            if (String.valueOf(mType.charAt(0)).equals("D") && positionIndexD == 0) {
+                dPhoneMiracleItemDaos.add(new PhoneMiracleItemDao("00", "D", "00", "00", "00"));
+                positionIndexD++;
+            }
+
+            if (String.valueOf(mType.charAt(0)).equals("R") && positionIndexR == 0) {
+                rPhoneMiracleItemDaos.add(new PhoneMiracleItemDao("00", "R", "00", "00", "00"));
+                positionIndexR++;
             }
 
 
-            List<PairNumberPercent> percentList = new ArrayList<>();
-
-
-
-            for (int i = 0; i < pairNumberPercents.size(); i++) {
-                String myPairPercent = pairNumberPercents.get(i).pairNumber;
-                Integer myPercentValue = pairNumberPercents.get(i).percent;
-
-
-                if (pairUnig.containsKey(myPairPercent)) {
-
-                            percentList.add(new PairNumberPercent(myPairPercent, myPercentValue));
-
-                }
-
+            if (String.valueOf(mType.charAt(0)).equals("D")) {
+                dPhoneMiracleItemDaos.add(new PhoneMiracleItemDao(pairUnix, mType, String.valueOf(sumP), mTitle, mDescription));
+            }else {
+                rPhoneMiracleItemDaos.add(new PhoneMiracleItemDao(pairUnix, mType, String.valueOf(sumP), mTitle, mDescription));
             }
 
-            // add to Map this position only!!
+            //Log.d("positionIndex", String.valueOf(positionIndex));
 
-
-
-            for (Map.Entry<String, Integer> pp : pairUnig.entrySet()) {
-
-                String pairUnix = pp.getKey();
-
-
-                Integer sumP = 0;
-
-                for (int i = 0; i < percentList.size(); i++) {
-
-                    if (pairUnix.equals(percentList.get(i).pairNumber)){
-
-                        sumP = sumP + percentList.get(i).percent;
-                    }
-
-                }
-
-                //findType findPercent findTitle findDetail
-
-
-                String mType = manager.getType(pairUnix);
-                String mTitle = miracleManager.getTitle(pairUnix);
-                String mDescription = miracleManager.getDescription(pairUnix);
-
-
-                numberMiracleItemDaoList.add(new PhoneMiracleItemDao(pairUnix, mType, String.valueOf(sumP), mTitle, mDescription));
-
-                pairNumberPercents.clear();
-            }
-
-
-            phoneMiracleCollectionDao.setNumberMiracleItemDaos(numberMiracleItemDaoList);
-
-
-/*            for (int i = 0; i < numberMiracleItemDaoList.size(); i++) {
-                String pairNumber = numberMiracleItemDaoList.get(i).getPairNumber();
-                String percent = numberMiracleItemDaoList.get(i).getPairPercent();
-                String title = numberMiracleItemDaoList.get(i).getMiracleTitle();
-                Log.d("ItemDaoList", pairNumber + " : " + percent + " : " + title);
-            }*/
 
 
         }
+
+        numberMiracleItemDaoList.addAll(dPhoneMiracleItemDaos);
+        numberMiracleItemDaoList.addAll(rPhoneMiracleItemDaos);
+        phoneMiracleCollectionDao.setNumberMiracleItemDaos(numberMiracleItemDaoList);
+        pairNumberPercents.clear();
+
     }
 
     @Override
@@ -198,6 +222,9 @@ public class MiracleFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
+        Log.d("MiracleLifeCycle", "onSaveInstanceState");
+        outState.putParcelable("phoneNumberItemCollectionDao", dao);
 
     }
 }

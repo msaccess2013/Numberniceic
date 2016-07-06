@@ -10,6 +10,9 @@ import com.numberniceic.ananya.numberniceic.managers.dao.NumberMiracleCollection
 import com.numberniceic.ananya.numberniceic.managers.telephone.SummaryScrollManager;
 import com.numberniceic.ananya.numberniceic.views.miracle.MiracleD;
 import com.numberniceic.ananya.numberniceic.views.miracle.MiracleHead;
+import com.numberniceic.ananya.numberniceic.views.miracle.MiracleR;
+import com.numberniceic.ananya.numberniceic.views.miracle.MiracleTitleD;
+import com.numberniceic.ananya.numberniceic.views.miracle.MiracleTitleR;
 
 
 public class MiracleAdapter extends BaseAdapter {
@@ -29,7 +32,7 @@ public class MiracleAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         if (dao.getNumberMiracleItemDaos() != null)
-        return dao.getNumberMiracleItemDaos().size();
+            return dao.getNumberMiracleItemDaos().size() + 1;
         return 0;
     }
 
@@ -43,36 +46,123 @@ public class MiracleAdapter extends BaseAdapter {
         return 0;
     }
 
+
+    @Override
+    public int getViewTypeCount() {
+        return 5;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+
+        if (position == 0)
+            return 0;
+
+
+        if (String.valueOf(dao.getNumberMiracleItemDaos().get(position - 1).getPairType().charAt(0)).equals("D") &&
+                dao.getNumberMiracleItemDaos().get(position - 1).getPairNumber().equals("00")) {
+
+            return 3;
+
+        }else if (String.valueOf(dao.getNumberMiracleItemDaos().get(position - 1).getPairType().charAt(0)).equals("D")) {
+
+            return 1;
+
+        }
+
+        if (String.valueOf(dao.getNumberMiracleItemDaos().get(position - 1).getPairType().charAt(0)).equals("R") &&
+                dao.getNumberMiracleItemDaos().get(position - 1).getPairNumber().equals("00")) {
+
+            return 4;
+
+        }else if (String.valueOf(dao.getNumberMiracleItemDaos().get(position - 1).getPairType().charAt(0)).equals("R")) {
+
+            return 2;
+        }
+
+
+        return 0;
+
+    }
+
+
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
 
-        MiracleHead miracleHead = new MiracleHead(viewGroup.getContext());
-        MiracleD miracleD = new MiracleD(viewGroup.getContext());
-        TextView tvNull = new TextView(viewGroup.getContext());
+        MiracleHead miracleHead;
+        MiracleD miracleD;
+        MiracleR miracleR;
+
+        MiracleTitleD miracleTitleD;
+        MiracleTitleR miracleTitleR;
 
 
+        if (getItemViewType(i) == 0) {
 
-        if (i == 0) {
+            if (view != null) {
+                miracleHead = (MiracleHead) view;
+            } else {
+                miracleHead = new MiracleHead(viewGroup.getContext());
+            }
 
             miracleHead.setTvScrollD(String.valueOf(scrollD));
             miracleHead.setTvScrollR(String.valueOf(scrollR));
             miracleHead.setTvPercentD(percentD);
             miracleHead.setTvPercentR(percentR);
-
             return miracleHead;
+        }
+
+        if (getItemViewType(i) == 1) {
+            if (view != null) {
+                miracleD = (MiracleD) view;
+            } else {
+                miracleD = new MiracleD(viewGroup.getContext());
+            }
+            miracleD.setPairNumber(dao.getNumberMiracleItemDaos().get(i - 1).getPairNumber());
+            miracleD.setDescription(dao.getNumberMiracleItemDaos().get(i - 1).getMiracleTitle());
+            miracleD.setPercent(dao.getNumberMiracleItemDaos().get(i - 1).getPairPercent());
+            miracleD.setDetial(dao.getNumberMiracleItemDaos().get(i - 1).getMiracleDescription());
+            return miracleD;
 
         }
 
 
-            if (String.valueOf(dao.getNumberMiracleItemDaos().get(i).getPairType().charAt(0)).equals("D")){
-
-                miracleD.setPairNumber(dao.getNumberMiracleItemDaos().get(i).getPairNumber());
-                miracleD.setDescription(dao.getNumberMiracleItemDaos().get(i).getMiracleTitle());
-                return miracleD;
+        if (getItemViewType(i) == 2) {
+            if (view != null) {
+                miracleR = (MiracleR) view;
+            } else {
+                miracleR = new MiracleR(viewGroup.getContext());
             }
 
-        tvNull.setText(dao.getNumberMiracleItemDaos().get(i).getPairNumber());
-        return tvNull;
+            miracleR.setPairNumber(dao.getNumberMiracleItemDaos().get(i - 1).getPairNumber());
+            miracleR.setDescription(dao.getNumberMiracleItemDaos().get(i - 1).getMiracleTitle());
+            miracleR.setPercent(dao.getNumberMiracleItemDaos().get(i - 1).getPairPercent());
+            miracleR.setDetial(dao.getNumberMiracleItemDaos().get(i - 1).getMiracleDescription());
+            return miracleR;
+        }
 
+        if (getItemViewType(i) == 3) {
+
+            if (view != null) {
+                miracleTitleD = (MiracleTitleD) view;
+            } else {
+                miracleTitleD = new MiracleTitleD(viewGroup.getContext());
+            }
+
+            return miracleTitleD;
+        }
+
+        if (getItemViewType(i) == 4) {
+
+            if (view != null) {
+                miracleTitleR = (MiracleTitleR) view;
+            } else {
+                miracleTitleR = new MiracleTitleR(viewGroup.getContext());
+            }
+
+            return miracleTitleR;
+        }
+
+        return new MiracleR(viewGroup.getContext());
     }
 }

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.numberniceic.ananya.numberniceic.R;
 
 
-public class MiracleD extends FrameLayout {
+public class MiracleR extends FrameLayout {
 
     TextView pairNumber;
     TextView percent;
@@ -18,40 +18,40 @@ public class MiracleD extends FrameLayout {
     TextView detial;
 
 
-    public MiracleD(Context context) {
+    public MiracleR(Context context) {
         super(context);
         initInflate();
         initInstance();
     }
 
-    public MiracleD(Context context, AttributeSet attrs) {
+    public MiracleR(Context context, AttributeSet attrs) {
         super(context, attrs);
         initInflate();
         initInstance();
     }
 
-    public MiracleD(Context context, AttributeSet attrs, int defStyleAttr) {
+    public MiracleR(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initInflate();
         initInstance();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public MiracleD(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public MiracleR(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initInflate();
         initInstance();
     }
 
     private void initInstance() {
-        pairNumber = (TextView) findViewById(R.id.tvPairD);
-        percent = (TextView) findViewById(R.id.tvPercentD);
+        pairNumber = (TextView) findViewById(R.id.tvPairR);
+        percent = (TextView) findViewById(R.id.tvPercentR);
         description = (TextView) findViewById(R.id.tvDescription);
         detial = (TextView) findViewById(R.id.tvDetail);
     }
 
     private void initInflate() {
-        inflate(getContext(), R.layout.layout_miracle_d,this);
+        inflate(getContext(), R.layout.layout_miracle_r,this);
     }
 
     public void setPairNumber(String pairNumber){

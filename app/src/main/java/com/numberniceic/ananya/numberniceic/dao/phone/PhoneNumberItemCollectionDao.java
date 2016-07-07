@@ -9,8 +9,8 @@ import java.util.List;
 
 public class PhoneNumberItemCollectionDao implements Parcelable {
     private PhoneNumberItemDao phoneNumberItemDaoSum;
-    private List<PhoneNumberItemDao> phoneNumberItemDaosA = new ArrayList<>();
-    private List<PhoneNumberItemDao> phoneNumberItemDaosB = new ArrayList<>();
+    private List<PhoneNumberItemDao> phoneNumberItemDaosA;
+    private List<PhoneNumberItemDao> phoneNumberItemDaosB;
 
 
     public PhoneNumberItemCollectionDao() {
@@ -18,10 +18,16 @@ public class PhoneNumberItemCollectionDao implements Parcelable {
     }
 
     protected PhoneNumberItemCollectionDao(Parcel in) {
+        phoneNumberItemDaoSum = in.readParcelable(PhoneNumberItemDao.class.getClassLoader());
+        phoneNumberItemDaosA = in.createTypedArrayList(PhoneNumberItemDao.CREATOR);
+        phoneNumberItemDaosB = in.createTypedArrayList(PhoneNumberItemDao.CREATOR);
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(phoneNumberItemDaoSum, flags);
+        dest.writeTypedList(phoneNumberItemDaosA);
+        dest.writeTypedList(phoneNumberItemDaosB);
     }
 
     @Override

@@ -5,9 +5,7 @@ import com.numberniceic.ananya.numberniceic.pojo.PairNumberPercent;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by o_ye on 7/4/2016.
- */
+
 public class PairNumberPercentManager {
 
     private List<PairNumberPercent> pairNumberPercents = new ArrayList<>();

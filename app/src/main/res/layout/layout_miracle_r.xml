@@ -66,6 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="40"
+                    android:freezesText="true"
                     android:textSize="14sp"
 
                     />

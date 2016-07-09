@@ -1,4 +1,4 @@
-package com.numberniceic.ananya.numberniceic.fragments.Telephone;
+package com.numberniceic.ananya.numberniceic.fragments.telephone;
 
 
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.numberniceic.ananya.numberniceic.R;
 import com.numberniceic.ananya.numberniceic.adapters.MiracleAdapter;
@@ -18,7 +17,6 @@ import com.numberniceic.ananya.numberniceic.dao.phone.PhoneMiracleItemDao;
 import com.numberniceic.ananya.numberniceic.dao.phone.PhoneNumberItemCollectionDao;
 import com.numberniceic.ananya.numberniceic.managers.NumberMiracleManager;
 import com.numberniceic.ananya.numberniceic.managers.NumberPilotManager;
-import com.numberniceic.ananya.numberniceic.managers.dao.NumberMiracleCollectionDao;
 import com.numberniceic.ananya.numberniceic.managers.telephone.PairNumberPercentManager;
 import com.numberniceic.ananya.numberniceic.pojo.PairNumberPercent;
 

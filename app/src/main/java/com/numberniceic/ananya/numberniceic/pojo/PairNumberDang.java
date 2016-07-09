@@ -12,6 +12,9 @@ public class PairNumberDang {
     public Integer point;
 
 
+    public PairNumberDang() {
+    }
+
     public PairNumberDang(String dangTitle, String pairNumberFirst, String pairNumberSecond, Integer point) {
         this.dangTitle = dangTitle;
         this.pairNumberFirst = pairNumberFirst;

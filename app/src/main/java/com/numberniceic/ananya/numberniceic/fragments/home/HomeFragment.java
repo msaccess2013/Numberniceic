@@ -1,4 +1,4 @@
-package com.numberniceic.ananya.numberniceic.fragments;
+package com.numberniceic.ananya.numberniceic.fragments.home;
 
 
 import android.os.Bundle;

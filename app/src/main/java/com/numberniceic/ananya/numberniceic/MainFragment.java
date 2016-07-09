@@ -19,10 +19,10 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.numberniceic.ananya.numberniceic.fragments.CarFragment;
-import com.numberniceic.ananya.numberniceic.fragments.HomeFragment;
-import com.numberniceic.ananya.numberniceic.fragments.NameFragment;
-import com.numberniceic.ananya.numberniceic.fragments.Telephone.TelephoneFragment;
+import com.numberniceic.ananya.numberniceic.fragments.car.CarFragment;
+import com.numberniceic.ananya.numberniceic.fragments.home.HomeFragment;
+import com.numberniceic.ananya.numberniceic.fragments.name.NameFragment;
+import com.numberniceic.ananya.numberniceic.fragments.telephone.TelephoneFragment;
 
 
 /**

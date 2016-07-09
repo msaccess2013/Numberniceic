@@ -1,4 +1,4 @@
-package com.numberniceic.ananya.numberniceic.fragments.Telephone;
+package com.numberniceic.ananya.numberniceic.fragments.telephone;
 
 
 import android.content.Context;
@@ -58,6 +58,7 @@ public class TelephoneFragment extends Fragment {
     TextView txtTotalScrollD, txtTotalScrollR;
     TextView tvPercentD, tvPercentR;
     TextView tvPhoneNum;
+    TextView tvPairDangFirst, tvPairDangSecond, tvPairDangThirdFirst, tvPairDangThirdSecond;
 
 
     ScrollPairNumberDao scrollPairNumberDao = new ScrollPairNumberDao();
@@ -131,9 +132,12 @@ public class TelephoneFragment extends Fragment {
         tvPercentD = (TextView) rootView.findViewById(R.id.tvPercentD);
         tvPercentR = (TextView) rootView.findViewById(R.id.tvPercentR);
 
-        aGridView = (ListView) rootView.findViewById(R.id.gvPairDangD);
-
         tvPhoneNum = (TextView) rootView.findViewById(R.id.tvNumphoneCr);
+
+        tvPairDangFirst = (TextView) rootView.findViewById(R.id.tvDangFirst);
+        tvPairDangSecond = (TextView) rootView.findViewById(R.id.tvDangSecond);
+        tvPairDangThirdFirst = (TextView) rootView.findViewById(R.id.tvDangThirdFist);
+        tvPairDangThirdSecond = (TextView) rootView.findViewById(R.id.tvDangThirdSecond);
 
         btnMiracle = (Button) rootView.findViewById(R.id.btn_ok);
         btnMiracle.setOnClickListener(new View.OnClickListener() {
@@ -143,7 +147,7 @@ public class TelephoneFragment extends Fragment {
                 if (phoneNumberItemCollectionDao != null) {
                     FragmentTelePhoneListener fragmentTelePhoneListener = (FragmentTelePhoneListener) getActivity();
                     fragmentTelePhoneListener.onPairPhoneClick(phoneNumberItemCollectionDao);
-                }else {
+                } else {
                     Toast.makeText(getContext(), "กรุณากรอกหมายเลขโทรศัพท์!!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -320,9 +324,7 @@ public class TelephoneFragment extends Fragment {
         txtTotalScrollR.setText(scrollTotalR);
 
 
-
     }
-
 
 
     private void clearTv() {
@@ -345,6 +347,9 @@ public class TelephoneFragment extends Fragment {
 
         tvPercentD.setText("");
         tvPercentR.setText("");
+
+        tvPairDangFirst.setText("");
+        tvPairDangSecond.setText("");
     }
 
     private void clearNumberCencent() {
@@ -1646,8 +1651,79 @@ public class TelephoneFragment extends Fragment {
         return numberDangsBB;
     }
 
+    private PairNumberDang getScrollDangPairDang(PhoneNumberItemCollectionDao dao) {
+
+        NumberPilotManager manager = new NumberPilotManager();
+
+
+        String mNumber = dao.getPhoneNumberItemDaosA().get(4).getPhoneNumber();
+        char firstC = mNumber.charAt(0);
+        char secondC = mNumber.charAt(1);
+        String pairDang = String.valueOf(secondC) + String.valueOf(firstC);
+        String pairDangLike = String.valueOf(firstC) + String.valueOf(secondC);
+
+
+        String dNumber = dao.getPhoneNumberItemDaosB().get(3).getPhoneNumber();
+        if (pairDang.equals(dNumber) && !pairDang.equals(pairDangLike)) {
+
+            Integer mPoint = manager.getPoint(mNumber) + manager.getPoint(dNumber);
+
+            return new PairNumberDang("มีคู่ 2 เด้ง", mNumber, dNumber, mPoint);
+
+        }
+
+
+        return null;
+    }
+
+    private PairNumberDang getScrollDangPairSumFirst(PhoneNumberItemCollectionDao dao) {
+
+        NumberPilotManager manager = new NumberPilotManager();
+        String mNumber = dao.getPhoneNumberItemDaosA().get(4).getPhoneNumber();
+        char firstC = mNumber.charAt(0);
+        char secondC = mNumber.charAt(1);
+        String pairDang = String.valueOf(secondC) + String.valueOf(firstC);
+        String dNumber = dao.getPhoneNumberItemDaosB().get(3).getPhoneNumber();
+
+        if (pairDang.equals(dNumber) && !pairDang.equals(mNumber)) {
+
+            String dSum = dao.getPhoneNumberItemDaoSum().getPhoneNumber();
+            if (mNumber.equals(dSum)) {
+                Integer mPoint = manager.getPoint(mNumber) + manager.getPoint(dSum);
+                return new PairNumberDang("มีคู่ 3 เด้ง", pairDang, dSum, mPoint);
+
+            }
+        }
+        return null;
+    }
+
+    private PairNumberDang getScrollDangPairSumSecond(PhoneNumberItemCollectionDao dao) {
+
+        NumberPilotManager manager = new NumberPilotManager();
+        String mNumber = dao.getPhoneNumberItemDaosA().get(4).getPhoneNumber();
+        char firstC = mNumber.charAt(0);
+        char secondC = mNumber.charAt(1);
+        String pairDang = String.valueOf(secondC) + String.valueOf(firstC);
+        String dNumber = dao.getPhoneNumberItemDaosB().get(3).getPhoneNumber();
+
+        if (pairDang.equals(dNumber) && !pairDang.equals(mNumber)) {
+
+            String dSum = dao.getPhoneNumberItemDaoSum().getPhoneNumber();
+
+            if (dNumber.equals(dSum)) {
+                Integer mPoint = manager.getPoint(dNumber) + manager.getPoint(dSum);
+                return new PairNumberDang("มีคู่ 3 เด้ง", dNumber, dSum, mPoint);
+            }
+        }
+
+
+        return null;
+
+    }
+
     private void setScrollDang(PhoneNumberItemCollectionDao dao) {
 
+        NumberPilotManager manager = new NumberPilotManager();
 
         List<PairNumberDang> allPairNumberDangs = new ArrayList<>();
 
@@ -1655,10 +1731,82 @@ public class TelephoneFragment extends Fragment {
         allPairNumberDangs.addAll(getScrollDangPairAB(dao));
         //allPairNumberDangs.addAll(getScrollDangPairBB(dao));
 
+        PairNumberDang dangDao = getScrollDangPairDang(dao);
+        PairNumberDang tripleDangDaoFirst = getScrollDangPairSumFirst(dao);
 
-        mPhonePairDangAdapter = new PhonePairDangAdapter();
+
+
+        if (tripleDangDaoFirst != null) {
+
+            String first = tripleDangDaoFirst.pairNumberFirst;
+            String second = tripleDangDaoFirst.pairNumberSecond;
+            String dangTypeFirst = manager.getType(first);
+
+
+            if (String.valueOf(dangTypeFirst.charAt(0)).equals("R")) {
+                tvPairDangThirdFirst.setBackgroundResource(R.drawable.pilot_selector_red);
+                tvPairDangThirdSecond.setBackgroundResource(R.drawable.pilot_selector_red);
+
+            } else {
+                tvPairDangThirdFirst.setBackgroundResource(R.drawable.pilot_selector_green);
+                tvPairDangThirdSecond.setBackgroundResource(R.drawable.pilot_selector_green);
+
+            }
+            tvPairDangThirdFirst.setText(first);
+            tvPairDangThirdSecond.setText(second);
+
+
+        } else {
+            tvPairDangThirdFirst.setText("");
+            tvPairDangThirdFirst.setBackgroundResource(R.drawable.pilot_selector_null);
+
+            tvPairDangThirdSecond.setText("");
+            tvPairDangThirdSecond.setBackgroundResource(R.drawable.pilot_selector_null);
+
+        }
+
+
+
+        if (dangDao != null) {
+
+            if (dangDao.pairNumberFirst != null) {
+                String first = dangDao.pairNumberFirst;
+                String dTypeFirst = manager.getType(first);
+                if (String.valueOf(dTypeFirst.charAt(0)).equals("R")) {
+                    tvPairDangFirst.setBackgroundResource(R.drawable.pilot_selector_red);
+                    tvPairDangFirst.setText(first);
+                } else {
+                    tvPairDangFirst.setBackgroundResource(R.drawable.pilot_selector_green);
+                    tvPairDangFirst.setText(first);
+                }
+
+            }
+
+            if (dangDao.pairNumberSecond != null) {
+                String second = dangDao.pairNumberSecond;
+                String dTypeSecond = manager.getType(second);
+                if (String.valueOf(dTypeSecond.charAt(0)).equals("R")) {
+                    tvPairDangSecond.setBackgroundResource(R.drawable.pilot_selector_red);
+                    tvPairDangSecond.setText(second);
+                } else {
+                    tvPairDangSecond.setBackgroundResource(R.drawable.pilot_selector_green);
+                    tvPairDangSecond.setText(second);
+                }
+            }
+
+        } else {
+
+            tvPairDangFirst.setText("");
+            tvPairDangFirst.setBackgroundResource(R.drawable.pilot_selector_null);
+            tvPairDangSecond.setText("");
+            tvPairDangSecond.setBackgroundResource(R.drawable.pilot_selector_null);
+
+        }
+
+
+/*        mPhonePairDangAdapter = new PhonePairDangAdapter();
         aGridView.setAdapter(mPhonePairDangAdapter);
-        mPhonePairDangAdapter.setPairDang(allPairNumberDangs);
+        mPhonePairDangAdapter.setPairDang(allPairNumberDangs);*/
 
     }
 
@@ -1690,7 +1838,6 @@ public class TelephoneFragment extends Fragment {
 
         }
     };
-
 
 
     @Override

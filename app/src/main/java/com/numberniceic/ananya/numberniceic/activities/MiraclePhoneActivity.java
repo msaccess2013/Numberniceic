@@ -3,13 +3,11 @@ package com.numberniceic.ananya.numberniceic.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.numberniceic.ananya.numberniceic.R;
 import com.numberniceic.ananya.numberniceic.dao.phone.PhoneNumberItemCollectionDao;
-import com.numberniceic.ananya.numberniceic.fragments.Telephone.MiracleFragment;
+import com.numberniceic.ananya.numberniceic.fragments.telephone.MiracleFragment;
 
 public class MiraclePhoneActivity extends AppCompatActivity {
 

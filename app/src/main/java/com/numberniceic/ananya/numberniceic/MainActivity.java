@@ -1,11 +1,8 @@
 package com.numberniceic.ananya.numberniceic;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,14 +11,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.numberniceic.ananya.numberniceic.activities.MiraclePhoneActivity;
 import com.numberniceic.ananya.numberniceic.dao.phone.PhoneNumberItemCollectionDao;
-import com.numberniceic.ananya.numberniceic.fragments.Telephone.MiracleFragment;
-import com.numberniceic.ananya.numberniceic.fragments.Telephone.TelephoneFragment;
+import com.numberniceic.ananya.numberniceic.fragments.name.BornFragment;
+import com.numberniceic.ananya.numberniceic.fragments.name.NameFragment;
+import com.numberniceic.ananya.numberniceic.fragments.telephone.TelephoneFragment;
 
 public class MainActivity extends AppCompatActivity implements TelephoneFragment.FragmentTelePhoneListener {
 
@@ -83,9 +79,11 @@ public class MainActivity extends AppCompatActivity implements TelephoneFragment
                 MiracleFragment.newInstance(phoneNumberItemCollectionDao), "MiracleFragment").addToBackStack(null).commit();
 */
 
+/*
         for (int i = 0; i < phoneNumberItemCollectionDao.getPhoneNumberItemDaosA().size(); i++) {
             Log.d("phoneNumberDao", phoneNumberItemCollectionDao.getPhoneNumberItemDaosA().get(i).getPhoneNumber());
         }
+*/
 
         Intent intent = new Intent(getApplicationContext(), MiraclePhoneActivity.class);
         intent.putExtra("phoneNumberDao",phoneNumberItemCollectionDao);
@@ -101,4 +99,7 @@ public class MainActivity extends AppCompatActivity implements TelephoneFragment
         return super.onOptionsItemSelected(item);
 
     }
+
+
+
 }

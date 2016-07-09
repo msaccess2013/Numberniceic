@@ -1,0 +1,100 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#61ffffff"
+    tools:context="com.numberniceic.ananya.numberniceic.fragments.name.BornFragment">
+
+<android.support.v7.widget.CardView
+    android:layout_margin="9dp"
+    android:padding="6dp"
+    app:cardBackgroundColor="#e2e2e2"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <RadioGroup
+        android:layout_margin="8dp"
+        android:id="@+id/rgDay"
+        android:orientation="vertical"
+        android:background="#39ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:text="อาทิตย์"
+            android:padding="10dp"
+            android:id="@+id/rbSunday"
+            android:textSize="18sp"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:text="จันทร์"
+            android:id="@+id/rbMonday"
+            android:textSize="18sp"
+
+            android:padding="10dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:text="อังคาร"
+            android:id="@+id/rbTuesday"
+            android:textSize="18sp"
+
+            android:padding="10dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:text="พุธ (กลางวัน)"
+            android:id="@+id/rbWednesdayAm"
+            android:textSize="18sp"
+
+            android:padding="10dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:text="พุธ (กลางคืน)"
+            android:id="@+id/rbWednesdayPm"
+            android:textSize="18sp"
+
+            android:padding="10dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:text="พฤหัสบดี"
+            android:id="@+id/rbThursday"
+            android:textSize="18sp"
+
+            android:padding="10dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:text="ศุกร์"
+            android:id="@+id/rbFriday"
+            android:textSize="18sp"
+
+            android:padding="10dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:text="เสาร์"
+            android:id="@+id/rbSaturday"
+            android:textSize="18sp"
+            android:padding="10dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_marginStart="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </RadioGroup>
+</android.support.v7.widget.CardView>
+</FrameLayout>

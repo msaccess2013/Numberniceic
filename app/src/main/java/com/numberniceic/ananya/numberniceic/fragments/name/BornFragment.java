@@ -3,11 +3,13 @@ package com.numberniceic.ananya.numberniceic.fragments.name;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.BoringLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
+import com.numberniceic.ananya.numberniceic.MainActivity;
 import com.numberniceic.ananya.numberniceic.R;
 
 /**
@@ -16,7 +18,6 @@ import com.numberniceic.ananya.numberniceic.R;
 public class BornFragment extends Fragment {
 
     private NameFragment nameFragment;
-
     private RadioGroup rgDay;
 
     public BornFragment() {
@@ -28,7 +29,10 @@ public class BornFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_born, container, false);
+
         nameFragment = (NameFragment) getParentFragment();
+
+
         initInstance(rootView);
 
 
@@ -42,6 +46,7 @@ public class BornFragment extends Fragment {
                         getFragmentManager().popBackStack();
                         break;
                     case R.id.rbMonday :
+
                         nameFragment.setBirth("Monday");
                         getFragmentManager().popBackStack();
                         break;

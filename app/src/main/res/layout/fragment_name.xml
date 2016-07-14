@@ -7,133 +7,143 @@
     tools:context="com.numberniceic.ananya.numberniceic.fragments.name.NameFragment">
 
 
-    <android.support.v4.widget.NestedScrollView
+    <com.numberniceic.ananya.numberniceic.views.person.NameScrolling
+        android:id="@+id/nsvName"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="0dp"
-            android:background="#a7a7a7"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvBirthDay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight=".3"
-                android:freezesText="true"
-                android:textColor="#FFF"
-                android:textSize="18sp"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="เลือกวันเกิด" />
-
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_margin="0dp"
+                android:background="#a7a7a7"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="horizontal">
 
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/fabCallRg"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tvBirthDay"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="6dp"
-                    android:src="@drawable/ic_schedule_black_18dp"
-                    android:text="callRad"
-                    app:fabSize="normal" />
-            </FrameLayout>
-
-
-
-
-        </LinearLayout>
-
-    <android.support.v7.widget.CardView
-        android:layout_margin="3dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="45dp">
-                <TextView
-                    android:text="ชื่อ : "
-                    android:layout_weight="1"
-                    android:textSize="18sp"
-                    android:background="#c1c1c1"
+                    android:layout_weight=".6"
+                    android:freezesText="true"
                     android:gravity="center_vertical|center_horizontal"
+                    android:text="วันเกิด"
+                    android:textColor="#FFF"
+                    android:textSize="18sp" />
+
+                <FrameLayout
+
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-                <EditText
-                    android:id="@+id/edName"
-                    android:layout_weight=".5"
-                    android:background="#f4f4ee"
-                    android:textAlignment="center"
-                    android:textSize="18sp"
-                    android:text="พีระพงศ์"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+
+                    <Button
+                        android:id="@+id/btnBirthDay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="เลือกวันเกิด"
+
+                        />
+
+                </FrameLayout>
+
+
             </LinearLayout>
-            <LinearLayout
-                android:orientation="horizontal"
+
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="45dp">
-                <TextView
-                    android:text="สกุล : "
-                    android:layout_weight="1"
-                    android:background="#fad883"
-                    android:textSize="18sp"
-                    android:gravity="center_vertical|center_horizontal"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                app:cardCornerRadius="4dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-                <EditText
-                    android:id="@+id/edSurname"
-                    android:text="ทองแสน"
-                    android:layout_weight=".5"
-                    android:textSize="18sp"
-                    android:background="#ede9e9"
-                    android:textAlignment="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="45dp">
-                <TextView
-                    android:text="ชื่อเล่น : "
-                    android:textSize="18sp"
-                    android:layout_weight="1"
-                    android:background="#e5cef7"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-                <EditText
-                    android:id="@+id/edNiceName"
-                    android:text="เบิ้ล"
-                    android:layout_weight=".5"
-                    android:textSize="18sp"
-                    android:background="#faf1f1"
-                    android:textAlignment="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#c1c1c1"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:text="ชื่อ : "
+                            android:textSize="18sp" />
+
+                        <EditText
+                            android:id="@+id/edName"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight=".5"
+                            android:background="#f4f4ee"
+                            android:text="พีระพงศ์"
+                            android:textAlignment="center"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#fad883"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:text="สกุล : "
+                            android:textSize="18sp" />
+
+                        <EditText
+                            android:id="@+id/edSurname"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight=".5"
+                            android:background="#ede9e9"
+                            android:text="ทองแสน"
+                            android:textAlignment="center"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#e5cef7"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:text="ชื่อเล่น : "
+                            android:textSize="18sp" />
+
+                        <EditText
+                            android:id="@+id/edNiceName"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight=".5"
+                            android:background="#faf1f1"
+                            android:text="เบิ้ล"
+                            android:textAlignment="center"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
 
             <FrameLayout
@@ -144,196 +154,74 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
                     <Button
                         android:id="@+id/btnReset"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
                         android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:freezesText="true"
-                        android:textSize="18sp"
+
                         android:gravity="center_vertical|center_horizontal"
-                        android:text="ล้าง"/>
+                        android:text="ล้าง" />
 
-                <Button
-                    android:id="@+id/btnCal"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    android:freezesText="true"
-                    android:textSize="18sp"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:text="คำนวณ"
-                    />
+                    <Button
+                        android:id="@+id/btnCal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:freezesText="true"
+
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="คำนวณ" />
                 </LinearLayout>
-
 
 
             </FrameLayout>
 
-
-            <TextView
-                android:text="เลขศาสตร์"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="6dp"
-                android:textSize="18sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
             <LinearLayout
-                android:orientation="horizontal"
-                android:layout_marginTop="3dp"
-                android:layout_marginBottom="3dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"
+                android:orientation="horizontal">
 
 
                 <android.support.v7.widget.CardView
-                    android:layout_weight="1"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_marginBottom="3dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <TextView
-                            android:text="ชื่อ"
-                            android:textAlignment="center"
-                            android:background="#589b56"
-                            android:textColor="#FFF"
-                            android:padding="6dp"
-                            android:textSize="18sp"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                        <TextView
-                            android:id="@+id/tvNameSumSat"
-                            android:text="99"
-                            android:freezesText="true"
-                            android:textAlignment="center"
-                            android:background="#e2ecde"
-                            android:padding="6dp"
-                            android:textSize="18sp"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-
-
-                    </LinearLayout>
-
-
-                </android.support.v7.widget.CardView>
-                <android.support.v7.widget.CardView
-                    android:layout_weight="1"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="3dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="3dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <TextView
-                            android:text="สกุล"
-                            android:layout_weight="1"
-                            android:background="#589b56"
-                            android:textColor="#FFF"
-                            android:textAlignment="center"
-                            android:padding="6dp"
-                            android:textSize="18sp"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                        <TextView
-                            android:id="@+id/tvSurnameSumSat"
-                            android:text="99"
-                            android:freezesText="true"
-                            android:layout_weight="1"
-                            android:background="#e2ecde"
-                            android:padding="6dp"
-                            android:textSize="18sp"
-                            android:textAlignment="center"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-
-
-                    </LinearLayout>
-
-
-                </android.support.v7.widget.CardView>
-                <android.support.v7.widget.CardView
-                    android:layout_weight="1"
-                    android:layout_marginStart="3dp"
                     android:layout_marginEnd="3dp"
-                    android:layout_marginBottom="3dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_marginStart="3dp">
+
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
                         <TextView
-                            android:text="ชื่อสกุล"
-                            android:layout_weight="1"
-                            android:background="#589b56"
-                            android:textColor="#FFF"
-                            android:textAlignment="center"
-                            android:padding="6dp"
-                            android:textSize="18sp"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:background="#a9a9a9"
+                            android:padding="6dp"
+                            android:text="อักษรกาละกิณี"
+                            android:textAlignment="center"
+                            android:textColor="#000000"
+                            android:textSize="18sp" />
+
                         <TextView
-                            android:id="@+id/tvNamePlusSumSat"
-                            android:text="99"
+                            android:id="@+id/tvKalakinee"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#ffffff"
                             android:freezesText="true"
-                            android:layout_weight="1"
-                            android:background="#e2ecde"
                             android:padding="6dp"
-                            android:textSize="18sp"
                             android:textAlignment="center"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-
-
-                    </LinearLayout>
-
-
-                </android.support.v7.widget.CardView>
-                <android.support.v7.widget.CardView
-                    android:layout_weight="1"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_marginBottom="3dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <TextView
-                            android:text="ชื่อเล่น"
-                            android:layout_weight="1"
-                            android:background="#589b56"
-                            android:textColor="#FFF"
-                            android:textAlignment="center"
-                            android:padding="6dp"
-                            android:textSize="18sp"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                        <TextView
-                            android:id="@+id/tvNickNameSumSat"
-                            android:text="99"
-                            android:freezesText="true"
-                            android:layout_weight="1"
-                            android:background="#e2ecde"
-                            android:padding="6dp"
-                            android:textSize="18sp"
-                            android:textAlignment="center"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:textColor="#6e0707"
+                            android:textSize="18sp" />
 
 
                     </LinearLayout>
@@ -345,87 +233,416 @@
             </LinearLayout>
 
             <TextView
-                android:text="พลังเงา"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="0dp"
-                android:textSize="18sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="6dp"
+                android:text="เลขศาสตร์"
+                android:textSize="18sp" />
 
             <LinearLayout
-                android:orientation="horizontal"
-                android:layout_marginTop="3dp"
-                android:layout_marginBottom="3dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"
+                android:orientation="horizontal">
 
 
                 <android.support.v7.widget.CardView
-                    android:layout_weight="1"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_marginBottom="6dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1">
+
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
                         <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#589b56"
+                            android:padding="6dp"
                             android:text="ชื่อ"
                             android:textAlignment="center"
-                            android:background="#8e8b8b"
                             android:textColor="#FFF"
-                            android:padding="6dp"
-                            android:textSize="18sp"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/tvNameSumSat"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:background="#e2ecde"
+                            android:freezesText="true"
+                            android:padding="6dp"
+                            android:text="99"
+                            android:textAlignment="center"
+                            android:textSize="18sp" />
+
+
+                    </LinearLayout>
+
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#589b56"
+                            android:padding="6dp"
+                            android:text="สกุล"
+                            android:textAlignment="center"
+                            android:textColor="#FFF"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/tvSurnameSumSat"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#e2ecde"
+                            android:freezesText="true"
+                            android:padding="6dp"
+                            android:text="99"
+                            android:textAlignment="center"
+                            android:textSize="18sp" />
+
+
+                    </LinearLayout>
+
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#589b56"
+                            android:padding="6dp"
+                            android:text="ชื่อสกุล"
+                            android:textAlignment="center"
+                            android:textColor="#FFF"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/tvNamePlusSumSat"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#e2ecde"
+                            android:freezesText="true"
+                            android:padding="6dp"
+                            android:text="99"
+                            android:textAlignment="center"
+                            android:textSize="18sp" />
+
+
+                    </LinearLayout>
+
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#589b56"
+                            android:padding="6dp"
+                            android:text="ชื่อเล่น"
+                            android:textAlignment="center"
+                            android:textColor="#FFF"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/tvNickNameSumSat"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#e2ecde"
+                            android:freezesText="true"
+                            android:padding="6dp"
+                            android:text="99"
+                            android:textAlignment="center"
+                            android:textSize="18sp" />
+
+
+                    </LinearLayout>
+
+
+                </android.support.v7.widget.CardView>
+
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="0dp"
+                android:text="พลังเงา"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"
+                android:orientation="horizontal">
+
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#8e8b8b"
+                            android:padding="6dp"
+                            android:text="ชื่อ"
+                            android:textAlignment="center"
+                            android:textColor="#FFF"
+                            android:textSize="18sp" />
+
                         <TextView
                             android:id="@+id/tvNameSumSha"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#ffffff"
                             android:freezesText="true"
+                            android:padding="6dp"
                             android:text="99"
                             android:textAlignment="center"
-                            android:background="#ffffff"
-                            android:padding="6dp"
-                            android:textSize="18sp"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:textSize="18sp" />
 
 
                     </LinearLayout>
 
 
                 </android.support.v7.widget.CardView>
+
                 <android.support.v7.widget.CardView
-                    android:layout_weight="1"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_marginBottom="6dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1">
+
+
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
                         <TextView
-                            android:text="สกุล"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="#8e8b8b"
-                            android:textColor="#FFF"
-                            android:textAlignment="center"
                             android:padding="6dp"
-                            android:textSize="18sp"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:text="สกุล"
+                            android:textAlignment="center"
+                            android:textColor="#FFF"
+                            android:textSize="18sp" />
+
                         <TextView
                             android:id="@+id/tvSurnameSumSha"
-                            android:freezesText="true"
-                            android:text="99"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="#ffffff"
+                            android:freezesText="true"
                             android:padding="6dp"
-                            android:textSize="18sp"
+                            android:text="99"
                             android:textAlignment="center"
+                            android:textSize="18sp" />
+
+
+                    </LinearLayout>
+
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#8e8b8b"
+                            android:padding="6dp"
+                            android:text="ชื่อสกุล"
+                            android:textAlignment="center"
+                            android:textColor="#FFF"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/tvNamePlusSumSha"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#ffffff"
+                            android:freezesText="true"
+                            android:padding="6dp"
+                            android:text="99"
+                            android:textAlignment="center"
+                            android:textSize="18sp" />
+
+
+                    </LinearLayout>
+
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#8e8b8b"
+                            android:padding="6dp"
+                            android:text="ชื่อเล่น"
+                            android:textAlignment="center"
+                            android:textColor="#FFF"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/tvNickNameSumSha"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#ffffff"
+                            android:freezesText="true"
+                            android:padding="6dp"
+                            android:text="99"
+                            android:textAlignment="center"
+                            android:textSize="18sp" />
+
+
+                    </LinearLayout>
+
+
+                </android.support.v7.widget.CardView>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="0dp"
+                android:text="อายตนะ"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"
+                android:orientation="horizontal">
+
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/ayatana_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="ชื่อ" />
+
+                        <TextView
+                            android:id="@+id/tvNameAyatana"
+                            style="@style/ayatana"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
 
@@ -434,38 +651,97 @@
 
 
                 </android.support.v7.widget.CardView>
+
                 <android.support.v7.widget.CardView
-                    android:layout_weight="1"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_marginBottom="6dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1">
+
+
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
                         <TextView
-                            android:text="ชื่อเล่น"
-                            android:layout_weight="1"
-                            android:background="#8e8b8b"
-                            android:textColor="#FFF"
-                            android:textAlignment="center"
-                            android:padding="6dp"
-                            android:textSize="18sp"
+
+                            style="@style/ayatana_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="สกุล" />
+
+                        <TextView
+                            android:id="@+id/tvSurnameAyatana"
+                            style="@style/ayatana"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
+
+
+                    </LinearLayout>
+
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
                         <TextView
-                            android:id="@+id/tvNickNameSumSha"
-                            android:text="99"
-                            android:freezesText="true"
-                            android:layout_weight="1"
-                            android:background="#ffffff"
-                            android:padding="6dp"
-                            android:textSize="18sp"
-                            android:textAlignment="center"
+                            style="@style/ayatana_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="ชื่อสกุล" />
+
+                        <TextView
+                            android:id="@+id/tvNamePlusAyatana"
+                            style="@style/ayatana"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
+
+
+                    </LinearLayout>
+
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/ayatana_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="ชื่อเล่น" />
+
+                        <TextView
+                            android:id="@+id/tvNickNameAyatana"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            style="@style/ayatana"
+                            />
 
 
                     </LinearLayout>
@@ -477,107 +753,112 @@
             </LinearLayout>
 
             <android.support.v7.widget.CardView
-                android:layout_marginTop="6dp"
-                android:layout_marginStart="3dp"
-                android:layout_marginEnd="3dp"
-                app:cardBackgroundColor="#f2f2f2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="6dp"
+                app:cardBackgroundColor="#f2f2f2">
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:text="ถอดเลขศาสตร์"
-                    android:textSize="18sp"
-                    android:paddingTop="6dp"
-                    android:paddingStart="6dp"
-                    android:paddingBottom="6dp"
-                    android:textColor="#FFF"
-                    android:background="#589b56"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#589b56"
+                        android:paddingBottom="6dp"
+                        android:paddingStart="6dp"
+                        android:paddingTop="6dp"
+                        android:text="ถอดเลขศาสตร์"
+                        android:textColor="#FFF"
+                        android:textSize="18sp" />
 
 
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:text="ชื่อ : "
-                            android:textSize="18dp"
-                            android:gravity="end|center_vertical"
-
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+
+                            android:gravity="end|center_vertical"
+                            android:text="ชื่อ : "
+                            android:textSize="14dp" />
+
                         <TextView
 
                             android:id="@+id/tvNameLeksat"
-                            android:layout_weight=".3"
-                            android:textSize="18sp"
-                            android:paddingTop="6dp"
-                            android:paddingBottom="6dp"
-                            android:text="เลขศาสตร์"
-                            android:freezesText="true"
-                            android:layout_gravity="center_vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight=".3"
+                            android:freezesText="true"
+                            android:paddingBottom="6dp"
+                            android:paddingTop="6dp"
+                            android:text="เลขศาสตร์"
+                            android:textSize="14sp" />
 
 
                     </LinearLayout>
+
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:text="นามสกุล : "
-                            android:textSize="18dp"
-                            android:gravity="end|center_vertical"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="end|center_vertical"
+                            android:text="นามสกุล : "
+                            android:textSize="14sp" />
+
                         <TextView
                             android:id="@+id/tvSurNameLeksat"
-                            android:layout_weight=".3"
-                            android:textSize="18sp"
-                            android:paddingTop="6dp"
-                            android:paddingBottom="6dp"
-                            android:layout_gravity="center_vertical"
-                            android:freezesText="true"
-                            android:text="เลขศาสตร์"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight=".3"
+                            android:freezesText="true"
+                            android:paddingBottom="6dp"
+                            android:paddingTop="6dp"
+                            android:text="เลขศาสตร์"
+                            android:textSize="14sp" />
 
 
                     </LinearLayout>
+
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:text="ชื่อเล่น : "
-                            android:textSize="18dp"
-                            android:gravity="end|center_vertical"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="end|center_vertical"
+                            android:text="ชื่อเล่น : "
+                            android:textSize="14sp" />
+
                         <TextView
                             android:id="@+id/tvNickNameLeksat"
-                            android:layout_weight=".3"
-                            android:textSize="18sp"
-                            android:paddingTop="6dp"
-                            android:paddingBottom="6dp"
-                            android:layout_gravity="center_vertical"
-                            android:freezesText="true"
-                            android:text="เลขศาสตร์"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight=".3"
+                            android:freezesText="true"
+                            android:paddingBottom="6dp"
+                            android:paddingTop="6dp"
+                            android:text="เลขศาสตร์"
+                            android:textSize="14sp" />
 
 
                     </LinearLayout>
@@ -585,108 +866,115 @@
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+
             <android.support.v7.widget.CardView
-                android:layout_marginTop="6dp"
-                android:layout_marginStart="3dp"
-                android:layout_marginEnd="3dp"
-                app:cardBackgroundColor="#f2f2f2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+
+                android:layout_marginEnd="3dp"
+                android:layout_marginStart="3dp"
+                app:cardBackgroundColor="#f2f2f2">
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:text="ถอดพลังเงา"
-                    android:textSize="18sp"
-                    android:paddingTop="6dp"
-                    android:paddingStart="6dp"
-                    android:paddingBottom="6dp"
-                    android:textColor="#FFF"
-                    android:background="#000000"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#000000"
+                        android:paddingBottom="6dp"
+                        android:paddingStart="6dp"
+                        android:paddingTop="6dp"
+                        android:text="ถอดพลังเงา"
+                        android:textColor="#FFF"
+                        android:textSize="18sp" />
 
 
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:text="ชื่อ : "
-                            android:textSize="18dp"
-                            android:gravity="end|center_vertical"
-
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+
+                            android:gravity="end|center_vertical"
+                            android:text="ชื่อ : "
+                            android:textSize="14sp" />
+
                         <TextView
 
                             android:id="@+id/tvNameShadow"
-                            android:layout_weight=".3"
-                            android:textSize="18sp"
-                            android:paddingTop="6dp"
-                            android:paddingBottom="6dp"
-                            android:text="พลังเงา"
-                            android:freezesText="true"
-                            android:layout_gravity="center_vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight=".3"
+                            android:freezesText="true"
+                            android:paddingBottom="6dp"
+                            android:paddingTop="6dp"
+                            android:text="พลังเงา"
+                            android:textSize="14sp" />
 
 
                     </LinearLayout>
+
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:text="นามสกุล : "
-                            android:textSize="18dp"
-                            android:gravity="end|center_vertical"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="end|center_vertical"
+                            android:text="นามสกุล : "
+                            android:textSize="14sp" />
+
                         <TextView
                             android:id="@+id/tvSurNameShadow"
-                            android:layout_weight=".3"
-                            android:textSize="18sp"
-                            android:paddingTop="6dp"
-                            android:paddingBottom="6dp"
-                            android:layout_gravity="center_vertical"
-                            android:freezesText="true"
-                            android:text="พลังเงา"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight=".3"
+                            android:freezesText="true"
+                            android:paddingBottom="6dp"
+                            android:paddingTop="6dp"
+                            android:text="พลังเงา"
+                            android:textSize="14sp" />
 
 
                     </LinearLayout>
+
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:text="ชื่อเล่น : "
-                            android:textSize="18dp"
-                            android:gravity="end|center_vertical"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="end|center_vertical"
+                            android:text="ชื่อเล่น : "
+                            android:textSize="14sp" />
+
                         <TextView
                             android:id="@+id/tvNickNameShadow"
-                            android:layout_weight=".3"
-                            android:textSize="18sp"
-                            android:paddingTop="6dp"
-                            android:paddingBottom="6dp"
-                            android:layout_gravity="center_vertical"
-                            android:freezesText="true"
-                            android:text="พลังเงา"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight=".3"
+                            android:freezesText="true"
+                            android:paddingBottom="6dp"
+                            android:paddingTop="6dp"
+                            android:text="พลังเงา"
+                            android:textSize="14sp" />
 
 
                     </LinearLayout>
@@ -699,7 +987,7 @@
         </LinearLayout>
 
 
-    </android.support.v4.widget.NestedScrollView>
+    </com.numberniceic.ananya.numberniceic.views.person.NameScrolling>
 
 
     <FrameLayout

@@ -46,9 +46,6 @@ public class TelephoneFragment extends Fragment {
 
     List<PairNumberPercent> pairNumberPercents = new ArrayList<>();
 
-
-    ListView aGridView;
-    PhonePairDangAdapter mPhonePairDangAdapter;
     Button btnMiracle;
     EditText phone_number;
     String phoneNumber;

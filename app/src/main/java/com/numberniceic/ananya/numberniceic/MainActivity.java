@@ -3,6 +3,7 @@ package com.numberniceic.ananya.numberniceic;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,7 +20,7 @@ import com.numberniceic.ananya.numberniceic.fragments.name.BornFragment;
 import com.numberniceic.ananya.numberniceic.fragments.name.NameFragment;
 import com.numberniceic.ananya.numberniceic.fragments.telephone.TelephoneFragment;
 
-public class MainActivity extends AppCompatActivity implements TelephoneFragment.FragmentTelePhoneListener {
+public class MainActivity extends AppCompatActivity implements TelephoneFragment.FragmentTelePhoneListener{
 
     Toolbar toolbar;
     DrawerLayout drawerLayout;
@@ -74,17 +75,6 @@ public class MainActivity extends AppCompatActivity implements TelephoneFragment
     public void onPairPhoneClick(PhoneNumberItemCollectionDao phoneNumberItemCollectionDao) {
 
 
-/*
-       getSupportFragmentManager().beginTransaction().replace(R.id.main_container,
-                MiracleFragment.newInstance(phoneNumberItemCollectionDao), "MiracleFragment").addToBackStack(null).commit();
-*/
-
-/*
-        for (int i = 0; i < phoneNumberItemCollectionDao.getPhoneNumberItemDaosA().size(); i++) {
-            Log.d("phoneNumberDao", phoneNumberItemCollectionDao.getPhoneNumberItemDaosA().get(i).getPhoneNumber());
-        }
-*/
-
         Intent intent = new Intent(getApplicationContext(), MiraclePhoneActivity.class);
         intent.putExtra("phoneNumberDao",phoneNumberItemCollectionDao);
         startActivity(intent);
@@ -102,4 +92,10 @@ public class MainActivity extends AppCompatActivity implements TelephoneFragment
 
 
 
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+
+
+    }
 }

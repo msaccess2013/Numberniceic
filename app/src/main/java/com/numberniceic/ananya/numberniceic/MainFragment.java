@@ -107,99 +107,9 @@ public class MainFragment extends Fragment {
 
     }
 
-    public static class PairPhoneNumber extends FrameLayout {
-
-        RelativeLayout rlPairNumber;
-        TextView txtPairNumber;
-
-        public PairPhoneNumber(Context context) {
-            super(context);
-
-            initInfate();
-            initInstance();
-
-        }
-
-        public PairPhoneNumber(Context context, AttributeSet attrs) {
-            super(context, attrs);
-            initInfate();
-            initInstance();
-        }
-
-        public PairPhoneNumber(Context context, AttributeSet attrs, int defStyleAttr) {
-            super(context, attrs, defStyleAttr);
-            initInfate();
-            initInstance();
-        }
-
-        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-        public PairPhoneNumber(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-            super(context, attrs, defStyleAttr, defStyleRes);
-            initInfate();
-            initInstance();
-
-        }
-
-        private void initInstance() {
-            rlPairNumber = (RelativeLayout) findViewById(R.id.rlPairNumber);
-            txtPairNumber = (TextView) findViewById(R.id.txtPairNumber);
-
-        }
-
-        private void initInfate() {
-                inflate(getContext(), R.layout.layout_pair_phone_number,this);
-        }
-
-        public void setBgColor(String color){
-            rlPairNumber.setBackgroundColor(Color.parseColor(color));
-        }
-        public void setTxtPairNumber(String txt){
-            txtPairNumber.setText(txt);
-        }
-
-    }
-
-    public static class PairDang extends FrameLayout {
-
-        private TextView pairA;
-        private TextView pairB;
 
 
 
-        public PairDang(Context context) {
-            super(context);
-            innitInflate();
-            innitInstance();
-        }
-
-        public PairDang(Context context, AttributeSet attrs) {
-            super(context, attrs);
-            innitInflate();
-            innitInstance();
-        }
-
-        public PairDang(Context context, AttributeSet attrs, int defStyleAttr) {
-            super(context, attrs, defStyleAttr);
-            innitInflate();
-            innitInstance();
-        }
-
-        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-        public PairDang(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-            super(context, attrs, defStyleAttr, defStyleRes);
-            innitInflate();
-            innitInstance();
-        }
-
-        private void innitInstance() {
-                this.pairA = (TextView) findViewById(R.id.pairDangA);
-                this.pairB = (TextView) findViewById(R.id.pairDangB);
-        }
-
-        private void innitInflate() {
-            inflate(getContext(), R.layout.layout_pair_dang, this);
-        }
-    }
 }
 
 

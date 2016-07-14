@@ -22,6 +22,24 @@
         <item name="colorButtonNormal">@color/pink</item>
     </style>
 
+    <style name="ayatana">
+        <item name="android:background">#c7c7c7</item>
+        <item name="android:freezesText">true</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:text">9</item>
+
+    </style>
+
+    <style name="ayatana_title">
+        <item name="android:background">#8e8b8b</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">#FFF</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <color name="indigo">#E91E63</color>
     <color name="pink">#878586</color>
     <color name="black">#fcfbfb</color>

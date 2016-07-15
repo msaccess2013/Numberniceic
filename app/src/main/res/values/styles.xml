@@ -23,12 +23,12 @@
     </style>
 
     <style name="ayatana">
-        <item name="android:background">#c7c7c7</item>
+
         <item name="android:freezesText">true</item>
-        <item name="android:padding">6dp</item>
+        <item name="android:padding">2dp</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:text">9</item>
+
 
     </style>
 
@@ -37,6 +37,67 @@
         <item name="android:padding">6dp</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textColor">#FFF</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="leksat_second">
+        <item name="android:background">#ffffff</item>
+        <item name="android:freezesText">true</item>
+        <item name="android:layout_marginEnd">0.5dp</item>
+        <item name="android:layout_marginStart">1dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">18sp</item>
+
+    </style>
+
+    <style name="leksat_first">
+        <item name="android:background">#ffffff</item>
+        <item name="android:freezesText">true</item>
+        <item name="android:layout_marginStart">1dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">18sp</item>
+
+    </style>
+
+    <style name="card_leksat">
+
+        <item name="android:layout_marginBottom">3dp</item>
+        <item name="android:layout_marginEnd">3dp</item>
+        <item name="android:layout_marginStart">3dp</item>
+    </style>
+
+    <style name="txt_title_leksat">
+        <item name="android:background">#ffa51d</item>
+        <item name="android:textColor">#FFF</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="sha_title">
+        <item name="android:background">#8e8b8b</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">#FFF</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="tv_sha_second">
+        <item name="android:layout_marginEnd">0.5dp</item>
+        <item name="android:layout_marginStart">1dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">#ffffff</item>
+        <item name="android:freezesText">true</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="tv_sha_first">
+        <item name="android:layout_marginStart">1dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">#ffffff</item>
+        <item name="android:freezesText">true</item>
+        <item name="android:textAlignment">center</item>
         <item name="android:textSize">18sp</item>
     </style>
 

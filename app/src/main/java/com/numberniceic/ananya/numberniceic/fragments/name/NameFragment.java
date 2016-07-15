@@ -48,7 +48,9 @@ public class NameFragment extends Fragment {
     private Button btnCal, btnReset;
     private TextView tvNameLeksat, tvSurNameLekSat, tvNickNameLekSat;
     private TextView tvNameSumSat, tvSurnameSumSat, tvNicknameSumSat, tvNamePlusSur;
+    private TextView tvNameSumSatFak, tvSurnameSumSatFak, tvNicknameSumSatFak, tvNamePlusSurFak;
     private TextView tvNameSumSha, tvSurnameSumSha, tvNicknameSumSha, tvNamePlusSurSha;
+    private TextView tvNameSumShaFak, tvSurnameSumShaFak, tvNicknameSumShaFak, tvNamePlusSurShaFak;
     private TextView tvKalakinee;
     private TextView tvNameShadow, tvSurNameShadow, tvNickNameShadow;
     private TextView tvNameAyatana, tvSurNameAyatana, tvNickNameAyatana, tvNamePlusAyatana;
@@ -238,7 +240,7 @@ public class NameFragment extends Fragment {
 
         StringBuilder sb = new StringBuilder();
 
-        if (edNickname.getText().toString().length() > 1) {
+        if (edNickname.getText().toString().length() > 0) {
 
             for (int i = 0; i < nickname.length(); i++) {
                 manager.setLekSat(nickname.charAt(i));
@@ -302,12 +304,83 @@ public class NameFragment extends Fragment {
         tvNicknameSumSat.setText("");
         tvNamePlusSur.setText("");
 
-        tvNameSumSat.setText(String.valueOf(sumSatName));
-        tvSurnameSumSat.setText(String.valueOf(sumSatSurName));
-        tvNicknameSumSat.setText(String.valueOf(sumSatNickName));
+        if (sumSatName.toString().length() == 3) {
+            char c1 = sumSatName.toString().charAt(0);
+            char c2 = sumSatName.toString().charAt(1);
+            char c3 = sumSatName.toString().charAt(2);
+
+            String fPair = String.valueOf(c1) + String.valueOf(c2);
+            String sPair = String.valueOf(c2) + String.valueOf(c3);
+
+            if (!fPair.equals(sPair)) {
+                tvNameSumSat.setText(fPair);
+                tvNameSumSatFak.setText(sPair);
+            }
+
+        } else {
+            if (sumSatName != 0)
+            tvNameSumSat.setText(String.valueOf(sumSatName));
+        }
+
+
+        if (sumSatSurName.toString().length() == 3) {
+            char c1 = sumSatSurName.toString().charAt(0);
+            char c2 = sumSatSurName.toString().charAt(1);
+            char c3 = sumSatSurName.toString().charAt(2);
+
+            String fPair = String.valueOf(c1) + String.valueOf(c2);
+            String sPair = String.valueOf(c2) + String.valueOf(c3);
+
+            if (!fPair.equals(sPair)) {
+                tvSurnameSumSat.setText(fPair);
+                tvSurnameSumSatFak.setText(sPair);
+            }
+
+        } else {
+            if (sumSatSurName != 0)
+            tvSurnameSumSat.setText(String.valueOf(sumSatSurName));
+        }
+
+
+        if (sumSatNickName.toString().length() == 3) {
+            char c1 = sumSatNickName.toString().charAt(0);
+            char c2 = sumSatNickName.toString().charAt(1);
+            char c3 = sumSatNickName.toString().charAt(2);
+
+            String fPair = String.valueOf(c1) + String.valueOf(c2);
+            String sPair = String.valueOf(c2) + String.valueOf(c3);
+
+            if (!fPair.equals(sPair)) {
+                tvNicknameSumSat.setText(fPair);
+                tvNicknameSumSatFak.setText(sPair);
+            }
+
+        } else {
+            if (sumSatNickName != 0)
+            tvNicknameSumSat.setText(String.valueOf(sumSatNickName));
+        }
+
 
         sumSatNamePlusSur = sumSatName + sumSatSurName;
-        tvNamePlusSur.setText(String.valueOf(sumSatNamePlusSur));
+        if (sumSatNamePlusSur.toString().length() == 3) {
+            char c1 = sumSatNamePlusSur.toString().charAt(0);
+            char c2 = sumSatNamePlusSur.toString().charAt(1);
+            char c3 = sumSatNamePlusSur.toString().charAt(2);
+
+            String fPair = String.valueOf(c1) + String.valueOf(c2);
+            String sPair = String.valueOf(c2) + String.valueOf(c3);
+
+            if (!fPair.equals(sPair)) {
+                tvNamePlusSur.setText(fPair);
+                tvNamePlusSurFak.setText(sPair);
+            }
+
+        } else {
+
+            if (sumSatNamePlusSur != 0)
+            tvNamePlusSur.setText(String.valueOf(sumSatNamePlusSur));
+        }
+
 
     }
 
@@ -327,7 +400,22 @@ public class NameFragment extends Fragment {
                         sumShaName = sumShaName + Integer.valueOf(sNumb);
                     }
                 }
-                tvNameSumSha.setText(String.valueOf(sumShaName));
+
+                if (sumShaName.toString().length() == 3) {
+
+                    String fPair = String.valueOf(sumShaName.toString().charAt(0)) + String.valueOf(sumShaName.toString().charAt(1));
+                    String sPair = String.valueOf(sumShaName.toString().charAt(1)) + String.valueOf(sumShaName.toString().charAt(2));
+
+                    if (!fPair.equals(sPair)) {
+                        tvNameSumSha.setText(fPair);
+                        tvNameSumShaFak.setText(sPair);
+                    }
+
+
+                } else {
+                    if (sumShaName != 0)
+                    tvNameSumSha.setText(String.valueOf(sumShaName));
+                }
             }
         }
 
@@ -343,13 +431,43 @@ public class NameFragment extends Fragment {
                         sumShaSurname = sumShaSurname + Integer.valueOf(sNumb);
                     }
                 }
-                tvSurnameSumSha.setText(String.valueOf(sumShaSurname));
+                if (sumShaSurname.toString().length() == 3) {
+
+                    String fPair = String.valueOf(sumShaSurname.toString().charAt(0)) + String.valueOf(sumShaSurname.toString().charAt(1));
+                    String sPair = String.valueOf(sumShaSurname.toString().charAt(1)) + String.valueOf(sumShaSurname.toString().charAt(2));
+
+                    if (!fPair.equals(sPair)) {
+                        tvSurnameSumSha.setText(fPair);
+                        tvSurnameSumShaFak.setText(sPair);
+                    }
+
+
+                } else {
+                    if (sumShaSurname != 0)
+                    tvSurnameSumSha.setText(String.valueOf(sumShaSurname));
+                }
             }
         }
 
 
         Integer shaPlue = sumShaName + sumShaSurname;
-        tvNamePlusSurSha.setText(String.valueOf(shaPlue));
+
+        if (shaPlue.toString().length() == 3) {
+
+            String fPair = String.valueOf(shaPlue.toString().charAt(0)) + String.valueOf(shaPlue.toString().charAt(1));
+            String sPair = String.valueOf(shaPlue.toString().charAt(1)) + String.valueOf(shaPlue.toString().charAt(2));
+
+            if (!fPair.equals(sPair)) {
+                tvNamePlusSurSha.setText(fPair);
+                tvNamePlusSurShaFak.setText(sPair);
+            }
+
+
+        } else {
+            if (shaPlue != 0)
+            tvNamePlusSurSha.setText(String.valueOf(shaPlue));
+        }
+
 
         if (shaDao.getLekShaNickNameDaoList() != null) {
 
@@ -362,7 +480,21 @@ public class NameFragment extends Fragment {
                         sumShaNickname = sumShaNickname + Integer.valueOf(sNumb);
                     }
                 }
-                tvNicknameSumSha.setText(String.valueOf(sumShaNickname));
+                if (sumShaNickname.toString().length() == 3) {
+
+                    String fPair = String.valueOf(sumShaNickname.toString().charAt(0)) + String.valueOf(sumShaNickname.toString().charAt(1));
+                    String sPair = String.valueOf(sumShaNickname.toString().charAt(1)) + String.valueOf(sumShaNickname.toString().charAt(2));
+
+                    if (!fPair.equals(sPair)) {
+                        tvNicknameSumSha.setText(fPair);
+                        tvNicknameSumShaFak.setText(sPair);
+                    }
+
+
+                } else {
+                    if (sumShaNickname != 0)
+                    tvNicknameSumSha.setText(String.valueOf(sumShaNickname));
+                }
             }
         }
 
@@ -457,9 +589,10 @@ public class NameFragment extends Fragment {
 
             String sNumber = sManager.getNumberStar();
             //เก็บอักษรแต่ตัวเลขจะเป็น null
-            if (sNumber != null)
+            if (sNumber != null) {
                 sb.append(cName + ":" + sNumber + "  ");
-            lekShaNameDaos.add(new LekShaNameDao(cName, sNumber));
+                lekShaNameDaos.add(new LekShaNameDao(cName, sNumber));
+            }
 
         }
 
@@ -488,9 +621,10 @@ public class NameFragment extends Fragment {
 
             String sNumber = sManager.getNumberStar();
 
-            if (sNumber != null)
-                lekShaSurNameDaos.add(new LekShaSurNameDao(cSurName, sNumber));
+            if (sNumber != null) {
                 sb.append(cSurName + ":" + sNumber + "  ");
+                lekShaSurNameDaos.add(new LekShaSurNameDao(cSurName, sNumber));
+            }
 
         }
 
@@ -535,26 +669,248 @@ public class NameFragment extends Fragment {
     }
 
 
-    private void ayatana(){
+    private void ayatanaName() {
 
-        if (tvNameSumSha.getText().length() > 0){
+        if (tvNameSumSha.getText().length() > 0 && tvNameSumShaFak.getText().length() == 0) {
 
             String cName = tvNameSumSha.getText().toString();
 
-            if (cName.length() == 2){
+
+            if (cName.length() == 1) {
+                Integer c1 = Integer.valueOf(String.valueOf(cName.charAt(0)));
+                tvNameAyatana.setText(String.valueOf(c1));
+            }
+
+            if (cName.length() == 2) {
                 Integer c1 = Integer.valueOf(String.valueOf(cName.charAt(0)));
                 Integer c2 = Integer.valueOf(String.valueOf(cName.charAt(1)));
 
-                if (c2 > 5){
+                if (c2 > 5) {
                     tvNameAyatana.setText(String.valueOf(c2));
-                }else{
+                } else {
                     int x = c1 + c2;
-                    tvNameAyatana.setText(String.valueOf(x));
+                    if (String.valueOf(x).length() == 2) {
+
+                        char x1 = String.valueOf(x).charAt(0);
+                        char x2 = String.valueOf(x).charAt(1);
+
+                        int z = Integer.valueOf(String.valueOf(x1)) + Integer.valueOf(String.valueOf(x2));
+                        tvNameAyatana.setText(String.valueOf(z));
+
+                    } else {
+                        tvNameAyatana.setText(String.valueOf(x));
+                    }
                 }
 
             }
+        } else if (tvNameSumShaFak.getText().length() > 0) {
 
+            String cNameSha = tvNameSumSha.getText().toString();
+            String cNameShaFak = tvNameSumShaFak.getText().toString();
+
+            Integer c1 = Integer.valueOf(String.valueOf(cNameSha.charAt(0)));
+            Integer c2 = Integer.valueOf(String.valueOf(cNameSha.charAt(1)));
+            Integer c3 = Integer.valueOf(String.valueOf(cNameShaFak.charAt(1)));
+
+
+            int x = c1 + c2 + c3;
+
+            if (x >= 10){
+                int x1 = Integer.parseInt(String.valueOf(String.valueOf(x).charAt(0)));
+                int x2 = Integer.parseInt(String.valueOf(String.valueOf(x).charAt(1)));
+                int z = x1 + x2;
+                tvNameAyatana.setText(String.valueOf(z));
+            }else {
+                tvNameAyatana.setText(String.valueOf(x));
+
+            }
         }
+
+
+
+
+    }
+    private void ayatanaSurName() {
+
+        if (tvSurnameSumSha.getText().length() > 0 && tvSurnameSumShaFak.getText().length() == 0) {
+
+            String cSurName = tvSurnameSumSha.getText().toString();
+
+
+            if (cSurName.length() == 1) {
+                Integer c1 = Integer.valueOf(String.valueOf(cSurName.charAt(0)));
+                tvSurNameAyatana.setText(String.valueOf(c1));
+            }
+
+            if (cSurName.length() == 2) {
+                Integer c1 = Integer.valueOf(String.valueOf(cSurName.charAt(0)));
+                Integer c2 = Integer.valueOf(String.valueOf(cSurName.charAt(1)));
+
+                if (c2 > 5) {
+                    tvSurNameAyatana.setText(String.valueOf(c2));
+                } else {
+                    int x = c1 + c2;
+                    if (String.valueOf(x).length() == 2) {
+
+                        char x1 = String.valueOf(x).charAt(0);
+                        char x2 = String.valueOf(x).charAt(1);
+
+                        int z = Integer.valueOf(String.valueOf(x1)) + Integer.valueOf(String.valueOf(x2));
+                        tvSurNameAyatana.setText(String.valueOf(z));
+
+                    } else {
+                        tvSurNameAyatana.setText(String.valueOf(x));
+                    }
+                }
+
+            }
+        } else if (tvSurnameSumShaFak.getText().length() > 0) {
+
+            String cSurNameSha = tvSurnameSumSha.getText().toString();
+            String cSurNameShaFak = tvSurnameSumShaFak.getText().toString();
+
+            Integer c1 = Integer.valueOf(String.valueOf(cSurNameSha.charAt(0)));
+            Integer c2 = Integer.valueOf(String.valueOf(cSurNameSha.charAt(1)));
+            Integer c3 = Integer.valueOf(String.valueOf(cSurNameShaFak.charAt(1)));
+
+
+            int x = c1 + c2 + c3;
+
+            if (x >= 10){
+                int x1 = Integer.parseInt(String.valueOf(String.valueOf(x).charAt(0)));
+                int x2 = Integer.parseInt(String.valueOf(String.valueOf(x).charAt(1)));
+                int z = x1 + x2;
+                tvSurNameAyatana.setText(String.valueOf(z));
+            }else {
+                tvSurNameAyatana.setText(String.valueOf(x));
+
+            }
+        }
+
+
+
+
+    }
+    private void ayatanaNickName() {
+
+        if (tvNicknameSumSha.getText().length() > 0 && tvNicknameSumShaFak.getText().length() == 0) {
+
+            String cNickName = tvNicknameSumSha.getText().toString();
+
+
+            if (cNickName.length() == 1) {
+                Integer c1 = Integer.valueOf(String.valueOf(cNickName.charAt(0)));
+                tvNickNameAyatana.setText(String.valueOf(c1));
+            }
+
+            if (cNickName.length() == 2) {
+                Integer c1 = Integer.valueOf(String.valueOf(cNickName.charAt(0)));
+                Integer c2 = Integer.valueOf(String.valueOf(cNickName.charAt(1)));
+
+                if (c2 > 5) {
+                    tvNickNameAyatana.setText(String.valueOf(c2));
+                } else {
+                    int x = c1 + c2;
+                    if (String.valueOf(x).length() == 2) {
+
+                        char x1 = String.valueOf(x).charAt(0);
+                        char x2 = String.valueOf(x).charAt(1);
+
+                        int z = Integer.valueOf(String.valueOf(x1)) + Integer.valueOf(String.valueOf(x2));
+                        tvNickNameAyatana.setText(String.valueOf(z));
+
+                    } else {
+                        tvNickNameAyatana.setText(String.valueOf(x));
+                    }
+                }
+
+            }
+        } else if (tvNicknameSumShaFak.getText().length() > 0) {
+
+            String cNickNameSha = tvNicknameSumSha.getText().toString();
+            String cNickNameShaFak = tvNicknameSumShaFak.getText().toString();
+
+            Integer c1 = Integer.valueOf(String.valueOf(cNickNameSha.charAt(0)));
+            Integer c2 = Integer.valueOf(String.valueOf(cNickNameSha.charAt(1)));
+            Integer c3 = Integer.valueOf(String.valueOf(cNickNameShaFak.charAt(1)));
+
+
+            int x = c1 + c2 + c3;
+
+            if (x >= 10){
+                int x1 = Integer.parseInt(String.valueOf(String.valueOf(x).charAt(0)));
+                int x2 = Integer.parseInt(String.valueOf(String.valueOf(x).charAt(1)));
+                int z = x1 + x2;
+                tvNickNameAyatana.setText(String.valueOf(z));
+            }else {
+                tvNickNameAyatana.setText(String.valueOf(x));
+
+            }
+        }
+
+
+
+
+    }
+    private void ayatanaNamePlus() {
+
+        if (tvNamePlusSurSha.getText().length() > 0 && tvNamePlusSurShaFak.getText().length() == 0) {
+
+            String cNamePlus = tvNamePlusSurSha.getText().toString();
+
+
+            if (cNamePlus.length() == 1) {
+                Integer c1 = Integer.valueOf(String.valueOf(cNamePlus.charAt(0)));
+                tvNamePlusAyatana.setText(String.valueOf(c1));
+            }
+
+            if (cNamePlus.length() == 2) {
+                Integer c1 = Integer.valueOf(String.valueOf(cNamePlus.charAt(0)));
+                Integer c2 = Integer.valueOf(String.valueOf(cNamePlus.charAt(1)));
+
+                if (c2 > 5) {
+                    tvNamePlusAyatana.setText(String.valueOf(c2));
+                } else {
+                    int x = c1 + c2;
+                    if (String.valueOf(x).length() == 2) {
+
+                        char x1 = String.valueOf(x).charAt(0);
+                        char x2 = String.valueOf(x).charAt(1);
+
+                        int z = Integer.valueOf(String.valueOf(x1)) + Integer.valueOf(String.valueOf(x2));
+                        tvNamePlusAyatana.setText(String.valueOf(z));
+
+                    } else {
+                        tvNamePlusAyatana.setText(String.valueOf(x));
+                    }
+                }
+
+            }
+        } else if (tvNamePlusSurSha.getText().length() > 1) {
+
+            String cNickNameSha = tvNamePlusSurSha.getText().toString();
+            String cNickNameShaFak = tvNamePlusSurShaFak.getText().toString();
+
+            Integer c1 = Integer.valueOf(String.valueOf(cNickNameSha.charAt(0)));
+            Integer c2 = Integer.valueOf(String.valueOf(cNickNameSha.charAt(1)));
+            Integer c3 = Integer.valueOf(String.valueOf(cNickNameShaFak.charAt(1)));
+
+
+            int x = c1 + c2 + c3;
+
+            if (x >= 10){
+                int x1 = Integer.parseInt(String.valueOf(String.valueOf(x).charAt(0)));
+                int x2 = Integer.parseInt(String.valueOf(String.valueOf(x).charAt(1)));
+                int z = x1 + x2;
+                tvNamePlusAyatana.setText(String.valueOf(z));
+            }else {
+                tvNamePlusAyatana.setText(String.valueOf(x));
+
+            }
+        }
+
+
+
 
     }
 
@@ -581,10 +937,22 @@ public class NameFragment extends Fragment {
         tvNicknameSumSat = (TextView) rootView.findViewById(R.id.tvNickNameSumSat);
         tvNamePlusSur = (TextView) rootView.findViewById(R.id.tvNamePlusSumSat);
 
+        tvNameSumSatFak = (TextView) rootView.findViewById(R.id.tvNameSumSatFak);
+        tvSurnameSumSatFak = (TextView) rootView.findViewById(R.id.tvSurNameSumSatFak);
+        tvNicknameSumSatFak = (TextView) rootView.findViewById(R.id.tvNickNameSumSatFak);
+        tvNamePlusSurFak = (TextView) rootView.findViewById(R.id.tvNamePlusSumSatFak);
+
         tvNameSumSha = (TextView) rootView.findViewById(R.id.tvNameSumSha);
         tvSurnameSumSha = (TextView) rootView.findViewById(R.id.tvSurnameSumSha);
         tvNicknameSumSha = (TextView) rootView.findViewById(R.id.tvNickNameSumSha);
         tvNamePlusSurSha = (TextView) rootView.findViewById(R.id.tvNamePlusSumSha);
+
+
+        tvNameSumShaFak = (TextView) rootView.findViewById(R.id.tvNameSumShaFak);
+        tvSurnameSumShaFak = (TextView) rootView.findViewById(R.id.tvSurnameSumShaFak);
+        tvNicknameSumShaFak = (TextView) rootView.findViewById(R.id.tvNickNameSumShaFak);
+        tvNamePlusSurShaFak = (TextView) rootView.findViewById(R.id.tvNamePlusSumShaFak);
+
         tvKalakinee = (TextView) rootView.findViewById(R.id.tvKalakinee);
 
         tvNameShadow = (TextView) rootView.findViewById(R.id.tvNameShadow);
@@ -620,14 +988,22 @@ public class NameFragment extends Fragment {
             decodeName();
             decodeSurName();
             decodeNickName();
-            sumSat();
-            deKalakinee(theDay);
+
+
             deStarName();
             deStarSurName();
             deStarNickName();
+
+            deKalakinee(theDay);
+
+
+            sumSat();
             sumShadow();
 
-            ayatana();
+            ayatanaName();
+            ayatanaSurName();
+            ayatanaNickName();
+            ayatanaNamePlus();
 
 
             if (imm.isAcceptingText()) {
@@ -641,6 +1017,7 @@ public class NameFragment extends Fragment {
         @Override
         public void onClick(View view) {
             clearEdt();
+            clearTv();
 
             if (imm.isAcceptingText()) {
                 Log.d("imm", "true");
@@ -657,6 +1034,51 @@ public class NameFragment extends Fragment {
         edName.setText("");
         edSurname.setText("");
         edNickname.setText("");
+    }
+
+    private void clearTv(){
+        tvNameLeksat.setText("");
+        tvSurNameLekSat.setText("");
+        tvNickNameLekSat.setText("");
+        tvNamePlusSur.setText("");
+
+        tvNameLeksat.setText("");
+        tvSurNameLekSat.setText("");
+        tvNickNameLekSat.setText("");
+        tvNamePlusSur.setText("");
+
+        tvNameShadow.setText("");
+        tvSurNameShadow.setText("");
+        tvNickNameShadow.setText("");
+        tvNamePlusSurSha.setText("");
+
+
+        tvNameSumSha.setText("");
+        tvSurnameSumSha.setText("");
+        tvNicknameSumSha.setText("");
+        tvNamePlusSurSha.setText("");
+        tvNameSumShaFak.setText("");
+        tvSurnameSumShaFak.setText("");
+        tvNicknameSumShaFak.setText("");
+        tvNamePlusSurShaFak.setText("");
+
+
+        tvNameSumSat.setText("");
+        tvNameSumSatFak.setText("");
+        tvSurnameSumSat.setText("");
+        tvSurnameSumSatFak.setText("");
+        tvNicknameSumSat.setText("");
+        tvNicknameSumSatFak.setText("");
+        tvNamePlusSur.setText("");
+        tvNamePlusSurFak.setText("");
+
+        tvNameAyatana.setText("");
+        tvSurNameAyatana.setText("");
+        tvNickNameAyatana.setText("");
+        tvNamePlusAyatana.setText("");
+
+
+        tvKalakinee.setText("");
     }
 
 

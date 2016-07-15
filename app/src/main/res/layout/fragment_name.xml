@@ -48,7 +48,7 @@
                         android:id="@+id/btnBirthDay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="เลือกวันเกิด"
+                        android:text="1. เลือกวันเกิด"
 
                         />
 
@@ -88,6 +88,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight=".5"
                             android:background="#f4f4ee"
+                            android:maxLength="24"
                             android:text="พีระพงศ์"
                             android:textAlignment="center"
                             android:textSize="18sp" />
@@ -114,6 +115,7 @@
                             android:layout_weight=".5"
                             android:background="#ede9e9"
                             android:text="ทองแสน"
+                            android:maxLength="24"
                             android:textAlignment="center"
                             android:textSize="18sp" />
                     </LinearLayout>
@@ -138,6 +140,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight=".5"
                             android:background="#faf1f1"
+                            android:maxLength="16"
                             android:text="เบิ้ล"
                             android:textAlignment="center"
                             android:textSize="18sp" />
@@ -169,6 +172,16 @@
                         android:text="ล้าง" />
 
                     <Button
+                        android:id="@+id/btnNameMiracle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:freezesText="true"
+
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="3. ทำนาย" />
+
+                    <Button
                         android:id="@+id/btnCal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -176,7 +189,7 @@
                         android:freezesText="true"
 
                         android:gravity="center_vertical|center_horizontal"
-                        android:text="คำนวณ" />
+                        android:text="2. คำนวณ" />
                 </LinearLayout>
 
 
@@ -205,11 +218,11 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="#a9a9a9"
+                            android:background="#ececec"
                             android:padding="6dp"
                             android:text="อักษรกาละกิณี"
                             android:textAlignment="center"
-                            android:textColor="#000000"
+                            android:textColor="#a1a1a1"
                             android:textSize="18sp" />
 
                         <TextView
@@ -245,16 +258,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
                 android:layout_marginTop="3dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+
+
+                >
 
 
                 <android.support.v7.widget.CardView
+                    style="@style/card_leksat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_marginStart="3dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="#edd086"
+                    app:cardCornerRadius=".75dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -262,25 +278,82 @@
                         android:orientation="vertical">
 
                         <TextView
+                            style="@style/txt_title_leksat"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="#589b56"
-                            android:padding="6dp"
-                            android:text="ชื่อ"
-                            android:textAlignment="center"
-                            android:textColor="#FFF"
-                            android:textSize="18sp" />
+                            android:text="ชื่อ" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:padding="1dp">
+
+
+                            <TextView
+                                android:id="@+id/tvNameSumSat"
+                                style="@style/leksat_first"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1" />
+
+
+                            <TextView
+                                android:id="@+id/tvNameSumSatFak"
+                                style="@style/leksat_second"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    style="@style/card_leksat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:cardCornerRadius=".75dp"
+                    app:cardBackgroundColor="#edd086"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
 
                         <TextView
-                            android:id="@+id/tvNameSumSat"
+                            style="@style/txt_title_leksat"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="#e2ecde"
-                            android:freezesText="true"
-                            android:padding="6dp"
-                            android:text="99"
-                            android:textAlignment="center"
-                            android:textSize="18sp" />
+                            android:text="สกุล" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:padding="1dp">
+
+                            <TextView
+                                android:id="@+id/tvSurnameSumSat"
+                                style="@style/leksat_first"
+                                android:layout_weight="1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="1dp" />
+
+                            <TextView
+                                android:id="@+id/tvSurNameSumSatFak"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                style="@style/leksat_second"/>
+
+                        </LinearLayout>
 
 
                     </LinearLayout>
@@ -289,12 +362,12 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
+                    style="@style/card_leksat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_marginStart="3dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    app:cardCornerRadius=".75dp"
+                    app:cardBackgroundColor="#edd086">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -303,82 +376,44 @@
 
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="0dp"
                             android:layout_weight="1"
-                            android:background="#589b56"
-                            android:padding="6dp"
-                            android:text="สกุล"
-                            android:textAlignment="center"
-                            android:textColor="#FFF"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/tvSurnameSumSat"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="#e2ecde"
-                            android:freezesText="true"
-                            android:padding="6dp"
-                            android:text="99"
-                            android:textAlignment="center"
-                            android:textSize="18sp" />
-
-
-                    </LinearLayout>
-
-
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_marginStart="3dp"
-                    android:layout_weight="1">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="#589b56"
-                            android:padding="6dp"
                             android:text="ชื่อสกุล"
-                            android:textAlignment="center"
-                            android:textColor="#FFF"
-                            android:textSize="18sp" />
+                            style="@style/txt_title_leksat"/>
 
-                        <TextView
-                            android:id="@+id/tvNamePlusSumSat"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="#e2ecde"
-                            android:freezesText="true"
-                            android:padding="6dp"
-                            android:text="99"
-                            android:textAlignment="center"
-                            android:textSize="18sp" />
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="1dp">
 
+                            <TextView
+                                android:id="@+id/tvNamePlusSumSat"
+                                android:layout_weight="1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                style="@style/leksat_first"/>
 
+                            <TextView
+                                android:layout_weight="1"
+                                android:id="@+id/tvNamePlusSumSatFak"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                style="@style/leksat_second"/>
+
+                        </LinearLayout>
                     </LinearLayout>
 
 
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
+                    style="@style/card_leksat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_marginStart="3dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    app:cardCornerRadius=".75dp"
+                    app:cardBackgroundColor="#edd086">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -387,28 +422,33 @@
 
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="0dp"
                             android:layout_weight="1"
-                            android:background="#589b56"
-                            android:padding="6dp"
                             android:text="ชื่อเล่น"
-                            android:textAlignment="center"
-                            android:textColor="#FFF"
-                            android:textSize="18sp" />
+                            style="@style/txt_title_leksat" />
 
-                        <TextView
-                            android:id="@+id/tvNickNameSumSat"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="#e2ecde"
-                            android:freezesText="true"
-                            android:padding="6dp"
-                            android:text="99"
-                            android:textAlignment="center"
-                            android:textSize="18sp" />
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="1dp">
+
+                            <TextView
+                                android:id="@+id/tvNickNameSumSat"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                               style="@style/leksat_first" />
 
 
+                            <TextView
+                                android:id="@+id/tvNickNameSumSatFak"
+                                android:layout_weight="1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                style="@style/leksat_second" />
+
+                        </LinearLayout>
                     </LinearLayout>
 
 
@@ -440,6 +480,8 @@
                     android:layout_marginBottom="6dp"
                     android:layout_marginEnd="3dp"
                     android:layout_marginStart="3dp"
+                    app:cardCornerRadius=".75dp"
+                    app:cardBackgroundColor="#e2e2e2"
                     android:layout_weight="1">
 
                     <LinearLayout
@@ -448,25 +490,30 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="#8e8b8b"
-                            android:padding="6dp"
                             android:text="ชื่อ"
-                            android:textAlignment="center"
-                            android:textColor="#FFF"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/tvNameSumSha"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="#ffffff"
-                            android:freezesText="true"
-                            android:padding="6dp"
-                            android:text="99"
-                            android:textAlignment="center"
-                            android:textSize="18sp" />
+                            style="@style/sha_title" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="1dp">
+
+                            <TextView
+                                android:id="@+id/tvNameSumSha"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                style="@style/tv_sha_first"/>
+
+                            <TextView
+                                android:id="@+id/tvNameSumShaFak"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                style="@style/tv_sha_second"/>
+
+                        </LinearLayout>
 
 
                     </LinearLayout>
@@ -480,6 +527,8 @@
                     android:layout_marginBottom="6dp"
                     android:layout_marginEnd="3dp"
                     android:layout_marginStart="3dp"
+                    app:cardCornerRadius=".75dp"
+                    app:cardBackgroundColor="#e2e2e2"
                     android:layout_weight="1">
 
 
@@ -489,28 +538,30 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="#8e8b8b"
-                            android:padding="6dp"
                             android:text="สกุล"
-                            android:textAlignment="center"
-                            android:textColor="#FFF"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/tvSurnameSumSha"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="#ffffff"
-                            android:freezesText="true"
-                            android:padding="6dp"
-                            android:text="99"
-                            android:textAlignment="center"
-                            android:textSize="18sp" />
+                            style="@style/sha_title" />
 
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="1dp">
+
+                            <TextView
+                                android:id="@+id/tvSurnameSumSha"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                style="@style/tv_sha_first"/>
+
+                            <TextView
+                                android:id="@+id/tvSurnameSumShaFak"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                style="@style/tv_sha_second" />
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -523,6 +574,8 @@
                     android:layout_marginBottom="6dp"
                     android:layout_marginEnd="3dp"
                     android:layout_marginStart="3dp"
+                    app:cardCornerRadius=".75dp"
+                    app:cardBackgroundColor="#e2e2e2"
                     android:layout_weight="1">
 
 
@@ -532,27 +585,31 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="#8e8b8b"
-                            android:padding="6dp"
                             android:text="ชื่อสกุล"
-                            android:textAlignment="center"
-                            android:textColor="#FFF"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/tvNamePlusSumSha"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="#ffffff"
-                            android:freezesText="true"
-                            android:padding="6dp"
-                            android:text="99"
-                            android:textAlignment="center"
-                            android:textSize="18sp" />
+                            style="@style/sha_title" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="1dp">
+
+                            <TextView
+                                android:id="@+id/tvNamePlusSumSha"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                style="@style/tv_sha_first"/>
+
+                            <TextView
+                                android:id="@+id/tvNamePlusSumShaFak"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                style="@style/tv_sha_second" />
+
+
+                        </LinearLayout>
 
 
                     </LinearLayout>
@@ -566,6 +623,8 @@
                     android:layout_marginBottom="6dp"
                     android:layout_marginEnd="3dp"
                     android:layout_marginStart="3dp"
+                    app:cardCornerRadius=".75dp"
+                    app:cardBackgroundColor="#e2e2e2"
                     android:layout_weight="1">
 
                     <LinearLayout
@@ -574,28 +633,30 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="#8e8b8b"
-                            android:padding="6dp"
                             android:text="ชื่อเล่น"
-                            android:textAlignment="center"
-                            android:textColor="#FFF"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/tvNickNameSumSha"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="#ffffff"
-                            android:freezesText="true"
-                            android:padding="6dp"
-                            android:text="99"
-                            android:textAlignment="center"
-                            android:textSize="18sp" />
+                            style="@style/sha_title"/>
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="1dp">
+
+                            <TextView
+                                android:id="@+id/tvNickNameSumSha"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                style="@style/tv_sha_first" />
+
+                            <TextView
+                                android:id="@+id/tvNickNameSumShaFak"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                style="@style/tv_sha_second" />
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -611,7 +672,7 @@
                 android:layout_marginStart="6dp"
                 android:layout_marginTop="0dp"
                 android:text="อายตนะ"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -624,27 +685,26 @@
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
+                    android:layout_marginBottom="3dp"
                     android:layout_marginEnd="3dp"
                     android:layout_marginStart="3dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="#eae9e9"
+                    app:cardCornerRadius=".5dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
+
                         android:layout_height="match_parent"
+                        android:gravity="center_horizontal|center_vertical"
                         android:orientation="vertical">
 
-                        <TextView
-                            style="@style/ayatana_title"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="ชื่อ" />
 
                         <TextView
                             android:id="@+id/tvNameAyatana"
                             style="@style/ayatana"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
 
 
                     </LinearLayout>
@@ -655,10 +715,12 @@
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
+                    android:layout_marginBottom="3dp"
                     android:layout_marginEnd="3dp"
                     android:layout_marginStart="3dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="#eae9e9"
+                    app:cardCornerRadius=".5dp">
 
 
                     <LinearLayout
@@ -666,12 +728,6 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <TextView
-
-                            style="@style/ayatana_title"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="สกุล" />
 
                         <TextView
                             android:id="@+id/tvSurnameAyatana"
@@ -688,10 +744,12 @@
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
+                    android:layout_marginBottom="3dp"
                     android:layout_marginEnd="3dp"
                     android:layout_marginStart="3dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="#eae9e9"
+                    app:cardCornerRadius=".5dp">
 
 
                     <LinearLayout
@@ -699,11 +757,6 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <TextView
-                            style="@style/ayatana_title"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="ชื่อสกุล" />
 
                         <TextView
                             android:id="@+id/tvNamePlusAyatana"
@@ -720,28 +773,24 @@
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
+                    android:layout_marginBottom="3dp"
                     android:layout_marginEnd="3dp"
                     android:layout_marginStart="3dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="#eae9e9"
+                    app:cardCornerRadius=".5dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <TextView
-                            style="@style/ayatana_title"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="ชื่อเล่น" />
 
                         <TextView
                             android:id="@+id/tvNickNameAyatana"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
                             style="@style/ayatana"
-                            />
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
 
 
                     </LinearLayout>

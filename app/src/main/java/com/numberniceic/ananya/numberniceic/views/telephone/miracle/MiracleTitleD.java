@@ -1,4 +1,4 @@
-package com.numberniceic.ananya.numberniceic.views.miracle;
+package com.numberniceic.ananya.numberniceic.views.telephone.miracle;
 
 import android.content.Context;
 import android.os.Build;
@@ -12,8 +12,8 @@ import com.numberniceic.ananya.numberniceic.R;
  * Created by o_ye on 7/6/2016.
  */
 
-public class MiracleTitleR extends FrameLayout {
-    public MiracleTitleR(Context context) {
+public class MiracleTitleD extends FrameLayout {
+    public MiracleTitleD(Context context) {
         super(context);
 
         initInflate();
@@ -21,14 +21,14 @@ public class MiracleTitleR extends FrameLayout {
 
     }
 
-    public MiracleTitleR(Context context, AttributeSet attrs) {
+    public MiracleTitleD(Context context, AttributeSet attrs) {
         super(context, attrs);
         initInflate();
         initInstance();
 
     }
 
-    public MiracleTitleR(Context context, AttributeSet attrs, int defStyleAttr) {
+    public MiracleTitleD(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initInflate();
         initInstance();
@@ -36,7 +36,7 @@ public class MiracleTitleR extends FrameLayout {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public MiracleTitleR(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public MiracleTitleD(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initInflate();
         initInstance();
@@ -48,7 +48,7 @@ public class MiracleTitleR extends FrameLayout {
     }
 
     private void initInflate() {
-        inflate(getContext(), R.layout.layout_miracle_title_r, this);
+        inflate(getContext(), R.layout.layout_miracle_title_d, this);
     }
 
 

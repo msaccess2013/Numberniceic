@@ -2,9 +2,12 @@ package com.numberniceic.ananya.numberniceic.fragments.name;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.numberniceic.ananya.numberniceic.R;
+import com.numberniceic.ananya.numberniceic.activities.MiracleNameActivity;
 import com.numberniceic.ananya.numberniceic.dao.name.LekSatItemCollectionDao;
 import com.numberniceic.ananya.numberniceic.dao.name.LekSatNameItemDao;
 import com.numberniceic.ananya.numberniceic.dao.name.LekSatNickNameItemDao;
@@ -24,10 +28,11 @@ import com.numberniceic.ananya.numberniceic.dao.name.LekShaItemCollectionDao;
 import com.numberniceic.ananya.numberniceic.dao.name.LekShaNameDao;
 import com.numberniceic.ananya.numberniceic.dao.name.LekShaNickNameDao;
 import com.numberniceic.ananya.numberniceic.dao.name.LekShaSurNameDao;
+import com.numberniceic.ananya.numberniceic.dao.name.NameMiracleCollectionDao;
 import com.numberniceic.ananya.numberniceic.managers.name.NumberKalakineeManager;
 import com.numberniceic.ananya.numberniceic.managers.name.NumberLekSatManager;
 import com.numberniceic.ananya.numberniceic.managers.name.NumberStarManager;
-import com.numberniceic.ananya.numberniceic.views.person.NameScrolling;
+import com.numberniceic.ananya.numberniceic.views.name.NameScrolling;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +42,11 @@ import java.util.List;
  */
 public class NameFragment extends Fragment {
 
+    private NameMiracleCollectionDao miracleDao;
+    private List<String> lekShaList;
+    private List<String> nameSat;
+    private List<String> allSumList = new ArrayList<>();
+
     private String theDay;
     private InputMethodManager imm;
     private LekSatItemCollectionDao satDao = new LekSatItemCollectionDao();
@@ -45,7 +55,9 @@ public class NameFragment extends Fragment {
     private Button btnBirthDay;
     private TextView tvBirthDay;
     private EditText edName, edSurname, edNickname;
-    private Button btnCal, btnReset;
+
+    private Button btnCal, btnReset, btnNameMiracle;
+
     private TextView tvNameLeksat, tvSurNameLekSat, tvNickNameLekSat;
     private TextView tvNameSumSat, tvSurnameSumSat, tvNicknameSumSat, tvNamePlusSur;
     private TextView tvNameSumSatFak, tvSurnameSumSatFak, tvNicknameSumSatFak, tvNamePlusSurFak;
@@ -71,7 +83,7 @@ public class NameFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
 
         Log.d("NameFragLife", "onCreateView");
@@ -86,6 +98,78 @@ public class NameFragment extends Fragment {
         tvBirthDay.setOnClickListener(bornFragment);
         btnCal.setOnClickListener(deCodeListener);
         btnReset.setOnClickListener(resetListener);
+
+        btnNameMiracle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (miracleDao != null) {
+                    if (miracleDao.getUnigueNumber() != null) {
+                        Intent intent = new Intent(getContext(), MiracleNameActivity.class);
+                        intent.putExtra("nameDao", miracleDao);
+                        startActivity(intent);
+                    }
+
+                }
+            }
+        });
+
+        edName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() == 0 && theDay == null) {
+                    Toast.makeText(getContext(), "โปรดเลือกวันเกิดเพื่อดูอักษรกาลกิณี", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                calNameSurNick();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        edSurname.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() == 0 && theDay == null) {
+                    Toast.makeText(getContext(), "โปรดเลือกวันเกิดเพื่อดูอักษรกาลกิณี", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                calNameSurNick();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+
+
+            }
+        });
+        edNickname.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() == 0 && theDay == null) {
+                    Toast.makeText(getContext(), "โปรดเลือกวันเกิดเพื่อดูอักษรกาลกิณี", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                calNameSurNick();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
 
         return rootView;
@@ -103,41 +187,49 @@ public class NameFragment extends Fragment {
                 tvBirthDay.setText("เกิดวันอาทิตย์");
                 nestedScrollView.setEnableScrolling(true);
                 Toast.makeText(getContext(), "คุณเ" + tvBirthDay.getText(), Toast.LENGTH_SHORT).show();
+                calNameSurNick();
                 break;
             case "Monday":
                 tvBirthDay.setText("เกิดวันจันทร์");
                 nestedScrollView.setEnableScrolling(true);
                 Toast.makeText(getContext(), "คุณเ" + tvBirthDay.getText(), Toast.LENGTH_SHORT).show();
+                calNameSurNick();
                 break;
             case "Tuesday":
                 tvBirthDay.setText("เกิดวันอังคาร");
                 nestedScrollView.setEnableScrolling(true);
                 Toast.makeText(getContext(), "คุณเ" + tvBirthDay.getText(), Toast.LENGTH_SHORT).show();
+                calNameSurNick();
                 break;
             case "WednesdayPm":
                 tvBirthDay.setText("เกิดวันพุธ กลางคืน");
                 nestedScrollView.setEnableScrolling(true);
                 Toast.makeText(getContext(), "คุณเ" + tvBirthDay.getText(), Toast.LENGTH_SHORT).show();
+                calNameSurNick();
                 break;
             case "WednesdayAm":
                 tvBirthDay.setText("เกิดวันพุธ กลางวัน");
                 nestedScrollView.setEnableScrolling(true);
                 Toast.makeText(getContext(), "คุณเ" + tvBirthDay.getText(), Toast.LENGTH_SHORT).show();
+                calNameSurNick();
                 break;
             case "Thursday":
                 tvBirthDay.setText("เกิดวันพฤหัสบดี");
                 nestedScrollView.setEnableScrolling(true);
                 Toast.makeText(getContext(), "คุณเ" + tvBirthDay.getText(), Toast.LENGTH_SHORT).show();
+                calNameSurNick();
                 break;
             case "Friday":
                 tvBirthDay.setText("เกิดวันศุกร์");
                 nestedScrollView.setEnableScrolling(true);
                 Toast.makeText(getContext(), "คุณเ" + tvBirthDay.getText(), Toast.LENGTH_SHORT).show();
+                calNameSurNick();
                 break;
             case "Saturday":
                 tvBirthDay.setText("เกิดวันเสาร์");
                 nestedScrollView.setEnableScrolling(true);
                 Toast.makeText(getContext(), "คุณเ" + tvBirthDay.getText(), Toast.LENGTH_SHORT).show();
+                calNameSurNick();
                 break;
 
         }
@@ -155,11 +247,11 @@ public class NameFragment extends Fragment {
         }
 
 
-        if (edName.getText().length() > 0) {
+        if (edName.getText().toString().trim().length() > 0) {
 
             List<LekSatNameItemDao> satNameItemDaos = new ArrayList<>();
 
-            String name = edName.getText().toString();
+            String name = edName.getText().toString().trim();
             StringBuilder sb = new StringBuilder();
 
             NumberLekSatManager manager = new NumberLekSatManager();
@@ -167,23 +259,25 @@ public class NameFragment extends Fragment {
             if (name.length() > 0) {
 
                 for (int i = 0; i < name.length(); i++) {
-                    manager.setLekSat(name.charAt(i));
-                    if (manager.getLekSat() != null) {
-                        String sNumber = manager.getLekSat();
 
-                        satNameItemDaos.add(new LekSatNameItemDao(sNumber, name.charAt(i)));
+                    if (!Character.isWhitespace(name.charAt(i))) {
+                        manager.setLekSat(name.charAt(i));
+                        if (manager.getLekSat() != null) {
+                            String sNumber = manager.getLekSat();
+
+                            satNameItemDaos.add(new LekSatNameItemDao(sNumber, name.charAt(i)));
 
 
-                        String cNameSat = String.valueOf(name.charAt(i));
+                            String cNameSat = String.valueOf(name.charAt(i));
 
-                        sb.append(cNameSat + ":" + sNumber + "  ");
+                            sb.append(cNameSat + ":" + sNumber + "  ");
 
+                        }
                     }
+                    tvNameLeksat.setText(sb);
+                    satDao.setLekSatNameItemDaos(satNameItemDaos);
+
                 }
-                tvNameLeksat.setText(sb);
-                satDao.setLekSatNameItemDaos(satNameItemDaos);
-
-
             }
 
         }
@@ -200,25 +294,26 @@ public class NameFragment extends Fragment {
 
         List<LekSatSurNameItemDao> satSurNameItemDaos = new ArrayList<>();
 
-        String surname = edSurname.getText().toString();
+        String surname = edSurname.getText().toString().trim();
 
         NumberLekSatManager manager = new NumberLekSatManager();
         StringBuilder sb = new StringBuilder();
-        if (surname.length() > 0) {
+        if (surname.trim().length() > 0) {
             for (int i = 0; i < surname.length(); i++) {
-                manager.setLekSat(surname.charAt(i));
-                if (manager.getLekSat() != null) {
-                    String sNumber = manager.getLekSat();
-                    String cSurname = String.valueOf(surname.charAt(i));
-                    sb.append(" " + cSurname + ":" + sNumber);
-                    satSurNameItemDaos.add(new LekSatSurNameItemDao(surname.charAt(i), sNumber));
+                if (!Character.isWhitespace(surname.charAt(i))) {
+                    manager.setLekSat(surname.charAt(i));
+                    if (manager.getLekSat() != null) {
+                        String sNumber = manager.getLekSat();
+                        String cSurname = String.valueOf(surname.charAt(i));
+                        sb.append(" " + cSurname + ":" + sNumber);
+                        satSurNameItemDaos.add(new LekSatSurNameItemDao(surname.charAt(i), sNumber));
+                    }
                 }
             }
+
+            satDao.setLekSatSurNameItemDaos(satSurNameItemDaos);
+            tvSurNameLekSat.setText(sb);
         }
-
-        satDao.setLekSatSurNameItemDaos(satSurNameItemDaos);
-        tvSurNameLekSat.setText(sb);
-
 
     }
 
@@ -234,29 +329,30 @@ public class NameFragment extends Fragment {
 
         List<LekSatNickNameItemDao> satNickNameItemDaos = new ArrayList<>();
 
-        String nickname = edNickname.getText().toString();
+        String nickname = edNickname.getText().toString().trim();
 
         NumberLekSatManager manager = new NumberLekSatManager();
 
         StringBuilder sb = new StringBuilder();
 
-        if (edNickname.getText().toString().length() > 0) {
+        if (edNickname.getText().toString().trim().length() > 0) {
 
             for (int i = 0; i < nickname.length(); i++) {
-                manager.setLekSat(nickname.charAt(i));
-                if (manager.getLekSat() != null) {
-                    String sNumber = manager.getLekSat();
-                    String cNickName = String.valueOf(nickname.charAt(i));
+                if (!Character.isWhitespace(nickname.charAt(i))) {
+                    manager.setLekSat(nickname.charAt(i));
+                    if (manager.getLekSat() != null) {
+                        String sNumber = manager.getLekSat();
+                        String cNickName = String.valueOf(nickname.charAt(i));
 
-                    sb.append(cNickName + ":" + sNumber + "   ");
+                        sb.append(cNickName + ":" + sNumber + "   ");
 
-                    satNickNameItemDaos.add(new LekSatNickNameItemDao(nickname.charAt(i), sNumber));
+                        satNickNameItemDaos.add(new LekSatNickNameItemDao(nickname.charAt(i), sNumber));
+                    }
                 }
+
+                satDao.setLekSatNickNameItemDaos(satNickNameItemDaos);
+                tvNickNameLekSat.setText(sb);
             }
-
-            satDao.setLekSatNickNameItemDaos(satNickNameItemDaos);
-            tvNickNameLekSat.setText(sb);
-
 
         }
     }
@@ -267,6 +363,8 @@ public class NameFragment extends Fragment {
         Integer sumSatSurName = 0;
         Integer sumSatNickName = 0;
         Integer sumSatNamePlusSur = 0;
+
+        nameSat = new ArrayList<>();
 
 
         if (satDao.getLekSatNameItemDaos() != null) {
@@ -291,7 +389,7 @@ public class NameFragment extends Fragment {
 
             }
         }
-        if (satDao.getLekSatNickNameItemDaos() != null && edNickname.getText().length() > 0) {
+        if (satDao.getLekSatNickNameItemDaos() != null && edNickname.getText().toString().trim().length() > 0) {
             for (int i = 0; i < satDao.getLekSatNickNameItemDaos().size(); i++) {
 
                 sumSatNickName = sumSatNickName + Integer.valueOf(satDao.getLekSatNickNameItemDaos().get(i).getNumber());
@@ -304,7 +402,8 @@ public class NameFragment extends Fragment {
         tvNicknameSumSat.setText("");
         tvNamePlusSur.setText("");
 
-        if (sumSatName.toString().length() == 3) {
+
+        if (sumSatName.toString().trim().length() == 3) {
             char c1 = sumSatName.toString().charAt(0);
             char c2 = sumSatName.toString().charAt(1);
             char c3 = sumSatName.toString().charAt(2);
@@ -315,15 +414,21 @@ public class NameFragment extends Fragment {
             if (!fPair.equals(sPair)) {
                 tvNameSumSat.setText(fPair);
                 tvNameSumSatFak.setText(sPair);
+
+
+                nameSat.add(fPair);
+                nameSat.add(sPair);
+
             }
 
         } else {
             if (sumSatName != 0)
-            tvNameSumSat.setText(String.valueOf(sumSatName));
+                tvNameSumSat.setText(String.valueOf(sumSatName));
+            nameSat.add(String.valueOf(sumSatName));
         }
 
 
-        if (sumSatSurName.toString().length() == 3) {
+        if (sumSatSurName.toString().trim().length() == 3) {
             char c1 = sumSatSurName.toString().charAt(0);
             char c2 = sumSatSurName.toString().charAt(1);
             char c3 = sumSatSurName.toString().charAt(2);
@@ -334,15 +439,19 @@ public class NameFragment extends Fragment {
             if (!fPair.equals(sPair)) {
                 tvSurnameSumSat.setText(fPair);
                 tvSurnameSumSatFak.setText(sPair);
+
+                nameSat.add(fPair);
+                nameSat.add(sPair);
             }
 
         } else {
             if (sumSatSurName != 0)
-            tvSurnameSumSat.setText(String.valueOf(sumSatSurName));
+                tvSurnameSumSat.setText(String.valueOf(sumSatSurName));
+            nameSat.add(String.valueOf(sumSatSurName));
         }
 
 
-        if (sumSatNickName.toString().length() == 3) {
+        if (sumSatNickName.toString().trim().length() == 3) {
             char c1 = sumSatNickName.toString().charAt(0);
             char c2 = sumSatNickName.toString().charAt(1);
             char c3 = sumSatNickName.toString().charAt(2);
@@ -353,16 +462,21 @@ public class NameFragment extends Fragment {
             if (!fPair.equals(sPair)) {
                 tvNicknameSumSat.setText(fPair);
                 tvNicknameSumSatFak.setText(sPair);
+
+                nameSat.add(fPair);
+                nameSat.add(sPair);
             }
 
         } else {
             if (sumSatNickName != 0)
-            tvNicknameSumSat.setText(String.valueOf(sumSatNickName));
+                tvNicknameSumSat.setText(String.valueOf(sumSatNickName));
+            nameSat.add(String.valueOf(sumSatNickName));
+
         }
 
 
         sumSatNamePlusSur = sumSatName + sumSatSurName;
-        if (sumSatNamePlusSur.toString().length() == 3) {
+        if (sumSatNamePlusSur.toString().trim().length() == 3) {
             char c1 = sumSatNamePlusSur.toString().charAt(0);
             char c2 = sumSatNamePlusSur.toString().charAt(1);
             char c3 = sumSatNamePlusSur.toString().charAt(2);
@@ -373,21 +487,37 @@ public class NameFragment extends Fragment {
             if (!fPair.equals(sPair)) {
                 tvNamePlusSur.setText(fPair);
                 tvNamePlusSurFak.setText(sPair);
+
+                nameSat.add(fPair);
+                nameSat.add(sPair);
             }
 
         } else {
 
             if (sumSatNamePlusSur != 0)
-            tvNamePlusSur.setText(String.valueOf(sumSatNamePlusSur));
+                tvNamePlusSur.setText(String.valueOf(sumSatNamePlusSur));
+            nameSat.add(String.valueOf(sumSatNamePlusSur));
         }
 
-
+        allSumList.addAll(nameSat);
     }
 
     private void sumShadow() {
         Integer sumShaName = 0;
         Integer sumShaSurname = 0;
         Integer sumShaNickname = 0;
+
+        tvNameSumSha.setText("");
+        tvNameSumShaFak.setText("");
+        tvSurnameSumSha.setText("");
+        tvSurnameSumShaFak.setText("");
+        tvNicknameSumSha.setText("");
+        tvNicknameSumShaFak.setText("");
+        tvNamePlusSurSha.setText("");
+        tvNamePlusSurShaFak.setText("");
+
+
+        lekShaList = new ArrayList<>();
 
         if (shaDao.getLekShaNameDaoList() != null) {
 
@@ -409,12 +539,15 @@ public class NameFragment extends Fragment {
                     if (!fPair.equals(sPair)) {
                         tvNameSumSha.setText(fPair);
                         tvNameSumShaFak.setText(sPair);
+                        lekShaList.add(fPair);
+                        lekShaList.add(sPair);
                     }
 
 
                 } else {
                     if (sumShaName != 0)
-                    tvNameSumSha.setText(String.valueOf(sumShaName));
+                        tvNameSumSha.setText(String.valueOf(sumShaName));
+                    lekShaList.add(String.valueOf(sumShaName));
                 }
             }
         }
@@ -439,12 +572,15 @@ public class NameFragment extends Fragment {
                     if (!fPair.equals(sPair)) {
                         tvSurnameSumSha.setText(fPair);
                         tvSurnameSumShaFak.setText(sPair);
+                        lekShaList.add(fPair);
+                        lekShaList.add(sPair);
                     }
 
 
                 } else {
                     if (sumShaSurname != 0)
-                    tvSurnameSumSha.setText(String.valueOf(sumShaSurname));
+                        tvSurnameSumSha.setText(String.valueOf(sumShaSurname));
+                    lekShaList.add(String.valueOf(sumShaSurname));
                 }
             }
         }
@@ -460,12 +596,15 @@ public class NameFragment extends Fragment {
             if (!fPair.equals(sPair)) {
                 tvNamePlusSurSha.setText(fPair);
                 tvNamePlusSurShaFak.setText(sPair);
+                lekShaList.add(fPair);
+                lekShaList.add(sPair);
             }
 
 
         } else {
             if (shaPlue != 0)
-            tvNamePlusSurSha.setText(String.valueOf(shaPlue));
+                tvNamePlusSurSha.setText(String.valueOf(shaPlue));
+            lekShaList.add(String.valueOf(shaPlue));
         }
 
 
@@ -488,20 +627,26 @@ public class NameFragment extends Fragment {
                     if (!fPair.equals(sPair)) {
                         tvNicknameSumSha.setText(fPair);
                         tvNicknameSumShaFak.setText(sPair);
+                        lekShaList.add(fPair);
+                        lekShaList.add(sPair);
                     }
 
 
                 } else {
                     if (sumShaNickname != 0)
-                    tvNicknameSumSha.setText(String.valueOf(sumShaNickname));
+                        tvNicknameSumSha.setText(String.valueOf(sumShaNickname));
+                    lekShaList.add(String.valueOf(sumShaNickname));
+
                 }
             }
         }
 
+        allSumList.addAll(lekShaList);
 
     }
 
     private void deKalakinee(String theDay) {
+
         tvKalakinee.setText("");
 
         int mName = edName.getText().toString().length();
@@ -524,8 +669,10 @@ public class NameFragment extends Fragment {
 
             String kNumber = kManager.getLekKalakini();
 
-            if (kNumber != null)
-                sb.append("  " + kNumber + "  ");
+            if (kNumber != null) {
+                String sKalakinee = "  " + kNumber + "  ";
+                sb.append(sKalakinee);
+            }
 
         }
 
@@ -539,8 +686,10 @@ public class NameFragment extends Fragment {
 
             String kNumber = kManager.getLekKalakini();
 
-            if (kNumber != null)
-                sb.append("  " + kNumber + "  ");
+            if (kNumber != null){
+                String sKalakinee = "  " + kNumber + "  ";
+                sb.append(sKalakinee);
+            }
 
         }
 
@@ -554,15 +703,18 @@ public class NameFragment extends Fragment {
 
             String kNumber = kManager.getLekKalakini();
 
-            if (kNumber != null)
-                sb.append("  " + kNumber + "  ");
-
+            if (kNumber != null){
+                String sKalakinee = "  " + kNumber + "  ";
+                sb.append(sKalakinee);
+            }
         }
 
         tvKalakinee.setText(sb.toString());
 
 
     }
+
+
 
     private void deStarName() {
 
@@ -715,21 +867,20 @@ public class NameFragment extends Fragment {
 
             int x = c1 + c2 + c3;
 
-            if (x >= 10){
+            if (x >= 10) {
                 int x1 = Integer.parseInt(String.valueOf(String.valueOf(x).charAt(0)));
                 int x2 = Integer.parseInt(String.valueOf(String.valueOf(x).charAt(1)));
                 int z = x1 + x2;
                 tvNameAyatana.setText(String.valueOf(z));
-            }else {
+            } else {
                 tvNameAyatana.setText(String.valueOf(x));
 
             }
         }
 
 
-
-
     }
+
     private void ayatanaSurName() {
 
         if (tvSurnameSumSha.getText().length() > 0 && tvSurnameSumShaFak.getText().length() == 0) {
@@ -776,21 +927,20 @@ public class NameFragment extends Fragment {
 
             int x = c1 + c2 + c3;
 
-            if (x >= 10){
+            if (x >= 10) {
                 int x1 = Integer.parseInt(String.valueOf(String.valueOf(x).charAt(0)));
                 int x2 = Integer.parseInt(String.valueOf(String.valueOf(x).charAt(1)));
                 int z = x1 + x2;
                 tvSurNameAyatana.setText(String.valueOf(z));
-            }else {
+            } else {
                 tvSurNameAyatana.setText(String.valueOf(x));
 
             }
         }
 
 
-
-
     }
+
     private void ayatanaNickName() {
 
         if (tvNicknameSumSha.getText().length() > 0 && tvNicknameSumShaFak.getText().length() == 0) {
@@ -837,21 +987,20 @@ public class NameFragment extends Fragment {
 
             int x = c1 + c2 + c3;
 
-            if (x >= 10){
+            if (x >= 10) {
                 int x1 = Integer.parseInt(String.valueOf(String.valueOf(x).charAt(0)));
                 int x2 = Integer.parseInt(String.valueOf(String.valueOf(x).charAt(1)));
                 int z = x1 + x2;
                 tvNickNameAyatana.setText(String.valueOf(z));
-            }else {
+            } else {
                 tvNickNameAyatana.setText(String.valueOf(x));
 
             }
         }
 
 
-
-
     }
+
     private void ayatanaNamePlus() {
 
         if (tvNamePlusSurSha.getText().length() > 0 && tvNamePlusSurShaFak.getText().length() == 0) {
@@ -898,22 +1047,49 @@ public class NameFragment extends Fragment {
 
             int x = c1 + c2 + c3;
 
-            if (x >= 10){
+            if (x >= 10) {
                 int x1 = Integer.parseInt(String.valueOf(String.valueOf(x).charAt(0)));
                 int x2 = Integer.parseInt(String.valueOf(String.valueOf(x).charAt(1)));
                 int z = x1 + x2;
                 tvNamePlusAyatana.setText(String.valueOf(z));
-            }else {
+            } else {
                 tvNamePlusAyatana.setText(String.valueOf(x));
 
             }
         }
 
 
+    }
+
+    private void calNameSurNick() {
+        allSumList.clear();
+
+        decodeName();
+        decodeSurName();
+        decodeNickName();
+
+
+        deStarName();
+        deStarSurName();
+        deStarNickName();
+
+        deKalakinee(theDay);
+
+        //set dao collection for miracle.
+        sumSat();
+        sumShadow();
+
+        ayatanaName();
+        ayatanaSurName();
+        ayatanaNickName();
+        ayatanaNamePlus();
+
+
+        miracleDao = new NameMiracleCollectionDao();
+        miracleDao.setUnigueNumber(allSumList);
 
 
     }
-
 
     private void initInstance(View rootView) {
         imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -925,8 +1101,10 @@ public class NameFragment extends Fragment {
         edName = (EditText) rootView.findViewById(R.id.edName);
         edSurname = (EditText) rootView.findViewById(R.id.edSurname);
         edNickname = (EditText) rootView.findViewById(R.id.edNiceName);
+
         btnCal = (Button) rootView.findViewById(R.id.btnCal);
         btnReset = (Button) rootView.findViewById(R.id.btnReset);
+        btnNameMiracle = (Button) rootView.findViewById(R.id.btnNameMiracle);
 
         tvNameLeksat = (TextView) rootView.findViewById(R.id.tvNameLeksat);
         tvSurNameLekSat = (TextView) rootView.findViewById(R.id.tvSurNameLeksat);
@@ -985,30 +1163,11 @@ public class NameFragment extends Fragment {
     private View.OnClickListener deCodeListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            decodeName();
-            decodeSurName();
-            decodeNickName();
-
-
-            deStarName();
-            deStarSurName();
-            deStarNickName();
-
-            deKalakinee(theDay);
-
-
-            sumSat();
-            sumShadow();
-
-            ayatanaName();
-            ayatanaSurName();
-            ayatanaNickName();
-            ayatanaNamePlus();
-
-
+            calNameSurNick();
             if (imm.isAcceptingText()) {
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
+
         }
     };
 
@@ -1036,7 +1195,7 @@ public class NameFragment extends Fragment {
         edNickname.setText("");
     }
 
-    private void clearTv(){
+    private void clearTv() {
         tvNameLeksat.setText("");
         tvSurNameLekSat.setText("");
         tvNickNameLekSat.setText("");
@@ -1079,6 +1238,9 @@ public class NameFragment extends Fragment {
 
 
         tvKalakinee.setText("");
+
+        tvBirthDay.setText("เลือกวันเกิด");
+        theDay = null;
     }
 
 

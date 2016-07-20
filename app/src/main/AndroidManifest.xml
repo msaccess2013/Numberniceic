@@ -17,8 +17,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MiraclePhoneActivity"
-            android:theme="@style/AppThemeWithActionBar"></activity>
+        <activity
+            android:name=".activities.MiraclePhoneActivity"
+            android:theme="@style/AppThemeWithActionBar" />
+        <activity
+            android:name=".activities.MiracleNameActivity"
+            android:theme="@style/AppThemeWithActionBar" />
+
     </application>
 
 </manifest>

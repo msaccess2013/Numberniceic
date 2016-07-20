@@ -1,25 +1,16 @@
 package com.numberniceic.ananya.numberniceic;
 
 
-import android.annotation.TargetApi;
-import android.content.Context;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.numberniceic.ananya.numberniceic.fragments.car.CarFragment;
+import com.numberniceic.ananya.numberniceic.fragments.tabian.TabianFragment;
 import com.numberniceic.ananya.numberniceic.fragments.home.HomeFragment;
 import com.numberniceic.ananya.numberniceic.fragments.name.NameFragment;
 import com.numberniceic.ananya.numberniceic.fragments.telephone.TelephoneFragment;
@@ -69,7 +60,7 @@ public class MainFragment extends Fragment {
                 switch (position){
                     case 0: return TelephoneFragment.newInstance();
                     case 1: return NameFragment.newInstance();
-                    case 2: return CarFragment.newInstance();
+                    case 2: return TabianFragment.newInstance();
                     case 3: return HomeFragment.newInstance();
                     default:
                         return null;

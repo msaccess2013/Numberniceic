@@ -60,7 +60,6 @@
     </style>
 
     <style name="card_leksat">
-
         <item name="android:layout_marginBottom">3dp</item>
         <item name="android:layout_marginEnd">3dp</item>
         <item name="android:layout_marginStart">3dp</item>

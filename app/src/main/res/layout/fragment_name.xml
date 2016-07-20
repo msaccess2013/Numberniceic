@@ -3,11 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context="com.numberniceic.ananya.numberniceic.fragments.name.NameFragment">
 
 
-    <com.numberniceic.ananya.numberniceic.views.person.NameScrolling
+    <com.numberniceic.ananya.numberniceic.views.name.NameScrolling
         android:id="@+id/nsvName"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,6 +17,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <!--  Select Birth Day!-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
                         android:id="@+id/btnBirthDay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="1. เลือกวันเกิด"
+                        android:text="เลือกวันเกิด"
 
                         />
 
@@ -56,7 +56,7 @@
 
 
             </LinearLayout>
-
+            <!-- From Name  !-->
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -88,8 +88,11 @@
                             android:layout_height="match_parent"
                             android:layout_weight=".5"
                             android:background="#f4f4ee"
-                            android:maxLength="24"
-                            android:text="พีระพงศ์"
+                            android:maxLength="18"
+                            android:text="อณัญญา"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:lines="1"
                             android:textAlignment="center"
                             android:textSize="18sp" />
                     </LinearLayout>
@@ -112,10 +115,12 @@
                             android:id="@+id/edSurname"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:inputType="text"
                             android:layout_weight=".5"
                             android:background="#ede9e9"
-                            android:text="ทองแสน"
-                            android:maxLength="24"
+                            android:text="ภักดีธรรมสุข"
+                            android:maxLength="18"
+                            android:maxLines="1"
                             android:textAlignment="center"
                             android:textSize="18sp" />
                     </LinearLayout>
@@ -141,14 +146,17 @@
                             android:layout_weight=".5"
                             android:background="#faf1f1"
                             android:maxLength="16"
-                            android:text="เบิ้ล"
+                            android:text="นินินท์"
+                            android:maxLines="1"
+                            android:lines="1"
+                            android:inputType="text"
                             android:textAlignment="center"
                             android:textSize="18sp" />
                     </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
-
+            <!-- Button Miracle  !-->
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -177,24 +185,24 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:freezesText="true"
-
                         android:gravity="center_vertical|center_horizontal"
-                        android:text="3. ทำนาย" />
+                        android:text="ทำนาย" />
 
                     <Button
                         android:id="@+id/btnCal"
+                        android:visibility="invisible"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:freezesText="true"
-
                         android:gravity="center_vertical|center_horizontal"
-                        android:text="2. คำนวณ" />
+                        android:text="คำนวณ" />
                 </LinearLayout>
 
 
             </FrameLayout>
 
+            <!--  From Kalakinee !-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -245,6 +253,8 @@
 
             </LinearLayout>
 
+
+            <!--  LeksatGroup !-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -252,15 +262,12 @@
                 android:layout_marginTop="6dp"
                 android:text="เลขศาสตร์"
                 android:textSize="18sp" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
                 android:layout_marginTop="3dp"
                 android:orientation="horizontal"
-
-
                 >
 
 
@@ -457,7 +464,7 @@
 
             </LinearLayout>
 
-
+            <!--  ShadowGroup !-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -465,7 +472,6 @@
                 android:layout_marginTop="0dp"
                 android:text="พลังเงา"
                 android:textSize="18sp" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -666,6 +672,7 @@
 
             </LinearLayout>
 
+            <!--  AyantanaGroup !-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -673,7 +680,6 @@
                 android:layout_marginTop="0dp"
                 android:text="อายตนะ"
                 android:textSize="14sp" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -801,6 +807,7 @@
 
             </LinearLayout>
 
+            <!--  LeksatPair !-->
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -915,7 +922,7 @@
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
-
+            <!--  KalakineePair !-->
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -1035,8 +1042,7 @@
 
         </LinearLayout>
 
-
-    </com.numberniceic.ananya.numberniceic.views.person.NameScrolling>
+    </com.numberniceic.ananya.numberniceic.views.name.NameScrolling>
 
 
     <FrameLayout

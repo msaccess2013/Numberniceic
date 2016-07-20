@@ -23,6 +23,19 @@ public class NumberMiracleManager {
 
 
 
+    public String getType(String pair){
+        String type = null;
+
+        for (int i = 0; i < miracleCollectionDao.getMiracleDaos().size(); i++) {
+            if (miracleCollectionDao.getMiracleDaos().get(i).getNumber().equals(pair)){
+                type = miracleCollectionDao.getMiracleDaos().get(i).getType();
+            }
+        }
+
+        return type;
+    }
+
+
     public String getTitle(String pair){
 
         String title = null;

@@ -1,13 +1,9 @@
-package com.numberniceic.ananya.numberniceic.views.person;
+package com.numberniceic.ananya.numberniceic.views.name;
 
 import android.content.Context;
 import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-
-/**
- * Created by o_ye on 7/11/2016.
- */
 
 public class NameScrolling extends NestedScrollView {
 

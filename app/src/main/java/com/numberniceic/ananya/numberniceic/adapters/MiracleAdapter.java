@@ -3,16 +3,14 @@ package com.numberniceic.ananya.numberniceic.adapters;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import com.numberniceic.ananya.numberniceic.dao.phone.PhoneMiracleCollectionDao;
-import com.numberniceic.ananya.numberniceic.managers.dao.NumberMiracleCollectionDao;
 import com.numberniceic.ananya.numberniceic.managers.telephone.SummaryScrollManager;
-import com.numberniceic.ananya.numberniceic.views.miracle.MiracleD;
-import com.numberniceic.ananya.numberniceic.views.miracle.MiracleHead;
-import com.numberniceic.ananya.numberniceic.views.miracle.MiracleR;
-import com.numberniceic.ananya.numberniceic.views.miracle.MiracleTitleD;
-import com.numberniceic.ananya.numberniceic.views.miracle.MiracleTitleR;
+import com.numberniceic.ananya.numberniceic.views.telephone.miracle.MiracleD;
+import com.numberniceic.ananya.numberniceic.views.telephone.miracle.MiracleHead;
+import com.numberniceic.ananya.numberniceic.views.telephone.miracle.MiracleR;
+import com.numberniceic.ananya.numberniceic.views.telephone.miracle.MiracleTitleD;
+import com.numberniceic.ananya.numberniceic.views.telephone.miracle.MiracleTitleR;
 
 
 public class MiracleAdapter extends BaseAdapter {

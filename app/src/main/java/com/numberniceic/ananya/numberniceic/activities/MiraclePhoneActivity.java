@@ -37,8 +37,12 @@ public class MiraclePhoneActivity extends AppCompatActivity {
     }
 
     private void initInstance() {
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+            getSupportActionBar().setTitle("ผลทำนายเลขโทรศัพท์");
+        }
     }
 
     @Override

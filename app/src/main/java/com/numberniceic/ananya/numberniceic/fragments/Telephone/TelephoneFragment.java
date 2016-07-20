@@ -42,32 +42,31 @@ public class TelephoneFragment extends Fragment {
      * Member variable
      *****************/
 
-    PhoneNumberItemCollectionDao phoneNumberItemCollectionDao;
+    private PhoneNumberItemCollectionDao phoneNumberItemCollectionDao;
 
-    List<PairNumberPercent> pairNumberPercents = new ArrayList<>();
+    private List<PairNumberPercent> pairNumberPercents = new ArrayList<>();
 
-    Button btnMiracle;
-    EditText phone_number;
-    String phoneNumber;
-    TextView pair1, pair2, pair3, pair4, pair5;
-    TextView pairB1, pairB2, pairB3, pairB4;
-    TextView pairSum;
-    TextView txtTotalScrollD, txtTotalScrollR;
-    TextView tvPercentD, tvPercentR;
-    TextView tvPhoneNum;
-    TextView tvPairDangFirst, tvPairDangSecond, tvPairDangThirdFirst, tvPairDangThirdSecond;
+    private Button btnMiracle;
+    private EditText phone_number;
+    private String phoneNumber;
+    private TextView pair1, pair2, pair3, pair4, pair5;
+    private TextView pairB1, pairB2, pairB3, pairB4;
+    private TextView pairSum;
+    private TextView txtTotalScrollD, txtTotalScrollR;
+    private TextView tvPercentD, tvPercentR;
+    private TextView tvPhoneNum;
+    private TextView tvPairDangFirst, tvPairDangSecond, tvPairDangThirdFirst, tvPairDangThirdSecond;
 
-
-    ScrollPairNumberDao scrollPairNumberDao = new ScrollPairNumberDao();
-    Integer scrollD = 0;
-    Integer scrollR = 0;
-    Integer percentD = 0;
-    Integer percentR = 0;
-    Integer percentPo1D = 0, percentPo2D = 0, percentPo3D = 0, percentPo4D = 0, percentPo5D = 0, percentSumD = 0;
-    Integer percentPo1R = 0, percentPo2R = 0, percentPo3R = 0, percentPo4R = 0, percentPo5R = 0, percentSumR = 0;
-    Integer percentPoB1D = 0, percentPoB2D = 0, percentPoB3D = 0, percentPoB4D = 0;
-    Integer percentPoB1R = 0, percentPoB2R = 0, percentPoB3R = 0, percentPoB4R = 0;
-    InputMethodManager imm;
+    private ScrollPairNumberDao scrollPairNumberDao = new ScrollPairNumberDao();
+    private Integer scrollD = 0;
+    private Integer scrollR = 0;
+    private Integer percentD = 0;
+    private Integer percentR = 0;
+    private Integer percentPo1D = 0, percentPo2D = 0, percentPo3D = 0, percentPo4D = 0, percentPo5D = 0, percentSumD = 0;
+    private Integer percentPo1R = 0, percentPo2R = 0, percentPo3R = 0, percentPo4R = 0, percentPo5R = 0, percentSumR = 0;
+    private Integer percentPoB1D = 0, percentPoB2D = 0, percentPoB3D = 0, percentPoB4D = 0;
+    private Integer percentPoB1R = 0, percentPoB2R = 0, percentPoB3R = 0, percentPoB4R = 0;
+    private InputMethodManager imm;
 
 
     public interface FragmentTelePhoneListener {

@@ -1,4 +1,4 @@
-package com.numberniceic.ananya.numberniceic.views.miracle;
+package com.numberniceic.ananya.numberniceic.views.telephone.miracle;
 
 import android.content.Context;
 import android.os.Build;

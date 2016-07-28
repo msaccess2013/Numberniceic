@@ -1,4 +1,4 @@
-package com.numberniceic.ananya.numberniceic.adapters.Name;
+package com.numberniceic.ananya.numberniceic.adapters.name;
 
 import android.view.View;
 import android.view.ViewGroup;

@@ -3,9 +3,7 @@ package com.numberniceic.ananya.numberniceic.dao.name;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by o_ye on 7/14/2016.
- */
+
 
 public class LekShaNameDao implements Parcelable {
 

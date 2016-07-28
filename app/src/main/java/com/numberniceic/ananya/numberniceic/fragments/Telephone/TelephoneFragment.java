@@ -1638,7 +1638,7 @@ public class TelephoneFragment extends Fragment {
 
                     Integer mPoint = manager.getPoint(mNumber) + manager.getPoint(dNumber);
                     numberDangsBB.add(new PairNumberDang("มีคู่เด้ง BB ", mNumber, dNumber, mPoint));
-                    Log.d("pairOfdangBB", mNumber + " : " + dNumber);
+
 
 
                 }

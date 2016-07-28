@@ -10,10 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.numberniceic.ananya.numberniceic.R;
-import com.numberniceic.ananya.numberniceic.adapters.Name.NameMiracleAdapter;
+import com.numberniceic.ananya.numberniceic.adapters.name.NameMiracleAdapter;
 import com.numberniceic.ananya.numberniceic.dao.name.NameMiracleCollectionDao;
 import com.numberniceic.ananya.numberniceic.managers.NumberMiracleManager;
-import com.numberniceic.ananya.numberniceic.managers.NumberPilotManager;
 import com.numberniceic.ananya.numberniceic.pojo.name.NamePairMiracle;
 
 import java.util.ArrayList;

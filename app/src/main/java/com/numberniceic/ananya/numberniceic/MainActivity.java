@@ -18,13 +18,17 @@ import com.numberniceic.ananya.numberniceic.activities.MiraclePhoneActivity;
 import com.numberniceic.ananya.numberniceic.dao.phone.PhoneNumberItemCollectionDao;
 import com.numberniceic.ananya.numberniceic.fragments.name.BornFragment;
 import com.numberniceic.ananya.numberniceic.fragments.name.NameFragment;
+import com.numberniceic.ananya.numberniceic.fragments.tabian.ProvinceFragment;
+import com.numberniceic.ananya.numberniceic.fragments.tabian.TabianFragment;
 import com.numberniceic.ananya.numberniceic.fragments.telephone.TelephoneFragment;
 
-public class MainActivity extends AppCompatActivity implements TelephoneFragment.FragmentTelePhoneListener{
+public class MainActivity extends AppCompatActivity implements TelephoneFragment.FragmentTelePhoneListener, ProvinceFragment.OnProvinceClickListener{
 
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle drawerToggle;
+
+    String message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements TelephoneFragment
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
+
     }
 
     @Override
@@ -98,4 +103,11 @@ public class MainActivity extends AppCompatActivity implements TelephoneFragment
 
 
     }
+
+    @Override
+    public void onProvinceClick(String province) {
+        this.message = province;
+
+    }
+
 }

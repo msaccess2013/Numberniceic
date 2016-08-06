@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.numberniceic.ananya.numberniceic.R;
 import com.numberniceic.ananya.numberniceic.fragments.tabian.TabianFragment;
+import com.numberniceic.ananya.numberniceic.fragments.tabian.TabianMiracleFragment;
 import com.numberniceic.ananya.numberniceic.managers.tabian.TabianListManager;
 
 public class MiracleTabianActivity extends AppCompatActivity {
@@ -20,10 +21,10 @@ public class MiracleTabianActivity extends AppCompatActivity {
         Intent intent = getIntent();
         TabianListManager listManager = intent.getParcelableExtra("TabianListManager");
         Log.d("ListASize", String.valueOf(listManager.getListA().size()));
-        for (int i = 0; i < listManager.getListA().size(); i++) {
-            String pairA = listManager.getListA().get(i).getPair();
-            Log.d("listA", pairA);
 
-        }
-    }
+        if (savedInstanceState == null)
+            getSupportFragmentManager().beginTransaction().replace(R.id.tabianMiracleContainer,
+                    TabianMiracleFragment.newInstance(listManager)).commit();
+
+}
 }

@@ -104,9 +104,12 @@ public class NameFragment extends Fragment {
             public void onClick(View view) {
                 if (miracleDao != null) {
                     if (miracleDao.getUnigueNumber() != null) {
-                        Intent intent = new Intent(getContext(), MiracleNameActivity.class);
-                        intent.putExtra("nameDao", miracleDao);
-                        startActivity(intent);
+                        if (miracleDao.getUnigueNumber().size() != 0) {
+                            Log.d("miracleDao", "onClick: " + miracleDao.getUnigueNumber().size());
+                            Intent intent = new Intent(getContext(), MiracleNameActivity.class);
+                            intent.putExtra("nameDao", miracleDao);
+                            startActivity(intent);
+                        }
                     }
 
                 }
@@ -1178,6 +1181,7 @@ public class NameFragment extends Fragment {
             clearEdt();
             clearTv();
 
+
             if (imm.isAcceptingText()) {
                 Log.d("imm", "true");
 
@@ -1241,6 +1245,7 @@ public class NameFragment extends Fragment {
 
         tvBirthDay.setText("เลือกวันเกิด");
         theDay = null;
+        miracleDao = null;
     }
 
 

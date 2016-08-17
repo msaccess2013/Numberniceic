@@ -23,7 +23,13 @@
         <activity
             android:name=".activities.MiracleNameActivity"
             android:theme="@style/AppThemeWithActionBar" />
-        <activity android:name=".activities.MiracleTabianActivity"></activity>
+        <activity
+            android:name=".activities.MiracleTabianActivity"
+            android:theme="@style/AppThemeWithActionBar" />
+        <activity
+            android:name=".activities.MiracleHomeActivity"
+            android:theme="@style/AppThemeWithActionBar"
+            ></activity>
     </application>
 
 </manifest>

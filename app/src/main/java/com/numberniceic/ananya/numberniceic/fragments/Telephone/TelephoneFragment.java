@@ -14,12 +14,10 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.numberniceic.ananya.numberniceic.R;
-import com.numberniceic.ananya.numberniceic.adapters.PhonePairDangAdapter;
 import com.numberniceic.ananya.numberniceic.dao.phone.PhoneNumberItemCollectionDao;
 import com.numberniceic.ananya.numberniceic.dao.phone.PhoneNumberItemDao;
 import com.numberniceic.ananya.numberniceic.dao.phone.ScrollPairNumberDao;

@@ -104,4 +104,9 @@
     <color name="pink">#878586</color>
     <color name="black">#fcfbfb</color>
     <color name="oracece">#fc6a16</color>
+
+    <style name="text_my_code">
+        <item name="android:textStyle">bold</item>
+
+    </style>
 </resources>

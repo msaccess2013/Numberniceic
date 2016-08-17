@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="3dp"
+    android:orientation="vertical">
+
+
+    <android.support.v7.widget.CardView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#edf9d7">
+
+        <LinearLayout
+            android:layout_margin="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/llTitle"
+                android:orientation="horizontal"
+                android:background="#cff994"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvTitleD"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="หมายเลข : "
+                    android:textStyle="italic"
+                    android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/tvPairD"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="24"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+
+                    />
+                <ImageView
+                    android:layout_gravity="center"
+                    android:layout_marginStart="6dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/des_d"
+
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="xxxxxxxxxxxxxxxxxxxxxxx"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="10dp"
+                android:textStyle="italic"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/tvDetail"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:text="xxxxxxx"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>

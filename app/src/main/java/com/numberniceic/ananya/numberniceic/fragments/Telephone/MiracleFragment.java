@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.numberniceic.ananya.numberniceic.R;
-import com.numberniceic.ananya.numberniceic.adapters.MiracleAdapter;
+import com.numberniceic.ananya.numberniceic.adapters.phone.MiracleAdapter;
 import com.numberniceic.ananya.numberniceic.dao.phone.PhoneMiracleCollectionDao;
 import com.numberniceic.ananya.numberniceic.dao.phone.PhoneMiracleItemDao;
 import com.numberniceic.ananya.numberniceic.dao.phone.PhoneNumberItemCollectionDao;

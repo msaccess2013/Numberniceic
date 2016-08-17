@@ -10,16 +10,11 @@ import com.numberniceic.ananya.numberniceic.views.name.NameMiracleRView;
 
 import java.util.List;
 
-/**
- * Created by o_ye on 7/18/2016.
- */
-
 public class NameMiracleAdapter extends BaseAdapter {
 
     private List<NamePairMiracle> pairList;
 
     public void addList(List<NamePairMiracle> pairList) {
-
         if (pairList != null) {
             this.pairList = pairList;
         }
@@ -50,10 +45,10 @@ public class NameMiracleAdapter extends BaseAdapter {
     public int getItemViewType(int position) {
 
 
-        if (pairList.get(position).getType().equals("D")){
+        if (pairList.get(position).getType().equals("D")) {
 
             return 0;
-        }else {
+        } else {
             return 1;
         }
 
@@ -94,7 +89,6 @@ public class NameMiracleAdapter extends BaseAdapter {
 
             return rView;
         }
-
 
         return view;
 

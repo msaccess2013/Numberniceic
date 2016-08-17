@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.numberniceic.ananya.numberniceic.R;
 import com.numberniceic.ananya.numberniceic.activities.MiracleTabianActivity;
+import com.numberniceic.ananya.numberniceic.dao.tabian.TabianMiracleDao;
 import com.numberniceic.ananya.numberniceic.managers.NumberPilotManager;
 import com.numberniceic.ananya.numberniceic.managers.eventbus.EventBus;
 import com.numberniceic.ananya.numberniceic.managers.eventbus.FragMessage;
@@ -42,7 +43,7 @@ import mehdi.sakout.fancybuttons.FancyButton;
  * A simple {@link Fragment} subclass.
  */
 public class TabianFragment extends Fragment {
-
+    private TabianMiracleDao dao;
     private InputMethodManager imm;
     private EditText edPrimaryNumber, edSecondNumber;
     private String sPosition1;
@@ -99,7 +100,6 @@ public class TabianFragment extends Fragment {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -135,25 +135,11 @@ public class TabianFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                TabianListManager manager = new TabianListManager();
-                if (pairTabianDoaListA != null)
-                manager.setListA(pairTabianDoaListA);
-
-                if (pairTabianDoaListB != null)
-                manager.setListB(pairTabianDoaListB);
-
-                if (pairKn != null)
-                manager.setKn(pairKn);
-
-                if (pairSm != null)
-                manager.setSm(pairSm);
-
-                if (pairSl != null)
-                manager.setSl(pairSl);
-
-                Intent intent = new Intent(getContext(), MiracleTabianActivity.class);
-                intent.putExtra("TabianListManager", manager);
-                startActivity(intent);
+                if (dao != null) {
+                    Intent intent = new Intent(getContext(), MiracleTabianActivity.class);
+                    intent.putExtra("dao", dao);
+                    startActivity(intent);
+                }
 
 
             }
@@ -182,7 +168,7 @@ public class TabianFragment extends Fragment {
                 this.tvProvince.setText(fragMessage);
             }
 
-
+            if (sPosition1 != null && sPosition2 != null && sPosition3 != null && sPosition1s != null && sPosition2s != null && sPosition3s != null && sPosition4s != null)
             calculateAllPair();
 
 
@@ -842,21 +828,22 @@ public class TabianFragment extends Fragment {
         StringBuilder builder = new StringBuilder();
         NumberKalakineeManager manager;
 
+        if (kString != null) {
+            for (int i = 0; i < kString.length(); i++) {
+                manager = new NumberKalakineeManager();
+                manager.setLekKalakinee(kString.charAt(i), birthDayEn);
 
-        for (int i = 0; i < kString.length(); i++) {
-            manager = new NumberKalakineeManager();
-            manager.setLekKalakinee(kString.charAt(i), birthDayEn);
+                if (manager.getLekKalakini() != null) {
+                    builder.append(" ");
+                    builder.append(manager.getLekKalakini());
+                    builder.append(" ");
 
-            if (manager.getLekKalakini() != null) {
-                builder.append(" ");
-                builder.append(manager.getLekKalakini());
-                builder.append(" ");
+                    tvKalakini.setText(builder.toString());
 
-                tvKalakini.setText(builder.toString());
+                }
+
 
             }
-
-
         }
 
     }
@@ -1017,11 +1004,9 @@ public class TabianFragment extends Fragment {
         } else {
             tvPairSL.setBackgroundResource(R.drawable.bg_red);
         }
-        String strSl = String.valueOf(sLSum);
-        if (strSl.length() > 1)
-            strSl = String.valueOf(strSl.charAt(1));
+        if (sLSum.length() > 1)
 
-        tvPairSL.setText(strSl);
+            tvPairSL.setText(sLSum);
         this.pairSl = sLSum;
 
     }
@@ -1044,10 +1029,10 @@ public class TabianFragment extends Fragment {
             tvPairSM.setBackgroundResource(R.drawable.bg_red);
         }
 
-        String strSm = String.valueOf(sMSum);
-        if (strSm.length() > 1)
-            strSm = String.valueOf(strSm.charAt(1));
-        tvPairSM.setText(strSm);
+
+        if (sMSum.length() > 1)
+
+            tvPairSM.setText(sMSum);
         this.pairSm = sMSum;
     }
 
@@ -1079,820 +1064,947 @@ public class TabianFragment extends Fragment {
         setKalakini(string4Kalakini);
 
         setPercent(pairTabianDoaListA, pairTabianDoaListB, pairKn, pairSm, pairSl);
+        setMiracleDao(pairTabianDoaListA, pairTabianDoaListB, pairKn, pairSm, pairSl);
 
 
     }
+
+    private void setMiracleDao(List<PairTabian> pairTabianDoaListA, List<PairTabian> pairTabianDoaListB, String pairKn, String pairSm, String pairSl) {
+
+        if (pairTabianDoaListA != null && pairTabianDoaListB != null && pairKn != null && pairSm != null && pairSl != null) {
+            List<PairTabian> pairTabianList = new ArrayList<>();
+            pairTabianList.addAll(pairTabianDoaListA);
+            pairTabianList.addAll(pairTabianDoaListB);
+
+            NumberPilotManager manager = new NumberPilotManager();
+
+            if (pairKn != null) {
+                if (pairKn.length() < 2)
+                    pairKn = "0" + pairKn;
+                String knType = manager.getType(pairKn);
+                Integer knPoint = manager.getPoint(pairKn);
+                pairTabianList.add(new PairTabian(pairKn, knType, knPoint));
+            }
+
+            if (pairSm != null) {
+                if (pairSm.length() < 2)
+                    pairSm = "0" + pairSm;
+                String smType = manager.getType(pairSm);
+                Integer smPoint = manager.getPoint(pairSm);
+                pairTabianList.add(new PairTabian(pairSm, smType, smPoint));
+
+            }
+            if (pairSl != null) {
+                if (pairSl.length() < 2)
+                    pairSl = "0" + pairSl;
+                String slType = manager.getType(pairSl);
+                Integer slPoint = manager.getPoint(pairSl);
+                pairTabianList.add(new PairTabian(pairSl, slType, slPoint));
+            }
+
+            dao = new TabianMiracleDao();
+            dao.setPairTabianList(pairTabianList);
+        }
+
+    }
+
+
+
+
+
+
 
     private void setPercent(List<PairTabian> pairTabianDoaListA, List<PairTabian> pairTabianDoaListB, String pairKn, String pairSm, String pairSl) {
         int percentD = 0;
         int percentR = 0;
 
 
-
         NumberPilotManager manager;
 
-        if (pairTabianDoaListA.size() == 3 && pairTabianDoaListB.size() == 3) {
-            int wA1 = 5; int wA2 = 5; int wA3 = 10;
-            int wB1 = 5; int wB2 = 10; int wB3 = 25;
-            int wKn = 5; int wSm = 15; int wSl = 20;
+        if (pairTabianDoaListA != null && pairTabianDoaListB != null && pairKn != null && pairSm != null && pairSl != null) {
+
+            if (pairTabianDoaListA.size() == 3 && pairTabianDoaListB.size() == 3) {
+                int wA1 = 5;
+                int wA2 = 5;
+                int wA3 = 10;
+                int wB1 = 5;
+                int wB2 = 10;
+                int wB3 = 25;
+                int wKn = 5;
+                int wSm = 15;
+                int wSl = 20;
 
 
-            for (int i = 0; i < pairTabianDoaListA.size(); i++) {
+                for (int i = 0; i < pairTabianDoaListA.size(); i++) {
 
-                String type = pairTabianDoaListA.get(i).getType();
+                    String type = pairTabianDoaListA.get(i).getType();
 
-                if (i == 0 && pairTabianDoaListA.get(0).getPair() != null) {
+                    if (i == 0 && pairTabianDoaListA.get(0).getPair() != null) {
 
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wA1;
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wA1;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wA1;
+                        }
+
                     }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wA1;
+
+                    if (i == 1 && pairTabianDoaListA.get(1).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wA2;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wA2;
+                        }
+                    }
+
+                    if (i == 2 && pairTabianDoaListA.get(2).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wA3;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wA3;
+                        }
                     }
 
                 }
 
-                if (i == 1 && pairTabianDoaListA.get(1).getPair() != null) {
+
+                for (int i = 0; i < pairTabianDoaListB.size(); i++) {
+                    String type = pairTabianDoaListB.get(i).getType();
+
+                    if (i == 0 && pairTabianDoaListB.get(0).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wB1;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wB1;
+                        }
+                    }
+
+                    if (i == 1 && pairTabianDoaListB.get(1).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wB2;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wB2;
+                        }
+                    }
+
+                    if (i == 2 && pairTabianDoaListB.get(2).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wB3;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wB3;
+                        }
+                    }
+
+                }
+                if (pairKn != null) {
+                    manager = new NumberPilotManager();
+                    if (pairKn.length() < 2)
+                        pairKn = "0" + pairKn;
+                    String type = manager.getType(pairKn);
 
                     if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wA2;
+                        percentD = percentD + wKn;
                     }
                     if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wA2;
+                        percentR = percentR + wKn;
                     }
                 }
 
-                if (i == 2 && pairTabianDoaListA.get(2).getPair() != null) {
+                if (pairSm != null) {
+                    manager = new NumberPilotManager();
+                    if (pairSm.length() < 2)
+                        pairSm = "0" + pairSm;
+                    String type = manager.getType(pairKn);
 
                     if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wA3;
+                        percentD = percentD + wSm;
                     }
                     if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wA3;
+                        percentR = percentR + wSm;
                     }
                 }
+
+                if (pairSl != null) {
+                    manager = new NumberPilotManager();
+                    String type = manager.getType(pairKn);
+
+                    if (String.valueOf(type.charAt(0)).equals("D")) {
+                        percentD = percentD + wSl;
+                    }
+                    if (String.valueOf(type.charAt(0)).equals("R")) {
+                        percentR = percentR + wSl;
+                    }
+                }
+
+
+            }
+            if (pairTabianDoaListA.size() == 3 && pairTabianDoaListB.size() == 2) {
+
+                int wA1;
+                int wA2;
+                int wA3;
+                int wB1;
+                int wB2;
+                int wB3;
+                int wKn;
+                int wSm;
+                int wSl;
+
+                String firstC = String.valueOf(pairTabianDoaListA.get(0).getPair().charAt(0));
+                if (checkNumber(firstC)) {
+                    wA1 = 5;
+                    wA2 = 10;
+                    wA3 = 25;
+                    wB1 = 5;
+                    wB2 = 15;
+                    wB3 = 0;
+                    wKn = 5;
+                    wSm = 15;
+                    wSl = 20;
+                } else {
+                    wA1 = 5;
+                    wA2 = 10;
+                    wA3 = 25;
+                    wB1 = 5;
+                    wB2 = 15;
+                    wB3 = 0;
+                    wKn = 5;
+                    wSm = 15;
+                    wSl = 20;
+                }
+
+
+                for (int i = 0; i < pairTabianDoaListA.size(); i++) {
+
+                    String type = pairTabianDoaListA.get(i).getType();
+
+                    if (i == 0 && pairTabianDoaListA.get(0).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wA1;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wA1;
+                        }
+
+                    }
+
+                    if (i == 1 && pairTabianDoaListA.get(1).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wA2;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wA2;
+                        }
+                    }
+
+                    if (i == 2 && pairTabianDoaListA.get(2).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wA3;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wA3;
+                        }
+                    }
+
+                }
+
+
+                for (int i = 0; i < pairTabianDoaListB.size(); i++) {
+                    String type = pairTabianDoaListB.get(i).getType();
+
+                    if (i == 0 && pairTabianDoaListB.get(0).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wB1;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wB1;
+                        }
+                    }
+
+                    if (i == 1 && pairTabianDoaListB.get(1).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wB2;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wB2;
+                        }
+                    }
+
+                    if (i == 2 && pairTabianDoaListB.get(2).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wB3;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wB3;
+                        }
+                    }
+
+                }
+                if (pairKn != null) {
+                    manager = new NumberPilotManager();
+                    if (pairKn.length() < 2)
+                        pairKn = "0" + pairKn;
+                    String type = manager.getType(pairKn);
+
+                    if (String.valueOf(type.charAt(0)).equals("D")) {
+                        percentD = percentD + wKn;
+                    }
+                    if (String.valueOf(type.charAt(0)).equals("R")) {
+                        percentR = percentR + wKn;
+                    }
+                }
+
+                if (pairSm != null) {
+                    manager = new NumberPilotManager();
+                    if (pairSm.length() < 2)
+                        pairSm = "0" + pairSm;
+                    String type = manager.getType(pairKn);
+
+                    if (String.valueOf(type.charAt(0)).equals("D")) {
+                        percentD = percentD + wSm;
+                    }
+                    if (String.valueOf(type.charAt(0)).equals("R")) {
+                        percentR = percentR + wSm;
+                    }
+                }
+
+                if (pairSl != null) {
+                    manager = new NumberPilotManager();
+                    String type = manager.getType(pairKn);
+
+                    if (String.valueOf(type.charAt(0)).equals("D")) {
+                        percentD = percentD + wSl;
+                    }
+                    if (String.valueOf(type.charAt(0)).equals("R")) {
+                        percentR = percentR + wSl;
+                    }
+                }
+
+
+            }
+            if (pairTabianDoaListA.size() == 2 && pairTabianDoaListB.size() == 2) {
+
+                int wA1;
+                int wA2;
+                int wA3;
+                int wB1;
+                int wB2;
+                int wB3;
+                int wKn;
+                int wSm;
+                int wSl;
+
+                String firstC = String.valueOf(pairTabianDoaListA.get(0).getPair().charAt(0));
+                if (checkNumber(firstC)) {
+                    wA1 = 5;
+                    wA2 = 5;
+                    wA3 = 0;
+                    wB1 = 5;
+                    wB2 = 45;
+                    wB3 = 0;
+                    wKn = 5;
+                    wSm = 15;
+                    wSl = 20;
+                } else {
+                    wA1 = 5;
+                    wA2 = 20;
+                    wA3 = 0;
+                    wB1 = 5;
+                    wB2 = 30;
+                    wB3 = 0;
+                    wKn = 5;
+                    wSm = 15;
+                    wSl = 20;
+                }
+
+
+                for (int i = 0; i < pairTabianDoaListA.size(); i++) {
+
+                    String type = pairTabianDoaListA.get(i).getType();
+
+                    if (i == 0 && pairTabianDoaListA.get(0).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wA1;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wA1;
+                        }
+
+                    }
+
+                    if (i == 1 && pairTabianDoaListA.get(1).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wA2;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wA2;
+                        }
+                    }
+
+                    if (i == 2 && pairTabianDoaListA.get(2).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wA3;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wA3;
+                        }
+                    }
+
+                }
+
+
+                for (int i = 0; i < pairTabianDoaListB.size(); i++) {
+                    String type = pairTabianDoaListB.get(i).getType();
+
+                    if (i == 0 && pairTabianDoaListB.get(0).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wB1;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wB1;
+                        }
+                    }
+
+                    if (i == 1 && pairTabianDoaListB.get(1).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wB2;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wB2;
+                        }
+                    }
+
+                    if (i == 2 && pairTabianDoaListB.get(2).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wB3;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wB3;
+                        }
+                    }
+
+                }
+                if (pairKn != null) {
+                    manager = new NumberPilotManager();
+                    if (pairKn.length() < 2)
+                        pairKn = "0" + pairKn;
+                    String type = manager.getType(pairKn);
+
+                    if (String.valueOf(type.charAt(0)).equals("D")) {
+                        percentD = percentD + wKn;
+                    }
+                    if (String.valueOf(type.charAt(0)).equals("R")) {
+                        percentR = percentR + wKn;
+                    }
+                }
+
+                if (pairSm != null) {
+                    manager = new NumberPilotManager();
+                    if (pairSm.length() < 2)
+                        pairSm = "0" + pairSm;
+                    String type = manager.getType(pairKn);
+
+                    if (String.valueOf(type.charAt(0)).equals("D")) {
+                        percentD = percentD + wSm;
+                    }
+                    if (String.valueOf(type.charAt(0)).equals("R")) {
+                        percentR = percentR + wSm;
+                    }
+                }
+
+                if (pairSl != null) {
+                    manager = new NumberPilotManager();
+                    String type = manager.getType(pairKn);
+
+                    if (String.valueOf(type.charAt(0)).equals("D")) {
+                        percentD = percentD + wSl;
+                    }
+                    if (String.valueOf(type.charAt(0)).equals("R")) {
+                        percentR = percentR + wSl;
+                    }
+                }
+
+
+            }
+            if (pairTabianDoaListA.size() == 2 && pairTabianDoaListB.size() == 1) {
+
+                int wA1;
+                int wA2;
+                int wA3;
+                int wB1;
+                int wB2;
+                int wB3;
+                int wKn;
+                int wSm;
+                int wSl;
+
+                String firstC = String.valueOf(pairTabianDoaListA.get(0).getPair().charAt(0));
+                if (checkNumber(firstC)) {
+                    wA1 = 10;
+                    wA2 = 40;
+                    wA3 = 0;
+                    wB1 = 10;
+                    wB2 = 0;
+                    wB3 = 0;
+                    wKn = 0;
+                    wSm = 20;
+                    wSl = 20;
+                } else {
+                    wA1 = 10;
+                    wA2 = 30;
+                    wA3 = 0;
+                    wB1 = 20;
+                    wB2 = 0;
+                    wB3 = 0;
+                    wKn = 5;
+                    wSm = 15;
+                    wSl = 20;
+                }
+
+
+                for (int i = 0; i < pairTabianDoaListA.size(); i++) {
+
+                    String type = pairTabianDoaListA.get(i).getType();
+
+                    if (i == 0 && pairTabianDoaListA.get(0).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wA1;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wA1;
+                        }
+
+                    }
+
+                    if (i == 1 && pairTabianDoaListA.get(1).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wA2;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wA2;
+                        }
+                    }
+
+                    if (i == 2 && pairTabianDoaListA.get(2).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wA3;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wA3;
+                        }
+                    }
+
+                }
+
+
+                for (int i = 0; i < pairTabianDoaListB.size(); i++) {
+                    String type = pairTabianDoaListB.get(i).getType();
+
+                    if (i == 0 && pairTabianDoaListB.get(0).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wB1;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wB1;
+                        }
+                    }
+
+                    if (i == 1 && pairTabianDoaListB.get(1).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wB2;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wB2;
+                        }
+                    }
+
+                    if (i == 2 && pairTabianDoaListB.get(2).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wB3;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wB3;
+                        }
+                    }
+
+                }
+                if (pairKn != null) {
+                    manager = new NumberPilotManager();
+                    if (pairKn.length() < 2)
+                        pairKn = "0" + pairKn;
+                    String type = manager.getType(pairKn);
+
+                    if (String.valueOf(type.charAt(0)).equals("D")) {
+                        percentD = percentD + wKn;
+                    }
+                    if (String.valueOf(type.charAt(0)).equals("R")) {
+                        percentR = percentR + wKn;
+                    }
+                }
+
+                if (pairSm != null) {
+                    manager = new NumberPilotManager();
+                    if (pairSm.length() < 2)
+                        pairSm = "0" + pairSm;
+                    String type = manager.getType(pairKn);
+
+                    if (String.valueOf(type.charAt(0)).equals("D")) {
+                        percentD = percentD + wSm;
+                    }
+                    if (String.valueOf(type.charAt(0)).equals("R")) {
+                        percentR = percentR + wSm;
+                    }
+                }
+
+                if (pairSl != null) {
+                    manager = new NumberPilotManager();
+                    String type = manager.getType(pairKn);
+
+                    if (String.valueOf(type.charAt(0)).equals("D")) {
+                        percentD = percentD + wSl;
+                    }
+                    if (String.valueOf(type.charAt(0)).equals("R")) {
+                        percentR = percentR + wSl;
+                    }
+                }
+
+
+            }
+            if (pairTabianDoaListA.size() == 1 && pairTabianDoaListB.size() == 1) {
+
+                int wA1;
+                int wA2;
+                int wA3;
+                int wB1;
+                int wB2;
+                int wB3;
+                int wKn;
+                int wSm;
+                int wSl;
+
+                String firstC = String.valueOf(pairTabianDoaListA.get(0).getPair().charAt(0));
+                if (checkNumber(firstC)) {
+                    wA1 = 10;
+                    wA2 = 0;
+                    wA3 = 0;
+                    wB1 = 50;
+                    wB2 = 0;
+                    wB3 = 0;
+                    wKn = 0;
+                    wSm = 20;
+                    wSl = 20;
+                } else {
+                    wA1 = 10;
+                    wA2 = 0;
+                    wA3 = 0;
+                    wB1 = 40;
+                    wB2 = 0;
+                    wB3 = 0;
+                    wKn = 10;
+                    wSm = 20;
+                    wSl = 20;
+                }
+
+
+                for (int i = 0; i < pairTabianDoaListA.size(); i++) {
+
+                    String type = pairTabianDoaListA.get(i).getType();
+
+                    if (i == 0 && pairTabianDoaListA.get(0).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wA1;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wA1;
+                        }
+
+                    }
+
+                    if (i == 1 && pairTabianDoaListA.get(1).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wA2;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wA2;
+                        }
+                    }
+
+                    if (i == 2 && pairTabianDoaListA.get(2).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wA3;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wA3;
+                        }
+                    }
+
+                }
+
+
+                for (int i = 0; i < pairTabianDoaListB.size(); i++) {
+                    String type = pairTabianDoaListB.get(i).getType();
+
+                    if (i == 0 && pairTabianDoaListB.get(0).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wB1;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wB1;
+                        }
+                    }
+
+                    if (i == 1 && pairTabianDoaListB.get(1).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wB2;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wB2;
+                        }
+                    }
+
+                    if (i == 2 && pairTabianDoaListB.get(2).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wB3;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wB3;
+                        }
+                    }
+
+                }
+                if (pairKn != null) {
+                    manager = new NumberPilotManager();
+                    if (pairKn.length() < 2)
+                        pairKn = "0" + pairKn;
+                    String type = manager.getType(pairKn);
+
+                    if (String.valueOf(type.charAt(0)).equals("D")) {
+                        percentD = percentD + wKn;
+                    }
+                    if (String.valueOf(type.charAt(0)).equals("R")) {
+                        percentR = percentR + wKn;
+                    }
+                }
+
+                if (pairSm != null) {
+                    manager = new NumberPilotManager();
+                    if (pairSm.length() < 2)
+                        pairSm = "0" + pairSm;
+                    String type = manager.getType(pairKn);
+
+                    if (String.valueOf(type.charAt(0)).equals("D")) {
+                        percentD = percentD + wSm;
+                    }
+                    if (String.valueOf(type.charAt(0)).equals("R")) {
+                        percentR = percentR + wSm;
+                    }
+                }
+
+                if (pairSl != null) {
+                    manager = new NumberPilotManager();
+                    String type = manager.getType(pairKn);
+
+                    if (String.valueOf(type.charAt(0)).equals("D")) {
+                        percentD = percentD + wSl;
+                    }
+                    if (String.valueOf(type.charAt(0)).equals("R")) {
+                        percentR = percentR + wSl;
+                    }
+                }
+
+
+            }
+            if (pairTabianDoaListA.size() == 1 && pairTabianDoaListB.size() == 0) {
+
+                int wA1;
+                int wA2;
+                int wA3;
+                int wB1;
+                int wB2;
+                int wB3;
+                int wKn;
+                int wSm;
+                int wSl;
+
+                wA1 = 50;
+                wA2 = 0;
+                wA3 = 0;
+                wB1 = 0;
+                wB2 = 0;
+                wB3 = 0;
+                wKn = 0;
+                wSm = 20;
+                wSl = 30;
+
+
+                for (int i = 0; i < pairTabianDoaListA.size(); i++) {
+
+                    String type = pairTabianDoaListA.get(i).getType();
+
+                    if (i == 0 && pairTabianDoaListA.get(0).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wA1;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wA1;
+                        }
+
+                    }
+
+                    if (i == 1 && pairTabianDoaListA.get(1).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wA2;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wA2;
+                        }
+                    }
+
+                    if (i == 2 && pairTabianDoaListA.get(2).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wA3;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wA3;
+                        }
+                    }
+
+                }
+
+
+                for (int i = 0; i < pairTabianDoaListB.size(); i++) {
+                    String type = pairTabianDoaListB.get(i).getType();
+
+                    if (i == 0 && pairTabianDoaListB.get(0).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wB1;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wB1;
+                        }
+                    }
+
+                    if (i == 1 && pairTabianDoaListB.get(1).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wB2;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wB2;
+                        }
+                    }
+
+                    if (i == 2 && pairTabianDoaListB.get(2).getPair() != null) {
+
+                        if (String.valueOf(type.charAt(0)).equals("D")) {
+                            percentD = percentD + wB3;
+                        }
+                        if (String.valueOf(type.charAt(0)).equals("R")) {
+                            percentR = percentR + wB3;
+                        }
+                    }
+
+                }
+                if (pairKn != null) {
+                    manager = new NumberPilotManager();
+                    if (pairKn.length() < 2)
+                        pairKn = "0" + pairKn;
+                    String type = manager.getType(pairKn);
+
+                    if (String.valueOf(type.charAt(0)).equals("D")) {
+                        percentD = percentD + wKn;
+                    }
+                    if (String.valueOf(type.charAt(0)).equals("R")) {
+                        percentR = percentR + wKn;
+                    }
+                }
+
+                if (pairSm != null) {
+                    manager = new NumberPilotManager();
+                    if (pairSm.length() < 2)
+                        pairSm = "0" + pairSm;
+                    String type = manager.getType(pairKn);
+
+                    if (String.valueOf(type.charAt(0)).equals("D")) {
+                        percentD = percentD + wSm;
+                    }
+                    if (String.valueOf(type.charAt(0)).equals("R")) {
+                        percentR = percentR + wSm;
+                    }
+                }
+
+                if (pairSl != null) {
+                    manager = new NumberPilotManager();
+                    String type = manager.getType(pairKn);
+
+                    if (String.valueOf(type.charAt(0)).equals("D")) {
+                        percentD = percentD + wSl;
+                    }
+                    if (String.valueOf(type.charAt(0)).equals("R")) {
+                        percentR = percentR + wSl;
+                    }
+                }
+
 
             }
 
 
-            for (int i = 0; i < pairTabianDoaListB.size(); i++) {
-                String type = pairTabianDoaListB.get(i).getType();
-
-                if (i == 0 && pairTabianDoaListB.get(0).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wB1;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wB1;
-                    }
-                }
-
-                if (i == 1 && pairTabianDoaListB.get(1).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wB2;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wB2;
-                    }
-                }
-
-                if (i == 2 && pairTabianDoaListB.get(2).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wB3;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wB3;
-                    }
-                }
-
-            }
-            if (pairKn != null) {
-                manager = new NumberPilotManager();
-                if (pairKn.length() < 2)
-                    pairKn = "0" + pairKn;
-                String type = manager.getType(pairKn);
-
-                if (String.valueOf(type.charAt(0)).equals("D")) {
-                    percentD = percentD + wKn;
-                }
-                if (String.valueOf(type.charAt(0)).equals("R")) {
-                    percentR = percentR + wKn;
-                }
-            }
-
-            if (pairSm != null) {
-                manager = new NumberPilotManager();
-                if (pairSm.length() < 2)
-                    pairSm = "0" + pairSm;
-                String type = manager.getType(pairKn);
-
-                if (String.valueOf(type.charAt(0)).equals("D")) {
-                    percentD = percentD + wSm;
-                }
-                if (String.valueOf(type.charAt(0)).equals("R")) {
-                    percentR = percentR + wSm;
-                }
-            }
-
-            if (pairSl != null) {
-                manager = new NumberPilotManager();
-                String type = manager.getType(pairKn);
-
-                if (String.valueOf(type.charAt(0)).equals("D")) {
-                    percentD = percentD + wSl;
-                }
-                if (String.valueOf(type.charAt(0)).equals("R")) {
-                    percentR = percentR + wSl;
-                }
-            }
-
-
+            Log.d("SumPercent", percentD + " : " + percentR);
+            this.tvPercentD.setText(String.valueOf(percentD));
+            this.tvPercentR.setText(String.valueOf(percentR));
         }
-        if (pairTabianDoaListA.size() == 3 && pairTabianDoaListB.size() == 2) {
 
-            int wA1; int wA2; int wA3;
-            int wB1; int wB2; int wB3;
-            int wKn; int wSm; int wSl;
-
-            String firstC = String.valueOf(pairTabianDoaListA.get(0).getPair().charAt(0));
-            if (checkNumber(firstC)){
-                wA1 = 5; wA2 = 10; wA3 = 25;
-                wB1 = 5; wB2 = 15; wB3 = 0;
-                wKn = 5; wSm = 15; wSl = 20;
-            }else {
-                wA1 = 5; wA2 = 10; wA3 = 25;
-                wB1 = 5; wB2 = 15; wB3 = 0;
-                wKn = 5; wSm = 15; wSl = 20;
-            }
-
-
-
-
-            for (int i = 0; i < pairTabianDoaListA.size(); i++) {
-
-                String type = pairTabianDoaListA.get(i).getType();
-
-                if (i == 0 && pairTabianDoaListA.get(0).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wA1;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wA1;
-                    }
-
-                }
-
-                if (i == 1 && pairTabianDoaListA.get(1).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wA2;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wA2;
-                    }
-                }
-
-                if (i == 2 && pairTabianDoaListA.get(2).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wA3;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wA3;
-                    }
-                }
-
-            }
-
-
-            for (int i = 0; i < pairTabianDoaListB.size(); i++) {
-                String type = pairTabianDoaListB.get(i).getType();
-
-                if (i == 0 && pairTabianDoaListB.get(0).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wB1;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wB1;
-                    }
-                }
-
-                if (i == 1 && pairTabianDoaListB.get(1).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wB2;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wB2;
-                    }
-                }
-
-                if (i == 2 && pairTabianDoaListB.get(2).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wB3;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wB3;
-                    }
-                }
-
-            }
-            if (pairKn != null) {
-                manager = new NumberPilotManager();
-                if (pairKn.length() < 2)
-                    pairKn = "0" + pairKn;
-                String type = manager.getType(pairKn);
-
-                if (String.valueOf(type.charAt(0)).equals("D")) {
-                    percentD = percentD + wKn;
-                }
-                if (String.valueOf(type.charAt(0)).equals("R")) {
-                    percentR = percentR + wKn;
-                }
-            }
-
-            if (pairSm != null) {
-                manager = new NumberPilotManager();
-                if (pairSm.length() < 2)
-                    pairSm = "0" + pairSm;
-                String type = manager.getType(pairKn);
-
-                if (String.valueOf(type.charAt(0)).equals("D")) {
-                    percentD = percentD + wSm;
-                }
-                if (String.valueOf(type.charAt(0)).equals("R")) {
-                    percentR = percentR + wSm;
-                }
-            }
-
-            if (pairSl != null) {
-                manager = new NumberPilotManager();
-                String type = manager.getType(pairKn);
-
-                if (String.valueOf(type.charAt(0)).equals("D")) {
-                    percentD = percentD + wSl;
-                }
-                if (String.valueOf(type.charAt(0)).equals("R")) {
-                    percentR = percentR + wSl;
-                }
-            }
-
-
-        }
-        if (pairTabianDoaListA.size() == 2 && pairTabianDoaListB.size() == 2) {
-
-            int wA1; int wA2; int wA3;
-            int wB1; int wB2; int wB3;
-            int wKn; int wSm; int wSl;
-
-            String firstC = String.valueOf(pairTabianDoaListA.get(0).getPair().charAt(0));
-            if (checkNumber(firstC)){
-                wA1 = 5; wA2 = 5; wA3 = 0;
-                wB1 = 5; wB2 = 45; wB3 = 0;
-                wKn = 5; wSm = 15; wSl = 20;
-            }else {
-                wA1 = 5; wA2 = 20; wA3 = 0;
-                wB1 = 5; wB2 = 30; wB3 = 0;
-                wKn = 5; wSm = 15; wSl = 20;
-            }
-
-
-
-
-            for (int i = 0; i < pairTabianDoaListA.size(); i++) {
-
-                String type = pairTabianDoaListA.get(i).getType();
-
-                if (i == 0 && pairTabianDoaListA.get(0).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wA1;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wA1;
-                    }
-
-                }
-
-                if (i == 1 && pairTabianDoaListA.get(1).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wA2;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wA2;
-                    }
-                }
-
-                if (i == 2 && pairTabianDoaListA.get(2).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wA3;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wA3;
-                    }
-                }
-
-            }
-
-
-            for (int i = 0; i < pairTabianDoaListB.size(); i++) {
-                String type = pairTabianDoaListB.get(i).getType();
-
-                if (i == 0 && pairTabianDoaListB.get(0).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wB1;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wB1;
-                    }
-                }
-
-                if (i == 1 && pairTabianDoaListB.get(1).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wB2;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wB2;
-                    }
-                }
-
-                if (i == 2 && pairTabianDoaListB.get(2).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wB3;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wB3;
-                    }
-                }
-
-            }
-            if (pairKn != null) {
-                manager = new NumberPilotManager();
-                if (pairKn.length() < 2)
-                    pairKn = "0" + pairKn;
-                String type = manager.getType(pairKn);
-
-                if (String.valueOf(type.charAt(0)).equals("D")) {
-                    percentD = percentD + wKn;
-                }
-                if (String.valueOf(type.charAt(0)).equals("R")) {
-                    percentR = percentR + wKn;
-                }
-            }
-
-            if (pairSm != null) {
-                manager = new NumberPilotManager();
-                if (pairSm.length() < 2)
-                    pairSm = "0" + pairSm;
-                String type = manager.getType(pairKn);
-
-                if (String.valueOf(type.charAt(0)).equals("D")) {
-                    percentD = percentD + wSm;
-                }
-                if (String.valueOf(type.charAt(0)).equals("R")) {
-                    percentR = percentR + wSm;
-                }
-            }
-
-            if (pairSl != null) {
-                manager = new NumberPilotManager();
-                String type = manager.getType(pairKn);
-
-                if (String.valueOf(type.charAt(0)).equals("D")) {
-                    percentD = percentD + wSl;
-                }
-                if (String.valueOf(type.charAt(0)).equals("R")) {
-                    percentR = percentR + wSl;
-                }
-            }
-
-
-        }
-        if (pairTabianDoaListA.size() == 2 && pairTabianDoaListB.size() == 1) {
-
-            int wA1; int wA2; int wA3;
-            int wB1; int wB2; int wB3;
-            int wKn; int wSm; int wSl;
-
-            String firstC = String.valueOf(pairTabianDoaListA.get(0).getPair().charAt(0));
-            if (checkNumber(firstC)){
-                wA1 = 10; wA2 = 40; wA3 = 0;
-                wB1 = 10; wB2 = 0; wB3 = 0;
-                wKn = 0; wSm = 20; wSl = 20;
-            }else {
-                wA1 = 10; wA2 = 30; wA3 = 0;
-                wB1 = 20; wB2 = 0; wB3 = 0;
-                wKn = 5; wSm = 15; wSl = 20;
-            }
-
-
-
-
-            for (int i = 0; i < pairTabianDoaListA.size(); i++) {
-
-                String type = pairTabianDoaListA.get(i).getType();
-
-                if (i == 0 && pairTabianDoaListA.get(0).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wA1;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wA1;
-                    }
-
-                }
-
-                if (i == 1 && pairTabianDoaListA.get(1).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wA2;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wA2;
-                    }
-                }
-
-                if (i == 2 && pairTabianDoaListA.get(2).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wA3;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wA3;
-                    }
-                }
-
-            }
-
-
-            for (int i = 0; i < pairTabianDoaListB.size(); i++) {
-                String type = pairTabianDoaListB.get(i).getType();
-
-                if (i == 0 && pairTabianDoaListB.get(0).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wB1;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wB1;
-                    }
-                }
-
-                if (i == 1 && pairTabianDoaListB.get(1).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wB2;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wB2;
-                    }
-                }
-
-                if (i == 2 && pairTabianDoaListB.get(2).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wB3;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wB3;
-                    }
-                }
-
-            }
-            if (pairKn != null) {
-                manager = new NumberPilotManager();
-                if (pairKn.length() < 2)
-                    pairKn = "0" + pairKn;
-                String type = manager.getType(pairKn);
-
-                if (String.valueOf(type.charAt(0)).equals("D")) {
-                    percentD = percentD + wKn;
-                }
-                if (String.valueOf(type.charAt(0)).equals("R")) {
-                    percentR = percentR + wKn;
-                }
-            }
-
-            if (pairSm != null) {
-                manager = new NumberPilotManager();
-                if (pairSm.length() < 2)
-                    pairSm = "0" + pairSm;
-                String type = manager.getType(pairKn);
-
-                if (String.valueOf(type.charAt(0)).equals("D")) {
-                    percentD = percentD + wSm;
-                }
-                if (String.valueOf(type.charAt(0)).equals("R")) {
-                    percentR = percentR + wSm;
-                }
-            }
-
-            if (pairSl != null) {
-                manager = new NumberPilotManager();
-                String type = manager.getType(pairKn);
-
-                if (String.valueOf(type.charAt(0)).equals("D")) {
-                    percentD = percentD + wSl;
-                }
-                if (String.valueOf(type.charAt(0)).equals("R")) {
-                    percentR = percentR + wSl;
-                }
-            }
-
-
-        }
-        if (pairTabianDoaListA.size() == 1 && pairTabianDoaListB.size() == 1) {
-
-            int wA1; int wA2; int wA3;
-            int wB1; int wB2; int wB3;
-            int wKn; int wSm; int wSl;
-
-            String firstC = String.valueOf(pairTabianDoaListA.get(0).getPair().charAt(0));
-            if (checkNumber(firstC)){
-                wA1 = 10; wA2 = 0; wA3 = 0;
-                wB1 = 50; wB2 = 0; wB3 = 0;
-                wKn = 0; wSm = 20; wSl = 20;
-            }else {
-                wA1 = 10; wA2 = 0; wA3 = 0;
-                wB1 = 40; wB2 = 0; wB3 = 0;
-                wKn = 10; wSm = 20; wSl = 20;
-            }
-
-
-
-
-            for (int i = 0; i < pairTabianDoaListA.size(); i++) {
-
-                String type = pairTabianDoaListA.get(i).getType();
-
-                if (i == 0 && pairTabianDoaListA.get(0).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wA1;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wA1;
-                    }
-
-                }
-
-                if (i == 1 && pairTabianDoaListA.get(1).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wA2;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wA2;
-                    }
-                }
-
-                if (i == 2 && pairTabianDoaListA.get(2).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wA3;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wA3;
-                    }
-                }
-
-            }
-
-
-            for (int i = 0; i < pairTabianDoaListB.size(); i++) {
-                String type = pairTabianDoaListB.get(i).getType();
-
-                if (i == 0 && pairTabianDoaListB.get(0).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wB1;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wB1;
-                    }
-                }
-
-                if (i == 1 && pairTabianDoaListB.get(1).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wB2;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wB2;
-                    }
-                }
-
-                if (i == 2 && pairTabianDoaListB.get(2).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wB3;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wB3;
-                    }
-                }
-
-            }
-            if (pairKn != null) {
-                manager = new NumberPilotManager();
-                if (pairKn.length() < 2)
-                    pairKn = "0" + pairKn;
-                String type = manager.getType(pairKn);
-
-                if (String.valueOf(type.charAt(0)).equals("D")) {
-                    percentD = percentD + wKn;
-                }
-                if (String.valueOf(type.charAt(0)).equals("R")) {
-                    percentR = percentR + wKn;
-                }
-            }
-
-            if (pairSm != null) {
-                manager = new NumberPilotManager();
-                if (pairSm.length() < 2)
-                    pairSm = "0" + pairSm;
-                String type = manager.getType(pairKn);
-
-                if (String.valueOf(type.charAt(0)).equals("D")) {
-                    percentD = percentD + wSm;
-                }
-                if (String.valueOf(type.charAt(0)).equals("R")) {
-                    percentR = percentR + wSm;
-                }
-            }
-
-            if (pairSl != null) {
-                manager = new NumberPilotManager();
-                String type = manager.getType(pairKn);
-
-                if (String.valueOf(type.charAt(0)).equals("D")) {
-                    percentD = percentD + wSl;
-                }
-                if (String.valueOf(type.charAt(0)).equals("R")) {
-                    percentR = percentR + wSl;
-                }
-            }
-
-
-        }
-        if (pairTabianDoaListA.size() == 1 && pairTabianDoaListB.size() == 0) {
-
-            int wA1; int wA2; int wA3;
-            int wB1; int wB2; int wB3;
-            int wKn; int wSm; int wSl;
-
-                wA1 = 50; wA2 = 0; wA3 = 0;
-                wB1 = 0; wB2 = 0; wB3 = 0;
-                wKn = 0; wSm = 20; wSl = 30;
-
-
-
-
-
-            for (int i = 0; i < pairTabianDoaListA.size(); i++) {
-
-                String type = pairTabianDoaListA.get(i).getType();
-
-                if (i == 0 && pairTabianDoaListA.get(0).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wA1;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wA1;
-                    }
-
-                }
-
-                if (i == 1 && pairTabianDoaListA.get(1).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wA2;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wA2;
-                    }
-                }
-
-                if (i == 2 && pairTabianDoaListA.get(2).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wA3;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wA3;
-                    }
-                }
-
-            }
-
-
-            for (int i = 0; i < pairTabianDoaListB.size(); i++) {
-                String type = pairTabianDoaListB.get(i).getType();
-
-                if (i == 0 && pairTabianDoaListB.get(0).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wB1;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wB1;
-                    }
-                }
-
-                if (i == 1 && pairTabianDoaListB.get(1).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wB2;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wB2;
-                    }
-                }
-
-                if (i == 2 && pairTabianDoaListB.get(2).getPair() != null) {
-
-                    if (String.valueOf(type.charAt(0)).equals("D")) {
-                        percentD = percentD + wB3;
-                    }
-                    if (String.valueOf(type.charAt(0)).equals("R")) {
-                        percentR = percentR + wB3;
-                    }
-                }
-
-            }
-            if (pairKn != null) {
-                manager = new NumberPilotManager();
-                if (pairKn.length() < 2)
-                    pairKn = "0" + pairKn;
-                String type = manager.getType(pairKn);
-
-                if (String.valueOf(type.charAt(0)).equals("D")) {
-                    percentD = percentD + wKn;
-                }
-                if (String.valueOf(type.charAt(0)).equals("R")) {
-                    percentR = percentR + wKn;
-                }
-            }
-
-            if (pairSm != null) {
-                manager = new NumberPilotManager();
-                if (pairSm.length() < 2)
-                    pairSm = "0" + pairSm;
-                String type = manager.getType(pairKn);
-
-                if (String.valueOf(type.charAt(0)).equals("D")) {
-                    percentD = percentD + wSm;
-                }
-                if (String.valueOf(type.charAt(0)).equals("R")) {
-                    percentR = percentR + wSm;
-                }
-            }
-
-            if (pairSl != null) {
-                manager = new NumberPilotManager();
-                String type = manager.getType(pairKn);
-
-                if (String.valueOf(type.charAt(0)).equals("D")) {
-                    percentD = percentD + wSl;
-                }
-                if (String.valueOf(type.charAt(0)).equals("R")) {
-                    percentR = percentR + wSl;
-                }
-            }
-
-
-        }
-
-
-        Log.d("SumPercent", percentD + " : " + percentR);
-        this.tvPercentD.setText(String.valueOf(percentD));
-        this.tvPercentR.setText(String.valueOf(percentR));
     }
 
     private boolean checkNumber(String firstC) {
         boolean number = false;
 
-        List<String> mNumber = new ArrayList<>(Arrays.asList("0","1", "2", "3", "4", "5", "6", "7", "8", "9"));
+        List<String> mNumber = new ArrayList<>(Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9"));
 
         for (int i = 0; i < mNumber.size(); i++) {
-            if (firstC.equals(mNumber.get(i))){
+            if (firstC.equals(mNumber.get(i))) {
                 number = true;
             }
         }
-
 
 
         return number;
@@ -1954,7 +2066,7 @@ public class TabianFragment extends Fragment {
                 calculateAllPair();
 
                 if (kBoardStatus)
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 
 
             } else {
@@ -1992,9 +2104,13 @@ public class TabianFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
+        if (tvBirthDay != null)
         outState.putString("tvbirthDay", tvBirthDay.getText().toString());
+
+        if (string4Kalakini != null)
         outState.putString("string4Kalakini", string4Kalakini);
+
+        if (birthDayEn != null)
         outState.putString("birthDayEn", birthDayEn);
 
 

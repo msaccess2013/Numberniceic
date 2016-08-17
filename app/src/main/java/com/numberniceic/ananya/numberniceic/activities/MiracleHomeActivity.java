@@ -1,42 +1,35 @@
 package com.numberniceic.ananya.numberniceic.activities;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.numberniceic.ananya.numberniceic.R;
-import com.numberniceic.ananya.numberniceic.dao.name.NameMiracleCollectionDao;
-import com.numberniceic.ananya.numberniceic.fragments.name.NameMiracleFragment;
+import com.numberniceic.ananya.numberniceic.fragments.home.MiracleHomeFragment;
 
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
 
-public class MiracleNameActivity extends AppCompatActivity {
+public class MiracleHomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_miracle_name);
+
+        setContentView(R.layout.activity_miracle_home);
         if (savedInstanceState == null){
-            NameMiracleCollectionDao nameMiracleDao = getIntent().getParcelableExtra("nameDao");
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.nameMiracleFragmentContainer,
-                            NameMiracleFragment.newInstance(nameMiracleDao),"NameMiracleFragment").commit();
+            ArrayList<String> pairHomeNumberList = getIntent().getStringArrayListExtra("pairHomeNumberList");
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_miracle_home_container,
+                    MiracleHomeFragment.newInstance(pairHomeNumberList)).commit();
         }
 
         initInstance();
-
     }
 
     private void initInstance() {
-
         if (getSupportActionBar() != null) {
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("ผลการทำนายชื่อสกุล");
+            getSupportActionBar().setTitle("ผลการทำนายเลขทะเบียนบ้าน");
         }
 
     }
@@ -48,7 +41,6 @@ public class MiracleNameActivity extends AppCompatActivity {
             finish();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
     tools:context="com.numberniceic.ananya.numberniceic.fragments.name.NameFragment">
 
 
@@ -30,8 +31,9 @@
                     android:id="@+id/tvBirthDay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".6"
+                    android:layout_weight=".9"
                     android:freezesText="true"
+
                     android:gravity="center_vertical|center_horizontal"
                     android:text="วันเกิด"
                     android:textColor="#FFF"
@@ -44,13 +46,27 @@
                     android:layout_weight="1">
 
 
-                    <Button
+                    <mehdi.sakout.fancybuttons.FancyButton
                         android:id="@+id/btnBirthDay"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="เลือกวันเกิด"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginStart="9dp"
+           android:layout_margin="9dp"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingTop="10dp"
+                        fancy:fb_borderColor="#FFFFFF"
+                        fancy:fb_borderWidth="1dp"
+                        fancy:fb_defaultColor="#8e8d8d"
+                        fancy:fb_focusColor="#9bd823"
+                        fancy:fb_fontIconResource="&#xf015;"
+                        fancy:fb_iconPosition="left"
+                        fancy:fb_radius="30dp"
+                        fancy:fb_text="เลือกวันเกิด"
+                        fancy:fb_textColor="#FFFFFF" />
 
-                        />
 
                 </FrameLayout>
 

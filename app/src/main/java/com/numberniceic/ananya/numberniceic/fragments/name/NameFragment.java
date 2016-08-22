@@ -37,6 +37,8 @@ import com.numberniceic.ananya.numberniceic.views.name.NameScrolling;
 import java.util.ArrayList;
 import java.util.List;
 
+import mehdi.sakout.fancybuttons.FancyButton;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -52,7 +54,7 @@ public class NameFragment extends Fragment {
     private LekSatItemCollectionDao satDao = new LekSatItemCollectionDao();
     private LekShaItemCollectionDao shaDao = new LekShaItemCollectionDao();
     private NameScrolling nestedScrollView;
-    private Button btnBirthDay;
+    private FancyButton btnBirthDay;
     private TextView tvBirthDay;
     private EditText edName, edSurname, edNickname;
 
@@ -1098,7 +1100,7 @@ public class NameFragment extends Fragment {
         imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         nestedScrollView = (NameScrolling) rootView.findViewById(R.id.nsvName);
 
-        btnBirthDay = (Button) rootView.findViewById(R.id.btnBirthDay);
+        btnBirthDay = (FancyButton) rootView.findViewById(R.id.btnBirthDay);
         tvBirthDay = (TextView) rootView.findViewById(R.id.tvBirthDay);
 
         edName = (EditText) rootView.findViewById(R.id.edName);
